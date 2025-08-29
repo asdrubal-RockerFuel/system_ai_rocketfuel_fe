@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  BACKEND_URL: "",
-  timeOutmessage: 4001,
+  BACKEND_URL: "https://api.personalizedcold.email",
+  timeOutmessage: 3000,
 };

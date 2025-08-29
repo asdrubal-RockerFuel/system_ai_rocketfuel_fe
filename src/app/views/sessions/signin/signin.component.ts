@@ -32,7 +32,7 @@ export class SigninComponent implements OnInit {
     private navigationService: NavigationService,
     private router: Router,
     private _sRol: RolService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.router.events.subscribe((event) => {
@@ -135,17 +135,17 @@ export class SigninComponent implements OnInit {
           this.auth.obtenerDatosAdmin() // 1
         ])
           .subscribe(
-          (response: any) => {
-            const modulos = response[0].data;
-            const userResponse = response[1];
+            (response: any) => {
+              const modulos = response[0].data;
+              const userResponse = response[1];
 
-            sessionStorage.setItem("modulesData", JSON.stringify(modulos));
+              sessionStorage.setItem("modulesData", JSON.stringify(modulos));
 
-            console.log(userResponse);
-            let dataUser = userResponse.data;
-            localStorage.setItem(
-              "nombreCompleto",
-              (dataUser.name !== null ? dataUser.name : "") +
+              console.log(userResponse);
+              let dataUser = userResponse.data;
+              localStorage.setItem(
+                "nombreCompleto",
+                (dataUser.name !== null ? dataUser.name : "") +
                 " " +
                 (dataUser.paternal_lastname !== null
                   ? dataUser.paternal_lastname
@@ -154,49 +154,49 @@ export class SigninComponent implements OnInit {
                 (dataUser.maternal_lastname !== null
                   ? dataUser.maternal_lastname
                   : "")
-            );
+              );
 
-            localStorage.setItem("email", btoa(dataUser.email));
+              localStorage.setItem("email", btoa(dataUser.email));
 
-            localStorage.setItem(
-              "idUser",
-              dataUser.id !== null ? dataUser.id : ""
-            );
-            this.router.navigate(["/pages/maestro-usuarios"]);
-            /*  const encodedData = btoa(userResponse.type_user); // encode a string
+              localStorage.setItem(
+                "idUser",
+                dataUser.id !== null ? dataUser.id : ""
+              );
+              this.router.navigate(["/pages/csv-file"]);
+              /*  const encodedData = btoa(userResponse.type_user); // encode a string
 
-            localStorage.setItem("rol", encodedData); */
+              localStorage.setItem("rol", encodedData); */
 
-            /*  this.asignarDataUser(
-              +dataUser.id,
-              +userResponse.type_user,
-              dataUser
-            );
-            this.navigationService.chooseMenuItems(userResponse.type_user); */
-            this.valor = false;
+              /*  this.asignarDataUser(
+                +dataUser.id,
+                +userResponse.type_user,
+                dataUser
+              );
+              this.navigationService.chooseMenuItems(userResponse.type_user); */
+              this.valor = false;
 
-            /*    if (userResponse.type_user == "admin") {
-              this.router.navigate(["/pages/maestro-cotizaciones"]);
-            } else if (userResponse.type_user == "client") {
-              this.router.navigate(["/pages/profile"]);
-            } else if (userResponse.type_user == "viewer_client") {
-              this.router.navigate(["/pages/maestro-cotizaciones"]);
-            } else if (userResponse.type_user == "super_admin") {
-              this.router.navigate(["/pages/maestro-cotizaciones"]);
-            } */
-          },
-          (error) => {
-            this.toastr.error(
-              error?.error?.message,
-              "El proceso no pude realizarse ",
-              {
-                timeOut: environment.timeOutmessage,
-                closeButton: true,
-                progressBar: true,
-              }
-            );
-          }
-        );
+              /*    if (userResponse.type_user == "admin") {
+                this.router.navigate(["/pages/maestro-cotizaciones"]);
+              } else if (userResponse.type_user == "client") {
+                this.router.navigate(["/pages/profile"]);
+              } else if (userResponse.type_user == "viewer_client") {
+                this.router.navigate(["/pages/maestro-cotizaciones"]);
+              } else if (userResponse.type_user == "super_admin") {
+                this.router.navigate(["/pages/maestro-cotizaciones"]);
+              } */
+            },
+            (error) => {
+              this.toastr.error(
+                error?.error?.message,
+                "El proceso no pude realizarse ",
+                {
+                  timeOut: environment.timeOutmessage,
+                  closeButton: true,
+                  progressBar: true,
+                }
+              );
+            }
+          );
       },
       (error) => {
         this.text = "Iniciar Sesión";

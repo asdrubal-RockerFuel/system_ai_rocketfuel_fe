@@ -1,116 +1,116 @@
-$font-family-heading: "Inter", sans-serif;
-$font-family-base: "Inter", sans-serif;
-$font-size-base: 0.813rem;
+// $font-family-heading: "Inter", sans-serif;
+// $font-family-base: "Inter", sans-serif;
+// $font-size-base: 0.813rem;
 
-// // LAYOUT VARS
-// $topbar-height: 80px;
-// $topbar-height-mobile: 70px;
+// // // LAYOUT VARS
+// // $topbar-height: 80px;
+// // $topbar-height-mobile: 70px;
 
-// $sidebar-left-width: 120px;
-// $sidebar-left-width-mobile: 90px;
-// $sidebar-left-secondary-width: 220px;
-// $sidebar-left-secondary-width-mobile: 190px;
-// $side-clearance: 20px;
+// // $sidebar-left-width: 120px;
+// // $sidebar-left-width-mobile: 90px;
+// // $sidebar-left-secondary-width: 220px;
+// // $sidebar-left-secondary-width-mobile: 190px;
+// // $side-clearance: 20px;
 
-// GLOBAL COLORS
-$facebook: rgb(55, 101, 201);
-$google: rgb(236, 65, 44);
-$twitter: rgb(3, 159, 245);
-$clanP: #B24732;
+// // GLOBAL COLORS
+// $facebook: rgb(55, 101, 201);
+// $google: rgb(236, 65, 44);
+// $twitter: rgb(3, 159, 245);
+// $clanP: #B24732;
 
-.datatable-header {
-  background-color: $clanP !important;
-}
-.ngx-datatable.fixed-header
-  .datatable-header
-  .datatable-header-inner
-  .datatable-header-cell {
-  background-color: $clanP !important;
-  color: white;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+// .datatable-header {
+//   background-color: $clanP !important;
+// }
+// .ngx-datatable.fixed-header
+//   .datatable-header
+//   .datatable-header-inner
+//   .datatable-header-cell {
+//   background-color: $clanP !important;
+//   color: white;
+//   white-space: nowrap;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+// }
 
-.paginacion-ed {
-  display: flex;
-  justify-content: flex-end;
-  margin-right: 40px;
-}
+// .paginacion-ed {
+//   display: flex;
+//   justify-content: flex-end;
+//   margin-right: 40px;
+// }
 
-.page-item.active .page-link {
-  z-index: 1;
-  color: #fff;
-  background-color: $clanP !important;
-  border-color: $clanP !important;
-}
+// .page-item.active .page-link {
+//   z-index: 1;
+//   color: #fff;
+//   background-color: $clanP !important;
+//   border-color: $clanP !important;
+// }
 
-.centered-cell {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 100%; /* Ajusta según tus necesidades */
-  overflow: hidden;
-}
+// .centered-cell {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   max-width: 100%; /* Ajusta según tus necesidades */
+//   overflow: hidden;
+// }
 
-.text-container {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
+// .text-container {
+//   white-space: nowrap;
+//   text-overflow: ellipsis;
+//   overflow: hidden;
+// }
 
-.centered-cell-filter {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+// .centered-cell-filter {
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+// }
 
-.btn-clanP {
-  color: #B24732;
-  background-color: transparent;
-  border: 1px solid #B24732;
-  padding: 0.375rem 0.75rem;
-  font-size: 0.80rem;
-  line-height: 1.2rem;
-  border-radius: 0.25rem;
-}
+// .btn-clanP {
+//   color: #B24732;
+//   background-color: transparent;
+//   border: 1px solid #B24732;
+//   padding: 0.375rem 0.75rem;
+//   font-size: 0.80rem;
+//   line-height: 1.2rem;
+//   border-radius: 0.25rem;
+// }
 
-.btn-clanP:enabled:hover {
-  color: #fff;
-  background-color: #B24732;
-}
+// .btn-clanP:enabled:hover {
+//   color: #fff;
+//   background-color: #B24732;
+// }
 
-.btn-clanP:focus {
-  color: #fff;
-  background-color: #B24732;
-  border-color: transparent;
-  outline: none;
-  box-shadow: 0 0 0 0.2rem #b2473235;
-}
+// .btn-clanP:focus {
+//   color: #fff;
+//   background-color: #B24732;
+//   border-color: transparent;
+//   outline: none;
+//   box-shadow: 0 0 0 0.2rem #b2473235;
+// }
 
-.btn-clanP:enabled:active {
-  color: #fff;
-  background-color: #B24732;
-  border-color: transparent;
-}
+// .btn-clanP:enabled:active {
+//   color: #fff;
+//   background-color: #B24732;
+//   border-color: transparent;
+// }
 
-.btn-clanP:disabled {
-  opacity: 0.5;
-}
+// .btn-clanP:disabled {
+//   opacity: 0.5;
+// }
 
-.input-text {
-  border: transparent;
-  background: transparent;
-  border-bottom: 1px solid #a1a1a1;
-  outline: none;
-  flex: 1;
-}
+// .input-text {
+//   border: transparent;
+//   background: transparent;
+//   border-bottom: 1px solid #a1a1a1;
+//   outline: none;
+//   flex: 1;
+// }
 
-.input-select{
-  border: transparent;
-  background: transparent;
-  border-bottom: 1px solid #a1a1a1;
-  outline: none;
-  flex: 1;
-}
+// .input-select{
+//   border: transparent;
+//   background: transparent;
+//   border-bottom: 1px solid #a1a1a1;
+//   outline: none;
+//   flex: 1;
+// }

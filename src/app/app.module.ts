@@ -27,11 +27,11 @@ import { TokenInterceptor } from "./shared/interceptor/TokenInterceptor.service"
     AppRoutingModule,
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
-      multi: true,
-    },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: TokenInterceptor,
+    //   multi: true,
+    // },
     // {
     //   provide: HTTP_INTERCEPTORS,
     //   useClass: HttpErrorInterceptor,
@@ -40,4 +40,4 @@ import { TokenInterceptor } from "./shared/interceptor/TokenInterceptor.service"
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

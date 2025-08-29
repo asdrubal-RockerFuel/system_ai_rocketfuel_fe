@@ -18,6 +18,7 @@ import { MaestroRequerimientosComponent } from "./maestro-requerimientos/maestro
 import { ProveedoresModuleComponent } from "./maestro-proveedores/proveedores-module/proveedores-module.component";
 import { MaestroBandejaComponent } from "./maestro-bandeja/maestro-bandeja.component";
 import { RequerimientoComponent } from "./maestro-requerimientos/requerimiento/requerimiento.component";
+import { MasterCSVFileComponent } from "../sessions/master-csvfile/master-csvfile.component";
 
 
 const routes: Routes = [
@@ -25,54 +26,62 @@ const routes: Routes = [
     path: "maestro-usuarios",
     component: MaestroUsuarioComponent,
   },
-
   {
-    path: "maestro-oficina",
-    component: MaestroOficinaComponent,
+    path: "csv-file",
+    component: MasterCSVFileComponent,
+    // },
+    // {
+    //   path: "maestro-oficina",
+    //   component: MaestroOficinaComponent,
+    // },
+    // {
+    //   path: "maestro-programa",
+    //   component: MaestroProgramComponent,
+    // },
+    // {
+    //   path: "maestro-area",
+    //   component: MaestroAreaComponent,
+    // },
+    // {
+    //   path: "modulo-proveedor",
+    //   component: ProveedoresModuleComponent
+    // },
+    // {
+    //   path: "maestro-proveedores",
+    //   component: MaestroProveedoresComponent,
+    // },
+    // {
+    //   path: "modulo-proveedor/:id",
+    //   component: ProveedoresModuleComponent
+    // },
+    // {
+    //   path: "maestro-requerimientos",
+    //   component: MaestroRequerimientosComponent,
+    // },
+    // {
+    //   path: "maestro-requerimientos/new",
+    //   component: RequerimientoComponent,
+    // },
+    // {
+    //   path: "maestro-requerimientos/edit/:id",
+    //   component: RequerimientoComponent,
+    // },
+    // {
+    //   path: "maestro-requerimientos/review/:id",
+    //   component: RequerimientoComponent,
+    // },
+    // {
+    //   path: "bandeja-entrada",
+    //   component: MaestroBandejaComponent,
+    // },
+    // { path: "maestro-modulo", component: MaestroModuloComponent },
+    // { path: "maestro-rol", component: MaestroRolComponent },
+    // { path: "maestro-permisos/:id", component: PermisesModulesComponent
   },
-  {
-    path: "maestro-programa",
-    component: MaestroProgramComponent,
-  },
-  {
-    path: "maestro-area",
-    component: MaestroAreaComponent,
-  },
-  { path: "modulo-proveedor", 
-  component: ProveedoresModuleComponent },
-  {
-    path: "maestro-proveedores",
-    component: MaestroProveedoresComponent,
-  },
-  { path: "modulo-proveedor/:id", 
-  component: ProveedoresModuleComponent },
-  {
-    path: "maestro-requerimientos",
-    component: MaestroRequerimientosComponent,
-  },
-  {
-    path: "maestro-requerimientos/new",
-    component: RequerimientoComponent,
-  },
-  {
-    path: "maestro-requerimientos/edit/:id",
-    component: RequerimientoComponent,
-  },
-  {
-    path: "maestro-requerimientos/review/:id",
-    component: RequerimientoComponent,
-  },
-  {
-    path: "bandeja-entrada",
-    component: MaestroBandejaComponent,
-  },
-  { path: "maestro-modulo", component: MaestroModuloComponent },
-  { path: "maestro-rol", component: MaestroRolComponent },
-  { path: "maestro-permisos/:id", component: PermisesModulesComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class PagesRoutingModule {}
+export class PagesRoutingModule { }

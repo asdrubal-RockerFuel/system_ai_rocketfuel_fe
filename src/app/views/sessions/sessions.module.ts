@@ -9,6 +9,8 @@ import { SharedModule } from "../../shared/shared.module";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { SharedComponentsModule } from "src/app/shared/components/shared-components.module";
 import { CodeInputModule } from "angular-code-input";
+import { MasterCSVFileComponent } from "./master-csvfile/master-csvfile.component";
+import { NgxDropzoneModule } from "ngx-dropzone";
 @NgModule({
   imports: [
     CommonModule,
@@ -17,7 +19,8 @@ import { CodeInputModule } from "angular-code-input";
     SharedComponentsModule,
     SessionsRoutingModule,
     CodeInputModule,
+    NgxDropzoneModule,
   ],
-  declarations: [SignupComponent, SigninComponent, ForgotComponent],
+  declarations: [SignupComponent, SigninComponent, ForgotComponent, MasterCSVFileComponent],
 })
-export class SessionsModule {}
+export class SessionsModule { }
