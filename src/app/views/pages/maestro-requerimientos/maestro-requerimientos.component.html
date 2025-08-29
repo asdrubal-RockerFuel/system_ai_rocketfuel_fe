@@ -1,0 +1,164 @@
+<div class="breadcrumb">
+	<h1> Requerimientos</h1>
+	<ul>
+		<li><a>Lista de Requerimientos</a></li>
+	</ul>
+</div>
+
+<div class="separator-breadcrumb border-top"></div>
+
+<div class="col-md-12 input-group align-items-center">
+	<div class="col-md-6">
+		<div class="d-flex flex-column mx-2" style="width: 30%; background-color: rgb(245, 245, 245);">
+			<div class="search-container">
+				<span class="material-symbols-outlined">search</span>
+				<input id="search_name" type="text" class="search-input" placeholder="Búsqueda">
+				<!-- [(ngModel)]="search_nameF" (ngModelChange)="obtenerAdmin(1)" -->
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-6" style="text-align: end">
+		<button class="btn btn-outline-info btn-rounded" (click)="openRequirementsAdd()">
+			<!-- (click)="openUsuariosAdd(addProductos) -->
+			Nuevo Requerimiento
+		</button>
+	</div>
+</div>
+
+
+<div class="row mt-3">
+	<div style="
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 1rem;
+      " *ngIf="loadData">
+		<div class="loader-bubble loader-bubble-info m-4"></div>
+	</div>
+
+	<div class="col-md-12">
+		<div class="card o-hidden">
+			<div style="padding-left: 20px" 
+			*ngIf="!allRequirements?.length" 
+			class="w-100 my-4 mx-auto">
+				<h4>{{ "Sin requerimientos agregados" }}</h4>
+			</div>
+
+			<ngx-datatable *ngIf="allRequirements?.length" 
+				style="box-shadow: none" 
+				class="material fullscreen"
+				[style.height]="60 * allRequirements.length + 60 + 'px'" 
+				[columnMode]="'force'" 
+				[headerHeight]="50"
+				[footerHeight]="0" 
+				[rowHeight]="60" 
+				[scrollbarV]="true" 
+				[scrollbarH]="true" 
+				[rows]="allRequirements">
+				<ngx-datatable-column [resizeable]="false" [sortable]="false" [width]="150">
+					<ng-template ngx-datatable-header-template><span class="centered-cell"> Nombre </span></ng-template>
+					<ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+						<span class="centered-cell">
+							<span class="text-container">{{ row.name }}</span>
+						</span>
+					</ng-template>
+				</ngx-datatable-column>
+
+				<ngx-datatable-column [resizeable]="false" [sortable]="false" [width]="150">
+					<ng-template ngx-datatable-header-template><span class="centered-cell"> Apellido
+						</span></ng-template>
+					<ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+						<span class="centered-cell">
+							<span class="text-container">{{ row.lastName }}</span>
+						</span>
+					</ng-template>
+				</ngx-datatable-column>
+
+				<ngx-datatable-column [resizeable]="false" [sortable]="false" [width]="150">
+					<ng-template ngx-datatable-header-template><span class="centered-cell">Correo</span>
+					</ng-template>
+					<ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+						<span class="centered-cell">
+							<span class="text-container">{{ row.email }}</span>
+						</span>
+					</ng-template>
+				</ngx-datatable-column>
+
+				<ngx-datatable-column [resizeable]="false" [sortable]="false" [width]="100">
+					<ng-template ngx-datatable-header-template><span class="centered-cell">Estado</span>
+					</ng-template>
+					<ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+						<span class="centered-cell">
+							<span class="text-container">{{ row.status? 'habilitado' : 'deshabilitado'}}</span>
+						</span>
+					</ng-template>
+				</ngx-datatable-column>
+
+				<ngx-datatable-column [resizeable]="false" [sortable]="false" [width]="140">
+					<ng-template ngx-datatable-header-template><span class="centered-cell">Acciones</span>
+					</ng-template>
+					<ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+						<span class="centered-cell">
+							<button (click)="handleEditRequirement(row)" class="btn-clanP mr-3">
+								Revisar
+							</button>
+							<button (click)="deleteInvoice(row, deleteConfirmModal)"  class="btn btn-outline-danger">
+								<div style="width: 60px;" class="d-flex justify-content-center">
+									Eliminar
+								</div>
+							</button>
+						</span>
+					</ng-template>
+				</ngx-datatable-column>
+			</ngx-datatable>
+
+			<ngb-pagination style="text-align: end" class="paginacion-ed" 
+				[collectionSize]="collectionSize"
+				[(page)]="page" 
+				[pageSize]="pageSize" 
+				[maxSize]="5" 
+				(pageChange)="cambiaPage($event)">
+			</ngb-pagination>
+		</div>
+	</div>
+</div>
+
+
+<ng-template #deleteConfirmModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-title">¡Advertencia!</h4>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close button"
+        aria-describedby="modal-title"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>
+        ¿Está seguro de <a *ngIf="stateRow">activar</a>
+          <a *ngIf="!stateRow">desactivar</a> el requerimiento solicitado por <strong>{{modalRequerimiento}}</strong> ?
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-outline-secondary btn-rounded"
+        (click)="modal.dismiss('cancel')"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        ngbAutofocus
+        class="btn btn-info btn-rounded"
+        (click)="modal.close('Ok')"
+      >
+        Ok
+      </button>
+    </div>
+  </ng-template>

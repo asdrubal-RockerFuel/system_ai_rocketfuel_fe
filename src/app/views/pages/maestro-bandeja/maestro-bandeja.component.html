@@ -1,0 +1,31 @@
+<div class="breadcrumb">
+  <h1>Bandeja de Entrada</h1>
+  <ul>
+    <li><a>Pendientes de aprobación</a></li>
+	</ul>
+</div>
+<div class="separator-breadcrumb border-top"></div>
+
+<div class="row-md d-flex justify-content-between">
+	<section class="card col-md-6">
+		<p class="my-3" style="color: gray;">Sin información.</p>
+		</section>
+		
+		<section class="card col-md-6 ml-2 py-3">
+			<h3 class="ml-3">Solicitudes de Aprobación </h3>
+			<div *ngFor="let item of notificationArr; let i = index" class="card p-2 my-1" style="border: 2px solid #E7E4CD;">
+				<div class="row">
+					<div class="col-md-8">
+						<div class="nombre-codigo p-2">
+							<h4>Requerimiento: {{ item.name + ' ' + item.lastName }}</h4>
+							<p class="m-0 p-0">Código: {{ item.codigo ||  456258 }}</p>
+						</div>
+					</div>
+					<div class="col-md-4 text-right">
+						<p class="fecha mr-2">{{ item.fecha || 12/06/2023 | relativeTime }}</p>
+						<button class="btn btn-md btn-primary mr-2" (click)="entraRequerimiento('/pages/maestro-requerimientos/review/' + item.id)">Ver más</button>
+					</div>
+				</div>
+			</div>
+		</section>
+</div>

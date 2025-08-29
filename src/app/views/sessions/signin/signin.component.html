@@ -1,0 +1,70 @@
+<div
+  class="card o-hidden"
+  [@animate]="{
+    value: '*',
+    params: { y: '120px', opacity: '0', delay: '100ms', duration: '400ms' }
+  }"
+>
+  <div class="row">
+    <div class="col-md-12 d-flex">
+      <div class="p-4 col-md-6" style="background-color: #B24732;">
+        <div class="auth-logo text-center mb-4">
+          <img
+            src="./assets/img-spda/SPDA-Vertical-Blanco.png"
+            style="object-fit: contain; width: 200px !important"
+            alt=""
+          />
+        </div>
+        <h1 class="mb-3 text-18 beige" style="font-weight: bold;">Bienvenido!</h1>
+        <form [formGroup]="signinForm">
+          <div>
+            <label class="beige" for="email">Correo Electrónico</label>
+            <input
+              id="email"
+              style="background-color: transparent;"
+              class="form-control form-control-rounded custom-input"
+              formControlName="email"
+              type="email"
+              autocomplete="off"
+            />
+          </div>
+          <div>
+            <label class="beige" for="password">Contraseña</label>
+            <input
+              id="password"
+              class="form-control form-control-rounded custom-input"
+              formControlName="password"
+              type="password"
+              autocomplete="off"
+            />
+          </div>
+          <button
+            class="btn btn-rounded mt-2 btnBeige"
+            [disabled]="valor"
+            (click)="signin()"
+          >
+            {{ text }}
+          </button>
+          <!--   <btn-loading
+            btnClass="btn-primary btn-rounded btn-block mt-3 btncolor"
+          >
+            {{ loadingText }}
+          </btn-loading> -->
+        </form>
+
+        <div class="mt-3 text-center">
+          <a href="" class="text-muted" routerLink="/sessions/forgot"
+            ><u class="beige">Restablecer Contraseña</u></a
+          >
+        </div>
+      </div>
+      <div class="col-md-6 m-0 p-0">
+        <img
+            src="./assets/img-spda/test-login.jpeg"
+            style="object-fit: cover; width: 100%; height: 100%;"
+            alt=""
+          />
+      </div>
+    </div>
+  </div>
+</div>

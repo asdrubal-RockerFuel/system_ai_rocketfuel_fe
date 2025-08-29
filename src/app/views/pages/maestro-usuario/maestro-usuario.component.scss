@@ -1,0 +1,35 @@
+/* ::ng-deep .datatable-scroller {
+  overflow-x: hidden !important;
+}
+
+::ng-deep .datatable-header {
+  pointer-events: none !important;
+}
+
+::ng-deep .resize-handle {
+  display: none !important;
+}
+ */
+::ng-deep .dropdown-list.tagToBody {
+  width: 235px !important;
+  bottom: 0% !important;
+  left: 18px !important;
+  top: 445px !important;
+}
+
+::ng-deep .pure-checkbox input[type="checkbox"] + label:before {
+  color: #b24732 !important;
+  border: 1px solid #b24732 !important;
+}
+
+::ng-deep .pure-checkbox input[type="checkbox"]:checked + label:before {
+  background: #b24732 !important;
+}
+
+::ng-deep .selected-list .c-list .c-token {
+  background: #b24732 !important;
+}
+
+
+
+

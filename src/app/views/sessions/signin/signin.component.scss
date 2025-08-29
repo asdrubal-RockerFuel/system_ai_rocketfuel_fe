@@ -1,0 +1,22 @@
+.beige {
+	color: #E7E4CD;
+}
+.btnBeige {
+	width: 100%;
+	color: #B24732;
+	font-weight: bold;
+	background-color: #E7E4CD;
+}
+
+.btnBeige:hover {
+	color: #B24732;
+	font-weight: bold;
+	background-color: #e7e4cdf8;
+	box-shadow: 0 0 3px #e7e4cdcc;
+}
+
+.custom-input {
+	color: #E7E4CD;
+	border: 0;
+  	background-color: #E56A4E !important;
+}

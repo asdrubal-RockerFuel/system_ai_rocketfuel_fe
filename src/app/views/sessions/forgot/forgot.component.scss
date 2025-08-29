@@ -1,0 +1,17 @@
+.code-tm {
+  --item-border-radius: 20px;
+  --item-height: 5em;
+  --item-spacing: 20px;
+}
+
+::ng-deep .code-tm {
+  --item-border-radius: 20px;
+  --item-height: 3em !important;
+  --item-spacing: 20px;
+}
+code-input {
+  font-size: 35px;
+  & input {
+    --item-height: 3em !important;
+  }
+}

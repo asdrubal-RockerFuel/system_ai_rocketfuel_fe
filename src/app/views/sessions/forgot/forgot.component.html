@@ -1,0 +1,132 @@
+<div
+  class="card o-hidden"
+  [@animate]="{
+    value: '*',
+    params: { y: '120px', opacity: '0', delay: '100ms', duration: '400ms' }
+  }"
+>
+  <div class="row">
+    <div
+      *ngIf="!ExpC"
+      style="display: flex; align-content: center; justify-content: center"
+      class="col-md-12"
+    >
+      <div style="width: 70%" class="p-4">
+        <div class="auth-logo text-center mb-4">
+          <img
+            src="assets/img-spda/SPDA-Vertical-Rojo.png"
+            style="object-fit: contain; width: 200px !important"
+            alt=""
+          />
+        </div>
+        <h1 style="text-align: center" class="mb-3 text-18">
+          ¿Olvidó su contraseña?
+        </h1>
+        <form [formGroup]="signinForm" (ngSubmit)="submitLoginForm()">
+          <div class="form-group">
+            <label for="email">Correo Electrónico</label>
+            <input
+              id="email"
+              formControlName="email"
+              class="form-control form-control-rounded"
+              type="email"
+            />
+          </div>
+          <div style="display: flex; justify-content: center">
+            <button
+              style="width: 35%"
+              class="btn btn-primary btn-block btn-rounded mt-3 btncolor"
+              [disabled]="disableBtn"
+            >
+              {{disableBtn ? 'Solicitando código...' :'Solicitar código'}} 
+            </button>
+          </div>
+        </form>
+        <div class="mt-3 text-center">
+          <a href="" class="text-muted" routerLink="/sessions/signin"
+            ><u>Iniciar sesión</u></a
+          >
+        </div>
+      </div>
+    </div>
+
+    <div
+      *ngIf="Exp"
+      style="display: flex; align-content: center; justify-content: center"
+      class="col-md-12"
+    >
+      <div class="p-4">
+        <div class="auth-logo text-center mb-4">
+          <img
+            src="assets/img-spda/SPDA-Vertical-Rojo.png"
+            style="object-fit: contain; width: 200px !important"
+            alt=""
+          />
+        </div>
+        <h1 style="text-align: center" class="mb-3 text-18">
+          Ingrese el código que se le envio a su correo electrónico
+        </h1>
+
+        <form [formGroup]="signinForm" (ngSubmit)="entraForm()">
+          <div style="padding: 30px" class="row">
+            <code-input
+              class="code-tm"
+              [isCodeHidden]="false"
+              [codeLength]="4"
+              (codeChanged)="onCodeChanged($event)"
+              (codeCompleted)="onCodeCompleted($event)"
+            >
+            </code-input>
+          </div>
+          <div style="display: flex; justify-content: center">
+            <button
+              style="width: 35%"
+              class="btn btn-primary btn-block btn-rounded mt-3 btncolor"
+            >
+              Validar código
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div
+      *ngIf="Exps"
+      style="display: flex; align-content: center; justify-content: center"
+      class="col-md-12"
+    >
+      <div style="width: 70%" class="p-4">
+        <div class="auth-logo text-center mb-4">
+          <img
+            src="assets/img-spda/SPDA-Vertical-Rojo.png"
+            style="object-fit: contain; width: 200px !important"
+            alt=""
+          />
+        </div>
+        <h1 style="text-align: center" class="mb-3 text-18">
+          Ingrese su nueva contraseña
+        </h1>
+
+        <form [formGroup]="passForm" (ngSubmit)="submitPass()">
+          <div class="form-group">
+            <label for="email">Contraseña</label>
+            <input
+              id="email"
+              formControlName="password"
+              class="form-control form-control-rounded"
+              type="password"
+            />
+          </div>
+          <div style="display: flex; justify-content: center">
+            <button
+              style="width: 35%"
+              class="btn btn-primary btn-block btn-rounded mt-3 btncolor"
+            >
+              Cambiar contraseña
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+.container {
+    position: relative;
+  }
+  
+.custom-file-input-label {
+	height: 120px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 12px;
+	color: rgba(255, 255, 255, 0.4);
+	background-color: rgba(0, 0, 0, 0.2);
+	padding: 8px;
+	cursor: pointer;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
+
+.custom-file-input-label:hover {
+	color: rgb(255, 255, 255);
+}
+
+.custom-file-input {
+	display: none;
+}
+
+.preview-container {
+	position: relative;
+}
+
+.preview-img {
+	z-index: 0;
+	height: 120px;
+}

@@ -1,0 +1,280 @@
+<div class="modal-header">
+	<h2 *ngIf="!id" mat-dialog-title class="modal-title">INGRESO DE SOLICITUD</h2>
+	<h2 *ngIf="id" mat-dialog-title class="modal-title">EDITAR SOLICITUD</h2>
+
+ 
+</div>
+<div style="padding: 2rem;">
+	<div class="card">
+		<div class="card-header">
+			<div class="option">
+				<a class="option_menu" [ngClass]="{'active': selectedOption === 1}" (click)="selectOption(1)">Tipo
+						de Solicitud</a>
+				<a class="option_menu" [ngClass]="{'active': selectedOption === 2}"
+						(click)="selectOption(2)">Especificaciones</a>
+				<a class="option_menu" [ngClass]="{'active': selectedOption === 3}"
+						(click)="selectOption(3)">Adicionales</a>
+				<a class="option_menu" [ngClass]="{'active': selectedOption === 4}"
+						(click)="selectOption(4)">Aprobaciones</a>
+			</div>
+
+		</div>
+
+
+		<div class="card-body">
+			<form [formGroup]="myForm">
+				<!-- Contenido de las pestañas -->
+			<div *ngIf="selectedOption === 1">
+				<label class="form-check-label" for="defaultCheck1" style="margin-bottom: 1rem;">
+						Selecciona una:
+				</label>
+				<label class="checkbox checkbox-primary">
+						<input type="checkbox" name="purchase" formControlName="purchase" id="purchase" (change)="toggleTypeResquet('purchase')" />
+						<span>Compra</span>
+						<span class="checkmark"></span>
+				</label>
+				<label class="checkbox checkbox-primary">
+						<input type="checkbox" name="engagement" formControlName="engagement" id="engagement"
+								(change)="toggleTypeResquet('engagement')" />
+						<span>Contratación</span>
+						<span class="checkmark"></span>
+				</label>
+			</div>
+
+			<div *ngIf="selectedOption === 2">
+
+				<div class="row">
+						<div class="form-group col-sm-12 col-md-6 mb-3">
+								<label for="name_user">Nombre del Solicitante</label>
+								<input type="text" name="name_user" id="name_user" class="form-control"
+										formControlName="name_user">
+						</div>
+
+						<div class="form-group col-sm-12 col-md-6 mb-3">
+								<label for="application_date">Fecha de Solicitud</label>
+								<input type="date" class="form-control" name="application_date" id="application_date" formControlName="application_date"
+										>
+						</div>
+					
+
+						<div class="form-group col-sm-12 col-md-6 mb-3">
+								<label for="email">Email</label>
+								<input type="text" name="email" id="email" class="form-control" [value]="emailUser" formControlName="email">
+						</div>
+
+						<div class="form-group col-sm-12 col-md-6 mb-3">
+								<label for="deadline">Fecha Entrega</label>
+								<input type="date" class="form-control" name="deadline" id="deadline" formControlName="deadline">
+						</div>
+
+						<div class="form-group col-sm-12 col-md-6 mb-3">
+								<label for="date_required">Fecha Requerida</label>
+								<input type="date" class="form-control" name="date_required" id="date_required" formControlName="date_required" />
+						</div>
+				</div>
+
+
+					<section class="tbl-container bdr">
+						<table class="table">
+							<thead class="bg-red">
+								<tr>
+										<th scope="col" style="width: 5%;">Item</th>
+										<th *ngIf="requisitoAprobado" scope="col" style="width: 5%;">Aprobado</th>
+										<th scope="col" style="width: 10%;">Descripción</th>
+										<th scope="col" style="width: 10%;">Cantidad</th>
+										<th scope="col" style="width: 10%;">Costo Unitario</th>
+										<th scope="col" style="width: 10%;">Costo Total</th>
+										<th scope="col" style="width: 10%;">Moneda</th>
+										<th *ngIf="requisitoAprobado" scope="col" style="width: 10%;">Partida Presupuestal</th>
+										<th *ngIf="requisitoAprobado" scope="col" style="width: 10%;">% Partida Presupuestal</th>
+										<th *ngIf="requisitoAprobado" scope="col" style="width: 10%;">Proveedores</th>
+										<th scope="col" style="width: 10%;">Acciones</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let elemento of items.controls; let i = index"
+										[formGroup]="getRowText(i, items)">
+									<td style="width: 5%;">
+											{{i + 1}}
+									</td>
+									<td *ngIf="requisitoAprobado" style="width: 5%;">
+										<label class="checkbox checkbox-primary" style="text-align: center;">
+												<input type="checkbox" name="approved_{{i}}" formControlName="approved" id="approved_{{i}}"  />
+												<span class="checkmark ml-3"></span>
+										</label>
+								</td>
+									<td style="width: 10%;">
+											<input class="form-control" type="text" formControlName="description"
+													name="description_{{i}}">
+									</td>
+									<td style="width: 10%;">
+											<input class="form-control" style="text-align: end;" type="number"
+													formControlName="item_quantity" name="item_quantity_{{i}}" (keyup)="calculatePTotal(i)" />
+									</td>
+									<td style="width: 10%;">
+											<input class="form-control" style="text-align: end;" type="number"
+													formControlName="unit_price" name="unit_price_{{i}}" step="0.01" (keyup)="calculatePTotal(i)" />
+									</td>
+									<td style="width: 10%;">
+											<input class="form-control" style="text-align: end;" type="number"
+													formControlName="total_price" name="total_price_{{i}}" step="0.01"
+													/>
+									</td>
+									<td style="width: 10%;">
+										<select class="form-control" formControlName="currency" name="currency_{{i}}">
+											<option value="PEN">Soles</option>
+											<option value="USD">Dolares</option>
+											</select>
+									</td>
+									
+										<td *ngIf="requisitoAprobado" style="width: 10%;">
+											<input class="form-control" style="text-align: end;" type="number"
+													formControlName="budget_code" name="budget_code_{{i}}" step="0.01" />
+									</td>
+									<td *ngIf="requisitoAprobado" style="width: 10%;">
+										<input class="form-control" style="text-align: end;" type="number"
+												formControlName="budget_percentage" name="budget_percentage_{{i}}" step="0.01" />
+									</td>
+									<td *ngIf="requisitoAprobado" style="width: 10%;">
+										<select class="form-control" formControlName="supplier_id" name="supplier_id{{i}}">
+											<option *ngFor="let e of proveedorArr" [value]="e.id">{{e.business_name}}</option>
+											</select>
+										</td>
+									<td style="width: 10%;">
+										<button (click)="addRowText(items, 'new')" class="mat-btn" [disabled]="isReview ">
+											<span class="material-symbols-outlined"> add_circle </span>
+										</button>
+
+										<button (click)="deleteRowText(i, myForm,'items')" class="mat-btn cursor-pointer"
+												[disabled]="items.length === 1 || isReview">
+												<span class="material-symbols-outlined"> delete_forever </span></button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</section>
+				<div class="row">
+					<div class="col-md-9"></div>
+
+					<div class="col-md-3 d-flex justify-content-between align-items-center mb-2">
+							<label for="item_sum">Cantidad ítems:</label>
+							<input name="item_sum" id="item_sum" class="form-control"
+									style="width: 60%; text-align: end;" [value]="item_sum" disabled >
+					</div>
+
+					<div class="col-md-9"></div>
+
+					<div class="col-md-3 d-flex justify-content-between align-items-center">
+							<label for="p_total_sum">Costo Total:</label>
+							<input name="p_total_sum" id="p_total_sum" class="form-control"
+									style="width: 60%; text-align: end;" [value]="p_total_sum" disabled>
+					</div>
+				</div>
+			</div>
+
+				<div *ngIf="selectedOption === 3">
+						<div class="row">
+								<div class="form-group col-md-12 mb-3">
+										<label for="specification">Especificaciones Técnicas</label>
+										<textarea name="specification" rows="4" id="specification"
+												class="form-control" formControlName="specification"></textarea>
+								</div>
+
+								<div class="form-group col-md-12 mb-3">
+										<label for="reason">Motivo de compra</label>
+										<textarea name="reason" rows="4" id="reason" class="form-control" formControlName="reason"></textarea>
+								</div>
+						</div>
+						<!-- <input type="file" #fileInput style="display: none;" (change)="onFileSelected($event)" />
+
+						<button class="btn btn-md btn-primary mr-3 adjuntar" type="button" (click)="fileInput.click()">
+									Adjuntar Archivo  <i class="bi bi-caret-up-fill"></i>
+						</button> -->
+
+						<div class="d-flex mt-3 justify-content-between ">
+							<div class="m-0 p-0 ">
+								<p class="m-0 pt-3" style="font-size: 12px; color: #906f68;">Archivos Adjuntos</p>
+							</div>
+							<div class="d-flex align-items-center">
+								<input type="file" #fileInput style="display: none;" [disabled]="isReview" (change)="onFileSelected($event)" multiple accept=".pdf,.png,.jpg,.jpeg"/>
+								<button class="btn btn-md btn-primary m-0 ml-3 adjuntar" type="button" [ngClass]="{ 'disabled': isReview }" (click)="fileInput.click()">
+								Añadir archivos  <i class="bi bi-caret-up-fill"></i>
+								</button>
+							</div>
+						</div>
+						<div class="file-list-container" [ngClass]="{ 'disabled-bg': isReview }">
+							<div class="file-block" *ngFor="let file of uploadedFiles">
+								<div class="file-name m-0 p-0">{{ file.name }}</div>
+								<button class="delete-button" (click)="removeFile(file)">x</button>
+							</div>
+						</div>
+						
+				</div>
+			</form>
+				<div *ngIf="selectedOption === 4">
+						<div class="row">
+								<div class="form-group col-md-12 mb-3">
+										<label for="especificaciones">Status de la Solicitud:</label>
+										<label class="checkbox checkbox-primary">
+												<input type="checkbox" [(ngModel)]="solicitado" (change)="toggleTypeResquet('solicitado')" />
+												<span>Solicitado por Andres Example - 09/10/2023</span>
+												<span class="checkmark"></span>
+										</label>
+										<label class="checkbox checkbox-primary">
+												<input type="checkbox" [(ngModel)]="aprobado"
+														(change)="toggleTypeResquet('aprobado')" />
+												<span>Aprobado por Juan Example - 09/10/2023</span>
+												<span class="checkmark"></span>
+										</label>
+
+										<label class="checkbox checkbox-primary">
+												<input type="checkbox" [(ngModel)]="visto_bueno"
+														(change)="toggleTypeResquet('visto_bueno')" />
+												<span>VB del area - 09/10/2023</span>
+												<span class="checkmark"></span>
+										</label>
+										
+										<label class="checkbox checkbox-primary">
+												<input type="checkbox" [(ngModel)]="aprobacion_director"
+														(change)="toggleTypeResquet('aprobacion_director')" />
+												<span>Aprobación del director</span>
+												<span class="checkmark"></span>
+										</label>
+								</div>
+						</div>
+				</div>
+
+
+		</div>
+
+		<div class="card-footer bg-transparent">
+				<div class="box_button d-flex justify-content-between">
+						<div>
+							<button class="btn btn-outline-info btn-rounded " *ngIf="selectedOption > 1"
+								(click)="previousOption()">Anterior</button>
+						</div>
+
+						<div>
+							<button class="btn btn-outline-info btn-rounded btn-next" *ngIf="selectedOption < 3"
+							(click)="nextOption()">Siguiente</button>
+
+							<button *ngIf="!isReview && selectedOption == 3" class="btn btn-outline-info btn-rounded btn-next"
+							(click)="handleSave()">Enviar</button>
+
+							<div *ngIf="isReview">
+								<button *ngIf="selectedOption == 3" class="btn btn-outline-info btn-rounded btn-next mr-3"
+								(click)="handleSave()">Aprobar</button>
+								<button *ngIf="selectedOption == 3" class="btn btn-outline-info btn-rounded btn-next"
+								(click)="handleSave()">Rechazar</button>
+							</div>
+						</div>
+						
+				</div>
+				
+		</div>
+	</div>
+</div>
+
+<div style="display: flex; justify-content: flex-end;">
+<button class="btn-clanP mr-5" (click)="toggleAprobar()">toggle aprobar</button>
+</div>

@@ -1,0 +1,798 @@
+  <div class="breadcrumb">
+    <h1>Usuarios</h1>
+    <ul>
+      <li><a>Lista de Usuarios</a></li>
+    </ul>
+  </div>
+  <div class="separator-breadcrumb border-top"></div>
+  <div class="col-md-12 input-group align-items-center">
+		<div class="col-md-6">
+      <div class="d-flex flex-column mx-2" style="width: 30%; background-color: rgb(245, 245, 245);">
+        <div class="search-container">
+          <span class="material-symbols-outlined">search</span>
+          <input id="search_name" type="text" class="search-input" placeholder="Búsqueda" [(ngModel)]="search_nameF" (ngModelChange)="obtenerAdmin(1)">
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6" style="text-align: end">
+      <button
+        class="btn btn-outline-info btn-rounded"
+        (click)="openUsuariosAdd(addProductos)"
+      >
+        Agregar
+      </button>
+    </div>
+    </div>
+
+  <div class="row mt-3">
+    <div
+      style="
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 1rem;
+      "
+      *ngIf="loadData"
+    >
+      <div class="loader-bubble loader-bubble-info m-4"></div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="card o-hidden">
+        <div
+          style="padding-left: 20px"
+          *ngIf="!allUser?.length"
+          class="w-100 my-4 mx-auto"
+        >
+          <h4>{{ "Sin usuarios agregados" }}</h4>
+        </div>
+
+        <ngx-datatable
+          *ngIf="allUser?.length"
+          style="box-shadow: none"
+          class="material fullscreen"
+          [style.height]="60 * allUser.length + 60 + 'px'"
+          [columnMode]="'force'"
+          [headerHeight]="50"
+          [footerHeight]="0"
+          [rowHeight]="60"
+          [scrollbarV]="true"
+          [scrollbarH]="true"
+          [rows]="allUser"
+        >
+          <ngx-datatable-column [resizeable]="false" [sortable]="false" [width]="90">
+            <ng-template ngx-datatable-header-template
+              ><span class="centered-cell"> Nombre </span></ng-template
+            >
+            <ng-template
+              ngx-datatable-cell-template
+              let-value="value"
+              let-row="row"
+            >
+              <span class="centered-cell">
+                <span class="text-container">{{ row.name }}</span>
+              </span>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column [resizeable]="false" [sortable]="false" [width]="90">
+            <ng-template ngx-datatable-header-template
+              ><span class="centered-cell"> Apellido paterno </span></ng-template
+            >
+            <ng-template
+              ngx-datatable-cell-template
+              let-value="value"
+              let-row="row"
+            >
+              <span class="centered-cell">
+                <span class="text-container">{{ row.paternal_lastname }}</span>
+              </span>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column [resizeable]="false" [sortable]="false" [width]="90">
+            <ng-template ngx-datatable-header-template
+              ><span class="centered-cell"> Apellido materno </span></ng-template
+            >
+            <ng-template
+              ngx-datatable-cell-template
+              let-value="value"
+              let-row="row"
+            >
+              <span class="centered-cell">
+                {{ row.maternal_lastname }}
+              </span>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column [resizeable]="false" [sortable]="false" [width]="150">
+            <ng-template ngx-datatable-header-template
+              ><span class="centered-cell">Correo</span>
+            </ng-template>
+            <ng-template
+              ngx-datatable-cell-template
+              let-value="value"
+              let-row="row"
+            >
+              <span class="centered-cell">
+                <span class="text-container">{{ row.email }}</span>
+              </span>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <!-- <ngx-datatable-column [resizeable]="false" [sortable]="false">
+            <ng-template ngx-datatable-header-template
+              ><span class="centered-cell">Tipo Usuario</span>
+            </ng-template>
+            <ng-template
+              ngx-datatable-cell-template
+              let-value="value"
+              let-row="row"
+            >
+              <span class="centered-cell">
+                {{ returnAdmin(row.type_user) }}
+              </span>
+            </ng-template>
+          </ngx-datatable-column> -->
+
+          <ngx-datatable-column [resizeable]="false" [sortable]="false" [width]="40">
+            <ng-template ngx-datatable-header-template
+              ><span class="centered-cell">Estado</span></ng-template
+            >
+            <ng-template
+              ngx-datatable-cell-template
+              let-value="value"
+              let-row="row"
+            >
+              <span class="centered-cell">
+                <!-- {{ row.status == true ? "Habilitado" : "Deshabilitado" }} -->
+                <a
+              class="m-0 text-muted text-small w-15 w-sm-15 cortado"
+              *ngIf="row.status == true"
+            >
+              <div
+                style="
+                  border: 1px solid #B24732;
+                  background: white;
+                  color: black;
+                  font-weight: 400;
+                "
+                class="badge badge-pill badge-success p-2 item-title"
+              >
+                Habilitado
+              </div>
+            </a>
+
+            <a
+              class="m-0 text-muted text-small w-15 w-sm-15 cortado"
+              *ngIf="row.status == false"
+            >
+              <div
+                style="
+                  border: 1px solid #B24732;
+                  background: white;
+                  color: black;
+                  font-weight: 400;
+                "
+                class="badge badge-pill badge-success p-2 item-title"
+              >
+                Deshabilitado
+              </div>
+            </a>
+              </span>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column
+            [resizeable]="false"
+            [sortable]="false"
+            [width]="140"
+          >
+            <ng-template ngx-datatable-header-template
+              ><span class="centered-cell">Acciones</span>
+            </ng-template>
+            <ng-template
+              ngx-datatable-cell-template
+              let-value="value"
+              let-row="row"
+            >
+              <span class="centered-cell">
+                <button
+                  (click)="confirm(i, row, modalEdit)"
+                  class="btn-clanP mr-3"
+                >
+                  Editar
+                </button>
+                <button
+                  [disabled]="disableUser(row)"
+                  class="btn btn-outline-danger"
+                  (click)="deleteInvoice(row, deleteConfirmModal)"
+                >
+                <div style="width: 60px;" class="d-flex justify-content-center">
+                  <a *ngIf="row.status == true">Desactivar</a>
+                  <a *ngIf="row.status == false">Activar</a>
+                </div>
+                </button>
+              </span>
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+
+        <ngb-pagination
+          style="text-align: end"
+          class="paginacion-ed"
+          [collectionSize]="collectionSize"
+          [(page)]="page"
+          [pageSize]="pageSize"
+          [maxSize]="5"
+          (pageChange)="cambiaPage($event)"
+        >
+        </ngb-pagination>
+      </div>
+    </div>
+  </div>
+  <ng-template #deleteConfirmModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-title">¡Advertencia!</h4>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close button"
+        aria-describedby="modal-title"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>
+        ¿Está seguro de <a *ngIf="eve == true">activar</a>
+          <a *ngIf="eve == false">desactivar</a> el usuario <strong>{{modalUserName}}</strong> ?
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-outline-secondary btn-rounded"
+        (click)="modal.dismiss('cancel')"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        ngbAutofocus
+        class="btn btn-wide btn-danger btn-rounded"
+        (click)="modal.close('Ok')"
+      >
+        Ok
+      </button>
+    </div>
+  </ng-template>
+
+  <ng-template #addProductos>
+    <div class="modal-header">
+      <h2 mat-dialog-title class="modal-title">AGREGAR USUARIOS</h2>
+
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="cerrarModal()"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="myForm">
+        <div class="row">
+          <div class="form-group col-md-4 mb-3">
+            <label for="nombre">Nombres</label>
+            <input
+              class="form-control"
+              type="text"
+              id="nombre"
+              formControlName="name"
+            />
+          </div>
+
+          <div class="form-group col-md-4 mb-3">
+            <label for="apellidos">Apellido Paterno</label>
+            <input
+              class="form-control"
+              type="text"
+              id="apellidos"
+              formControlName="paternal_lastname"
+            />
+          </div>
+
+          <div class="form-group col-md-4 mb-3">
+            <label for="apellidos">Apellido Materno</label>
+            <input
+              class="form-control"
+              type="text"
+              id="apellidos"
+              formControlName="maternal_lastname"
+            />
+          </div>
+
+          <div class="form-group col-md-4 mb-3">
+            <label for="tipo_doc">Tipo de Documento</label>
+            <select
+              class="form-control"
+              id="tipo_doc"
+              formControlName="document_type"
+            >
+              <option value="dni">DNI</option>
+              <option value="ce">C.E.</option>
+              <option value="pasaporte">Pasaporte</option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-4 mb-3">
+            <label for="num_doc">Número de Documento </label>
+            <input
+              class="form-control"
+              type="text"
+              id="num_doc"
+              formControlName="document_number"
+            />
+          </div>
+
+          <div class="form-group col-md-4 mb-3">
+            <label for="correo">Email </label>
+            <input
+              class="form-control"
+              type="text"
+              id="correo"
+              formControlName="email"
+            />
+          </div>
+          <!-- <div class="form-group col-md-4 mb-3">
+            <label for="admin_rol_id">Tipo de Seguro de Salud</label>
+            <select id="admin_rol_id" name="admin_rol_id" class="form-control">
+              <option disabled selected>Seleccione una opción</option> -->
+              <!--  <ng-container *ngFor="let option of options">
+                <ng-container *ngIf="isVisibleOption(option.value)">
+                  <option [value]="option.value">{{ option.label }}</option>
+                </ng-container>
+              </ng-container> -->
+            <!-- </select>
+          </div> -->
+
+          <!-- <div class="form-group col-md-5 mb-3">
+            <label for="correo">Fondo de Pensión </label>
+            <input class="form-control" type="number" id="correo" />
+          </div>
+          <div class="form-group col-md-6 mb-3">
+            <label for="correo">Cuenta Bancaria </label>
+            <input class="form-control" type="number" id="correo" />
+          </div>
+          <div class="form-group col-md-6 mb-3">
+            <label for="correo">Cuenta CTS </label>
+            <input class="form-control" type="file" id="correo" />
+          </div> -->
+          <div class="form-group col-md-4 mb-3">
+            <label for="office_id">Oficina</label>
+            <select id="office_id" name="office_id" formControlName="office_id" class="form-control"
+            (change)="getControlsByOffice($event)">
+              <option value="" selected>Seleccione una opción</option>
+              <option *ngFor="let option of options" [value]="option.id">{{ option.name }}</option>
+               <!-- <ng-container *ngFor="let option of options">
+                <ng-container *ngIf="isVisibleOption(option.value)">
+                  <option [value]="option.value">{{ option.label }}</option>
+                </ng-container>
+              </ng-container> -->
+            </select>
+          </div>
+
+          <div class="form-group col-md-4 mb-3">
+            <label for="area_id">Área</label>
+            <select id="area_id" name="area_id" class="form-control" formControlName="area_id">
+              <option *ngIf="loadingAreas" disabled selected>Cargando...</option>
+              <option *ngIf="!loadingAreas" value="" selected>Seleccione una opción</option>
+              <option *ngFor="let option of arrArea" [value]="option.id">{{ option.name }}</option>
+              <!--  <ng-container *ngFor="let option of options">
+                <ng-container *ngIf="isVisibleOption(option.value)">
+                  <option [value]="option.value">{{ option.label }}</option>
+                </ng-container>
+              </ng-container> -->
+            </select>
+          </div>
+
+          <div class="form-group col-md-4 mb-3">
+            <!-- <mat-form-field>
+              <mat-label>Programa e iniciativa</mat-label>
+              <mat-select formControlName="admin_rol_id">
+                <mat-option disabled>Seleccione una opción</mat-option>
+                <mat-option *ngFor="let option of arrProgram" [value]="option.id">{{ option.iniciative }}</mat-option>
+              </mat-select>
+            </mat-form-field> -->
+            <label for="program_id">Programa e iniciativa</label>
+            <select id="program_id" name="program_id" class="form-control" formControlName="program_id">
+              <option *ngIf="loadingPrograms" disabled selected>Cargando...</option>
+              <option *ngIf="!loadingPrograms" value="" selected>Seleccione una opción</option>
+              <option *ngFor="let option of arrProgram" [value]="option.id">{{ option.iniciative }}</option>
+            </select>
+          </div>
+          
+
+              <!--  <ng-container *ngFor="let option of options">
+                <ng-container *ngIf="isVisibleOption(option.value)">
+                  <option [value]="option.value">{{ option.label }}</option>
+                </ng-container>
+              </ng-container> -->
+          <div class="col-12 m-0 p-0 mb-5 d-flex justify-content-between"
+          >
+           <div class="form-group col-md-4">
+              <label for="admin_rol_id">Roles</label>
+              <app-custom-multi-select [optionsSelect]="dropdownList" (selectionChanged)="handleTagsChange($event)"></app-custom-multi-select>
+              <!-- <angular2-multiselect
+              [data]="dropdownList"
+              [(ngModel)]="selectedItems"
+              [ngModelOptions]="{ standalone: true }"
+              [settings]="dropdownSettings"
+              (onSelect)="onItemSelect($event)"
+              (onDeSelect)="OnItemDeSelect($event)"
+              (onSelectAll)="onSelectAll($event)"
+              (onDeSelectAll)="onDeSelectAll($event)"
+            >
+            </angular2-multiselect> -->
+
+            </div>
+           
+
+            <div class="form-group col-md-4"
+            style="display: flex; align-items: flex-end; justify-content: flex-end;">
+              <label class="switch switch-primary mr-3">
+                <span>Notificación</span>
+                <input type="checkbox" formControlName="notifications" />
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="col-md-12" style="text-align: end">
+            <button
+              class="btn btn-outline-info btn-rounded"
+              style="margin-right: 20px"
+              (click)="cerrarModal()"
+            >
+              Cancelar
+            </button>
+            <!-- <button
+              *ngIf="!confirmCreate"
+              class="btn btn-outline-info btn-rounded"
+              type="button"
+              (click)="confirmationButton()"
+            >
+              Agregar
+            </button> -->
+
+            <!-- *ngIf="confirmCreate" -->
+            <button
+              class="btn btn-outline-info btn-rounded"
+              type="button"
+              (click)="agregar()"
+              [disabled]="workback"
+            >
+              {{workback ?'Guardando...' :'Guardar'}}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </ng-template>
+
+  <ng-template #modalEdit let-modal>
+    <div class="modal-header">
+      <h2 class="modal-title" id="modal-title">Editar Usuario</h2>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close button"
+        aria-describedby="modal-title"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <!-- <p class="pr-3">*Campos obligatorios.</p> -->
+    <div class="modal-body">
+      <!-- <form [formGroup]="forma"> -->
+        <div class="row mt-3">
+          <div class="form-group col-md-4 mb-3">
+            <label for="nombre">Nombres</label>
+            <input
+            id="name"
+            name="name"
+            maxlength="90"
+            [(ngModel)]="DatosUser.name"
+            [ngModelOptions]="{ standalone: true }"
+            required
+            type="text"
+            class="form-control"
+            autocomplete="off"
+            />
+          </div>
+
+          <div class="form-group col-md-4 mb-3">
+            <label for="paternal_lastname">Apellido Paterno</label>
+            <input
+            id="paternal_lastname"
+            name="paternal_lastname"
+            maxlength="90"
+            [(ngModel)]="DatosUser.paternal_lastname"
+            [ngModelOptions]="{ standalone: true }"
+            required
+            type="text"
+            class="form-control"
+            autocomplete="off"
+            />
+          </div>
+
+          <div class="form-group col-md-4 mb-3">
+            <label for="maternal_lastname">Apellido Materno</label>
+            <input
+            id="maternal_lastname"
+            name="maternal_lastname"
+            maxlength="90"
+            [(ngModel)]="DatosUser.maternal_lastname"
+            [ngModelOptions]="{ standalone: true }"
+            required
+            type="text"
+            class="form-control"
+            autocomplete="off"
+            />
+          </div>
+
+          <div class="form-group col-md-4 mb-3">
+            <label for="tipo_doc">Tipo de documento</label>
+            <select
+            id="tipo_doc"
+            name="tipo_doc"
+            [(ngModel)]="DatosUser.document_type"
+            [ngModelOptions]="{ standalone: true }"
+            required
+            class="form-control"
+            >
+            <option value="" selected>Seleccione una opción</option>
+            <option value="dni">DNI</option>
+            <option value="ce">C.E.</option>
+            <option value="pasaporte">Pasaporte</option>
+          </select>
+          </div>
+
+          <div class="form-group col-md-4 mb-3">
+            <label for="document_num">Número de Documento </label>
+            <input
+            id="document_num"
+            name="document_num"
+            maxlength="90"
+            [(ngModel)]="DatosUser.document_number"
+            [ngModelOptions]="{ standalone: true }"
+            required
+            type="number"
+            class="form-control"
+            autocomplete="off"
+            />
+          </div>
+
+          <div class="form-group col-md-4 mb-3">
+            <label for="mail">Email </label>
+            <input
+            id="mail"
+            name="mail"
+            maxlength="90"
+            [(ngModel)]="DatosUser.email"
+            [ngModelOptions]="{ standalone: true }"
+            required
+            type="text"
+            class="form-control"
+            autocomplete="off"
+            />
+          </div>
+
+          <div class="form-group col-md-4 mb-3">
+            <label for="office_id">Oficina</label>
+            <select
+            id="office_id"
+            name="office_id"
+            [(ngModel)]="DatosUser.office_id"
+            [ngModelOptions]="{ standalone: true }"
+            required
+            class="form-control"
+            (change)="getControlsByOffice($event)"
+            >
+              <option [value]="null" selected>Seleccione una opción</option>
+              <option *ngFor="let option of options" [value]="option.id">{{ option.name }}</option>
+               <!-- <ng-container *ngFor="let option of options">
+                <ng-container *ngIf="isVisibleOption(option.value)">
+                  <option [value]="option.value">{{ option.label }}</option>
+                </ng-container>
+              </ng-container> -->
+            </select>
+          </div>
+
+          <div class="form-group col-md-4 mb-3">
+            <label for="area_id">Área</label>
+            <select
+            id="area_id"
+            name="area_id"
+            [(ngModel)]="DatosUser.area_id"
+            [ngModelOptions]="{ standalone: true }"
+            required
+            class="form-control"
+            >
+              <option *ngIf="loadingAreas" disabled selected>Cargando...</option>
+              <option *ngIf="!loadingAreas" [value]="null" selected>Seleccione una opción</option>
+              <option *ngFor="let option of arrArea" [value]="option.id">{{ option.name }}</option>
+              <!--  <ng-container *ngFor="let option of options">
+                <ng-container *ngIf="isVisibleOption(option.value)">
+                  <option [value]="option.value">{{ option.label }}</option>
+                </ng-container>
+              </ng-container> -->
+            </select>
+          </div>
+
+          <div class="form-group col-md-4 mb-3">
+            <!-- <mat-form-field>
+              <mat-label>Programa e iniciativa</mat-label>
+              <mat-select formControlName="admin_rol_id">
+                <mat-option disabled>Seleccione una opción</mat-option>
+                <mat-option *ngFor="let option of arrProgram" [value]="option.id">{{ option.iniciative }}</mat-option>
+              </mat-select>
+            </mat-form-field> -->
+            <label for="program_id">Programa e iniciativa</label>
+            <select
+            id="program_id"
+            name="program_id" 
+            [(ngModel)]="DatosUser.program_id"
+            [ngModelOptions]="{ standalone: true }"
+            required
+            class="form-control"
+            >
+              <option *ngIf="loadingPrograms" disabled selected>Cargando...</option>
+              <option *ngIf="!loadingPrograms" [value]="null" selected>Seleccione una opción</option>
+              <option *ngFor="let option of arrProgram" [value]="option.id">{{ option.iniciative }}</option>
+            </select>
+          </div>
+          
+
+              <!--  <ng-container *ngFor="let option of options">
+                <ng-container *ngIf="isVisibleOption(option.value)">
+                  <option [value]="option.value">{{ option.label }}</option>
+                </ng-container>
+              </ng-container> -->
+          <div class="form-group col-md-12 m-0 p-0 mb-5 d-flex justify-content-between"
+          >
+            <div class="form-group col-md-4">
+              <label for="admin_rol_id">Roles</label>
+              <angular2-multiselect
+                [data]="dropdownList"
+                [(ngModel)]="DatosUser.roles"
+                [ngModelOptions]="{ standalone: true }"
+                [settings]="dropdownSettings"
+                (onSelect)="onItemSelect($event)"
+                (onDeSelect)="OnItemDeSelect($event)"
+                (onSelectAll)="onSelectAll($event)"
+                (onDeSelectAll)="onDeSelectAll($event)"
+              >
+              </angular2-multiselect>
+            </div>
+
+            <div class="form-group col-md-4"
+            style="display: flex; align-items: flex-end; justify-content: flex-end;">
+              <label class="switch switch-primary mr-3">
+                <span>Notificación</span>
+                <input type="checkbox" [(ngModel)]="DatosUser.notifications"
+                [ngModelOptions]="{ standalone: true }" required/>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+          </div>
+      <!-- <div class="d-flex flex-column">
+        <div class="form-group">
+          <label for="name">Nombres</label>
+          <input
+            id="name"
+            name="name"
+            maxlength="90"
+            [(ngModel)]="DatosUser.name"
+            [ngModelOptions]="{ standalone: true }"
+            required
+            type="text"
+            class="form-control"
+            autocomplete="off"
+          />
+        </div>
+        <div class="form-group">
+          <label for="paternal_lastname">Apellido paterno</label>
+          <input
+            id="paternal_lastname"
+            name="paternal_lastname"
+            maxlength="90"
+            [(ngModel)]="DatosUser.paternal_lastname"
+            [ngModelOptions]="{ standalone: true }"
+            required
+            type="text"
+            class="form-control"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="maternal_lastname">Apellido materno</label>
+          <input
+            id="maternal_lastname"
+            name="maternal_lastname"
+            maxlength="90"
+            [(ngModel)]="DatosUser.maternal_lastname"
+            [ngModelOptions]="{ standalone: true }"
+            required
+            type="text"
+            class="form-control"
+            autocomplete="off"
+          />
+        </div> -->
+        <!-- <div class="form-group mb-3">
+          <label for="admin_rol_id">Tipo de usuario</label>
+
+          <select
+            id="admin_rol_id"
+            name="admin_rol_id"
+            [(ngModel)]="DatosUser.type_user"
+            [ngModelOptions]="{ standalone: true }"
+            class="form-control"
+          >
+            <option value="-1" selected>Seleccione una opción</option>
+            <option disabled>Seleccione una opción</option>
+            <option *ngIf="!isVisibleAdminField()" value="admin">Administrador</option>
+            <option value="client">Cliente</option>
+            <option value="viewer_client">Cliente Visor</option>
+          </select>
+        </div> -->
+      <!-- </div> -->
+
+      <!-- <div class="form-group mb-3">
+        <label for="id_company">Cliente</label>
+        <select
+        *ngIf="rol === 'admin'"
+          id="id_company"
+          name="id_company"
+          [(ngModel)]="DatosUser.id_company"
+          [ngModelOptions]="{ standalone: true }"
+          class="form-control"
+        >
+          <option disabled>Seleccione una opción</option>
+          <option *ngFor="let item of empresas" [value]="item.id_company"> {{ item.commercial_name }} </option>
+        </select>
+      </div> -->
+
+      <div class="modal-footer">
+
+        <button
+          type="button"
+          class="btn btn-outline-secondary btn-rounded"
+          (click)="modal.dismiss('cancel')"
+          [disabled]="workback"
+        >
+          Cancelar
+        </button>
+
+        <div>
+          <button
+            [disabled]="workback"
+            class="btn btn-info btn-rounded"
+            #closebutton
+            (click)="editarUsuarios()">
+            Guardar
+        </button>
+          <!-- <div class="spinner spinner-primary mr-3" *ngIf="workback"></div> -->
+        </div>
+      </div>
+      <!-- </form> -->
+    </div>
+  </ng-template>
