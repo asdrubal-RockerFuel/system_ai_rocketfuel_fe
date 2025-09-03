@@ -1,10 +1,10 @@
 {
   "name": "gull",
-  "version": "13.0.0",
+  "version": "20.0.0",
   "license": "https://themeforest.net/licenses/terms/regular",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve -o",
+    "start": "ng serve",
     "test": "ng test",
     "lint": "ng lint",
     "build": "ng build --configuration production"
