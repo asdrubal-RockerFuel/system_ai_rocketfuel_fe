@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, UntypedFormArray, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ca } from 'date-fns/locale';
@@ -14,8 +14,8 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./maestro-requerimientos.component.scss']
 })
 export class MaestroRequerimientosComponent implements OnInit {
-  requisitosArr: FormArray;
-  myForm: FormGroup;
+  requisitosArr: UntypedFormArray;
+  myForm: UntypedFormGroup;
   loadData: boolean = false;
   allRequirements: any[] = [];
   qtyPage = 5;
@@ -52,7 +52,7 @@ export class MaestroRequerimientosComponent implements OnInit {
   constructor(
     private router: Router,
     private toastr: ToastrService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private modalService: NgbModal,
     private _sRequirement: requirementsService,
     ) {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomValidators } from 'ngx-custom-validators';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -9,12 +9,12 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./basic-form.component.scss']
 })
 export class BasicFormComponent implements OnInit {
-  formBasic: FormGroup;
+  formBasic: UntypedFormGroup;
   loading: boolean;
-  radioGroup: FormGroup;
+  radioGroup: UntypedFormGroup;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private toastr: ToastrService
   ) { }
 

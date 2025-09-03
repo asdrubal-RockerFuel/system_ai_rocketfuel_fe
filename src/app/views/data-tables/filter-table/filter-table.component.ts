@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from 'src/app/shared/services/product.service';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
@@ -9,7 +9,7 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./filter-table.component.scss']
 })
 export class FilterTableComponent implements OnInit {
-  searchControl: FormControl = new FormControl();
+  searchControl: UntypedFormControl = new UntypedFormControl();
   products;
   filteredProducts;
 

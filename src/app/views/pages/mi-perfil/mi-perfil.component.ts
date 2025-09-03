@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ViewportScroller } from '@angular/common';
 import { NavigationService } from '../../../shared/services/navigation.service';
-import { FormBuilder, FormGroup, FormArray , Validators, AbstractControl, FormControl } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormGroup, UntypedFormArray , Validators, AbstractControl, FormControl } from "@angular/forms";
 import { clientService } from 'src/app/shared/services/client.service'; 
 import { ToastrService } from "ngx-toastr";
 import { environment } from "src/environments/environment";
@@ -38,7 +38,7 @@ export class MiPerfilComponent implements OnInit {
     private viewportScroller: ViewportScroller,
     public navService: NavigationService,
     private toastr: ToastrService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private _sClient: clientService,
     private _sCompany: companyService) { 
     // this.navService.sidebarState.sidenavOpen = false;
@@ -53,7 +53,7 @@ export class MiPerfilComponent implements OnInit {
   files: File[] = [];
   loading : boolean;
   loadingTab: boolean;
-  myForm: FormGroup;
+  myForm: UntypedFormGroup;
   logo_img : any;
   background_img :any;
   logoPreview: string | undefined;
@@ -71,7 +71,7 @@ export class MiPerfilComponent implements OnInit {
   pageData: { [key: string]: any } = {};
   responseStatus: { [key: string]: boolean } = {};
 
-  forms: { form: FormGroup; disabled: boolean }[] = [];
+  forms: { form: UntypedFormGroup; disabled: boolean }[] = [];
 
   editId1: any;
   editId2: any;
@@ -174,11 +174,11 @@ export class MiPerfilComponent implements OnInit {
 this.principal= this.pageData.page01.media[0].value;
 this.secundaria= this.pageData.page01.media[1].value;
 
-const textoFormArray = this.formTab1.get('texto_derecha') as FormArray;
+const textoFormArray = this.formTab1.get('texto_derecha') as UntypedFormArray;
 const texto = this.pageData.page01.section_simple;
 this.setTextTable(textoFormArray, texto);
 
-const mediaFormArray = this.formTab1.get('media') as FormArray;
+const mediaFormArray = this.formTab1.get('media') as UntypedFormArray;
 const media = this.pageData.page01.media.slice(2);
 mediaFormArray.clear();
 media.forEach((img)=>{
@@ -251,7 +251,7 @@ media.forEach((mediaItem) => {
       description: this.pageData.page02.section_img[0].description,
     })
 
-    const tarjetas = this.formTab2.get('tarjetas') as FormArray;
+    const tarjetas = this.formTab2.get('tarjetas') as UntypedFormArray;
     const media = this.pageData.page02.extras[1].card_rotation;
     tarjetas.clear();
 
@@ -271,7 +271,7 @@ media.forEach((mediaItem) => {
       tarjetas.push(mediaControl);
     });
 
-    const personas = this.formTab2.get('personas') as FormArray;
+    const personas = this.formTab2.get('personas') as UntypedFormArray;
     const persona = this.pageData.page02.section_img.slice(1);
     personas.clear();
 
@@ -291,7 +291,7 @@ media.forEach((mediaItem) => {
       personas.push(mediaControl);
     });
     
-    const colaboradores = this.formTab2.get('colaboradores') as FormArray;
+    const colaboradores = this.formTab2.get('colaboradores') as UntypedFormArray;
 const colab = this.pageData.page02.extras[0].profesion;
 colaboradores.clear();
 
@@ -346,15 +346,15 @@ colab.forEach((item) => {
     })
 
     
-    const hitosArray = this.formTab3.get('tarjetasHitos') as FormArray;
+    const hitosArray = this.formTab3.get('tarjetasHitos') as UntypedFormArray;
     const hitos = this.pageData.page03.extras[0].hitos;
     this.setTextTable(hitosArray, hitos);
 
-    const valoresArray = this.formTab3.get('tarjetasValores') as FormArray;
+    const valoresArray = this.formTab3.get('tarjetasValores') as UntypedFormArray;
     const valores = this.pageData.page03.extras[1].valores;
     this.setTextTable(valoresArray, valores);
 
-    const engamentArray = this.formTab3.get('tarjetasEngagement') as FormArray;
+    const engamentArray = this.formTab3.get('tarjetasEngagement') as UntypedFormArray;
     const engament = this.pageData.page03.section_simple;
     this.setTextTable(engamentArray, engament);
   }
@@ -393,12 +393,12 @@ getTab4(){
     descriptionEquipo: this.pageData.page04.section_img[1].description,
     });
 
-    const ventajasArray = this.formTab4.get('tarjetasVentajas') as FormArray;
+    const ventajasArray = this.formTab4.get('tarjetasVentajas') as UntypedFormArray;
     const ventajas = this.pageData.page04.section_simple[0].ventajas;
     this.setTextTable(ventajasArray, ventajas);
   }
 
-  setTextTable(fGroup: FormArray, array:any){
+  setTextTable(fGroup: UntypedFormArray, array:any){
     fGroup.clear();
     array.forEach((item) => {
       const textoControl = this.formBuilder.group({
@@ -742,8 +742,8 @@ getTab4(){
 
   // -------------------- Form Tab 1 ---------------------------------------------
 
-  formTab1: FormGroup;
-  texto_derecha: FormArray;
+  formTab1: UntypedFormGroup;
+  texto_derecha: UntypedFormArray;
   mediaPreview: string[] = [];
   media_tab1: any[] = [];
   principal:string;
@@ -772,7 +772,7 @@ getTab4(){
       media: this.formBuilder.array([this.createMedia()])
     });
   
-    this.texto_derecha = this.formTab1.get('texto_derecha') as FormArray;
+    this.texto_derecha = this.formTab1.get('texto_derecha') as UntypedFormArray;
     this.forms.push({ form: this.formTab1, disabled: false });
   }
 
@@ -850,15 +850,15 @@ getTab4(){
 
   // controles tabla de texto --------------------------------------------------------------------------
 
-  createRowText(): FormGroup {
+  createRowText(): UntypedFormGroup {
     return this.formBuilder.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
     });
   }
 
-  getRowText(index: number, rowArray): FormGroup {
-    return rowArray.at(index) as FormGroup;
+  getRowText(index: number, rowArray): UntypedFormGroup {
+    return rowArray.at(index) as UntypedFormGroup;
   }
 
   addRowText(rowArray) {
@@ -867,12 +867,12 @@ getTab4(){
   }
   
   deleteRowText(index: number,form, control) {
-    (form.get(control) as FormArray).removeAt(index);
+    (form.get(control) as UntypedFormArray).removeAt(index);
   }
 
   // Fxs Tabla Media --------------------------------------------------
 // Agrega campo favorite para estrellita en imagenes
-  createMedia(): FormGroup {
+  createMedia(): UntypedFormGroup {
   return this.formBuilder.group({
     favorite: [false],
     value: ['', Validators.required],
@@ -883,12 +883,12 @@ getTab4(){
 }
 
 getMediaControls(): AbstractControl[] {
-  return (this.formTab1.get('media') as FormArray).controls;
+  return (this.formTab1.get('media') as UntypedFormArray).controls;
 }
 
 onCheckboxChange(index) {
-  const mediaFormGroup = (this.formTab1.get('media') as FormArray).value;
-  const mediaFormGroupIndex = (this.formTab1.get('media') as FormArray).at(index);
+  const mediaFormGroup = (this.formTab1.get('media') as UntypedFormArray).value;
+  const mediaFormGroupIndex = (this.formTab1.get('media') as UntypedFormArray).at(index);
   const control = mediaFormGroupIndex.get('favorite');
 
   const countFav = mediaFormGroup.filter(element => element.favorite === true).length;
@@ -910,7 +910,7 @@ onCheckboxChange(index) {
 
 previewMedia(event: any, index: number) {
   const file = (event.target as HTMLInputElement).files[0];
-  const media = (this.formTab1.get('media') as FormArray).at(index);
+  const media = (this.formTab1.get('media') as UntypedFormArray).at(index);
 
   if (file) {
     const reader = new FileReader();
@@ -944,11 +944,11 @@ previewMedia(event: any, index: number) {
 
 agregarMedia() {
   const nuevaMedia = this.createMedia();
-  (this.formTab1.get('media') as FormArray).push(nuevaMedia);
+  (this.formTab1.get('media') as UntypedFormArray).push(nuevaMedia);
 }
 
 eliminarMedia(index: number) {
-  const formArray = this.formTab1.get('media') as FormArray;
+  const formArray = this.formTab1.get('media') as UntypedFormArray;
   this.mediaPreview.splice(index, 1);
 
   formArray.removeAt(index);
@@ -1072,11 +1072,11 @@ eliminarMedia(index: number) {
   }
 
 // --------------------------Form Tab 2 ----------------------------------------------
-formTab2: FormGroup;
+formTab2: UntypedFormGroup;
 imgInicial: string;
 tarjetasPreview: string[] = [];
 personasPreview: string[] = [];
-colaboradores: FormArray;
+colaboradores: UntypedFormArray;
 
 initFormTab2(){
   this.formTab2 = this.formBuilder.group({
@@ -1091,7 +1091,7 @@ initFormTab2(){
     personas: this.formBuilder.array([this.createPersona()]),
   });
 
-  this.colaboradores = this.formTab2.get('colaboradores') as FormArray;
+  this.colaboradores = this.formTab2.get('colaboradores') as UntypedFormArray;
   this.forms.push({ form: this.formTab2, disabled: false });
 }
 
@@ -1134,7 +1134,7 @@ uploadInicialT2(event: any) {
 }
 
 // Fxs Tabla Tarjetas Giratorias --------------------------------------------------
-createTarjeta(): FormGroup {
+createTarjeta(): UntypedFormGroup {
   return this.formBuilder.group({
     archivo: [this.be64, Validators.required],
     tipo: ['jpg', Validators.required],
@@ -1146,12 +1146,12 @@ createTarjeta(): FormGroup {
 }
 
 getTarjetaControls(): AbstractControl[] {
-  return (this.formTab2.get('tarjetas') as FormArray).controls;
+  return (this.formTab2.get('tarjetas') as UntypedFormArray).controls;
 }
 
 previewTableTab2(event: any, index: number) {
   const file = (event.target as HTMLInputElement).files[0];
-  const tarjeta = (this.formTab2.get('tarjetas') as FormArray).at(index);
+  const tarjeta = (this.formTab2.get('tarjetas') as UntypedFormArray).at(index);
   
     if (file) {
     const reader = new FileReader();
@@ -1185,18 +1185,18 @@ previewTableTab2(event: any, index: number) {
 
 agregarTarjeta() {
   const nuevaTarjeta = this.createTarjeta();
-  (this.formTab2.get('tarjetas') as FormArray).push(nuevaTarjeta);
+  (this.formTab2.get('tarjetas') as UntypedFormArray).push(nuevaTarjeta);
 }
 
 eliminarTarjeta(index: number) {
-  const formArray = this.formTab2.get('tarjetas') as FormArray;
+  const formArray = this.formTab2.get('tarjetas') as UntypedFormArray;
   this.tarjetasPreview.splice(index, 1);
 
   formArray.removeAt(index);
 }
 
 // Fxs Tabla Personas --------------------------------------------------
-createPersona(): FormGroup {
+createPersona(): UntypedFormGroup {
   return this.formBuilder.group({
     archivo: [this.be64, Validators.required],
     tipo: ['jpg', Validators.required],
@@ -1208,12 +1208,12 @@ createPersona(): FormGroup {
 }
 
 getPersonaControls(): AbstractControl[] {
-  return (this.formTab2.get('personas') as FormArray).controls;
+  return (this.formTab2.get('personas') as UntypedFormArray).controls;
 }
 
 previewPersonaTab2(event: any, index: number) {
   const file = (event.target as HTMLInputElement).files[0];
-  const personas = (this.formTab2.get('personas') as FormArray).at(index);
+  const personas = (this.formTab2.get('personas') as UntypedFormArray).at(index);
   
     if (file) {
     const reader = new FileReader();
@@ -1247,11 +1247,11 @@ previewPersonaTab2(event: any, index: number) {
 
 agregarPersona() {
   const nuevaPersona = this.createPersona();
-  (this.formTab2.get('personas') as FormArray).push(nuevaPersona);
+  (this.formTab2.get('personas') as UntypedFormArray).push(nuevaPersona);
 }
 
 eliminarPersona(index: number) {
-  const formArray = this.formTab2.get('personas') as FormArray;
+  const formArray = this.formTab2.get('personas') as UntypedFormArray;
 
   // Eliminar el elemento correspondiente de mediaPreview
   this.personasPreview.splice(index, 1);
@@ -1371,15 +1371,15 @@ editarTableT2() {
 
 //------------------- Form Tab 3 ---------------------------------------
 
-formTab3: FormGroup;
+formTab3: UntypedFormGroup;
 imgHitos: string;
-tarjetasHitos: FormArray;
+tarjetasHitos: UntypedFormArray;
 
 imgValores: string;
-tarjetasValores: FormArray;
+tarjetasValores: UntypedFormArray;
 
 imgEngagement: string;
-tarjetasEngagement: FormArray;
+tarjetasEngagement: UntypedFormArray;
 
 
 initFormTab3(){
@@ -1407,9 +1407,9 @@ initFormTab3(){
     tarjetasEngagement: this.formBuilder.array([this.createRowText()]),
   });
 
-  this.tarjetasHitos = this.formTab3.get('tarjetasHitos') as FormArray;
-  this.tarjetasValores = this.formTab3.get('tarjetasValores') as FormArray;
-  this.tarjetasEngagement = this.formTab3.get('tarjetasEngagement') as FormArray;
+  this.tarjetasHitos = this.formTab3.get('tarjetasHitos') as UntypedFormArray;
+  this.tarjetasValores = this.formTab3.get('tarjetasValores') as UntypedFormArray;
+  this.tarjetasEngagement = this.formTab3.get('tarjetasEngagement') as UntypedFormArray;
 
   this.forms.push({ form: this.formTab3, disabled: false });
 }
@@ -1622,9 +1622,9 @@ editarTableT3() {
 }
 // ----------------------- From Tab 4 ------------------------------
 
-formTab4: FormGroup;
+formTab4: UntypedFormGroup;
 
-tarjetasVentajas: FormArray;
+tarjetasVentajas: UntypedFormArray;
 imgCrecimiento: string;
 imgEquipo: string;
 
@@ -1645,7 +1645,7 @@ initFormTab4(){
     tarjetasVentajas: this.formBuilder.array([this.createRowText()]),
     });
 
-  this.tarjetasVentajas = this.formTab4.get('tarjetasVentajas') as FormArray;
+  this.tarjetasVentajas = this.formTab4.get('tarjetasVentajas') as UntypedFormArray;
 
   this.forms.push({ form: this.formTab4, disabled: false });  
 }

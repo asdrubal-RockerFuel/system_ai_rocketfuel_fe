@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-wizard',
@@ -11,10 +11,10 @@ export class WizardComponent implements OnInit {
   data: any = {
     email: ''
   };
-  step2Form: FormGroup;
+  step2Form: UntypedFormGroup;
 
   constructor(
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) { }
 
   ngOnInit() {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { PaginationService } from "ngx-pagination";
 import { ToastrService } from "ngx-toastr";
@@ -16,7 +16,7 @@ import { environment } from "src/environments/environment";
 })
 export class MaestroModuloComponent implements OnInit {
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private toastr: ToastrService,
     private paginationService: PaginationService,
     private _sAuth: AuthService,
@@ -27,7 +27,7 @@ export class MaestroModuloComponent implements OnInit {
     this.rol = atob(localStorage.getItem("rol"));
   }
   rol;
-  myForm: FormGroup;
+  myForm: UntypedFormGroup;
   ngOnInit(): void {
     this.buildForm();
     this.obtenerOficinas();

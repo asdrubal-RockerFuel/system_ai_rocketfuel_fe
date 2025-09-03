@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, UntypedFormArray } from '@angular/forms';
 import { Utils } from 'src/app/shared/utils';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataLayerService } from 'src/app/shared/services/data-layer.service';
@@ -16,7 +16,7 @@ export class InvoiceDetailComponent implements OnInit {
     id: string;
     isNew: boolean;
     invoice: any = {};
-    invoiceForm: FormGroup;
+    invoiceForm: UntypedFormGroup;
     invoiceFormSub: Subscription;
     subTotal: number;
     saving: boolean;
@@ -24,7 +24,7 @@ export class InvoiceDetailComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private fb: FormBuilder,
+        private fb: UntypedFormBuilder,
         private dl: DataLayerService,
         private toastr: ToastrService
     ) { }
@@ -85,11 +85,11 @@ export class InvoiceDetailComponent implements OnInit {
         });
     }
     addItem() {
-        const control = <FormArray>this.invoiceForm.controls['items'];
+        const control = <UntypedFormArray>this.invoiceForm.controls['items'];
         control.push(this.createItem());
     }
     removeItem(i) {
-        const control = <FormArray>this.invoiceForm.controls['items'];
+        const control = <UntypedFormArray>this.invoiceForm.controls['items'];
         control.removeAt(i);
     }
 

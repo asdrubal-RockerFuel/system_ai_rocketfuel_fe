@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormBuilder, FormControl, UntypedFormGroup, Validators } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/shared/services/auth.service";
@@ -24,7 +24,7 @@ export class MaestroUsuarioComponent implements OnInit {
     public rolService: RolService,
     public officeService: officeService,
     public navService: NavigationService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private toastr: ToastrService,
     private _sArea: areaService,
     private _sAuth: AuthService,
@@ -41,7 +41,7 @@ export class MaestroUsuarioComponent implements OnInit {
     this.filtroService.cambiarFiltro("Profesión");
   }
   rol;
-  myForm: FormGroup;
+  myForm: UntypedFormGroup;
   search_nameF: string = '';
 
   getControlsByOffice(event){

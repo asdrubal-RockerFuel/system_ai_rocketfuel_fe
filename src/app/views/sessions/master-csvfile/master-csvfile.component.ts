@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { ApiResponse, CsvUploadService } from "./csv-upload.service";
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 
@@ -9,7 +9,7 @@ import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
     styleUrls: ["./master-csvfile.component.scss"],
 })
 export class MasterCSVFileComponent implements OnDestroy {
-    form: FormGroup;
+    form: UntypedFormGroup;
     selectedFile: File | null = null;
     isLoading: boolean = false;
 
@@ -18,7 +18,7 @@ export class MasterCSVFileComponent implements OnDestroy {
     processedFileName: string | null = null;
 
     constructor(
-        private fb: FormBuilder,
+        private fb: UntypedFormBuilder,
         private csvUploadService: CsvUploadService
     ) {
         this.form = this.fb.group({

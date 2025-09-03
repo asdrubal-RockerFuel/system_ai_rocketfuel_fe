@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray, Form, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators, UntypedFormArray, Form, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { th } from 'date-fns/locale';
 import { ToastrService } from 'ngx-toastr';
@@ -13,7 +13,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./requerimiento.component.scss']
 })
 export class RequerimientoComponent implements OnInit {
-  items: FormArray;
+  items: UntypedFormArray;
   purchase: boolean;
   engagement: boolean;
   solicitado: boolean;
@@ -22,8 +22,8 @@ export class RequerimientoComponent implements OnInit {
   aprobacion_pp: boolean;
   aprobacion_director: boolean;
   selectedOption: number = 1;
-  myForm: FormGroup;
-  formRequirements: FormGroup;
+  myForm: UntypedFormGroup;
+  formRequirements: UntypedFormGroup;
   item_sum: number = 0;
   p_total_sum: number = 0;
   id:number;
@@ -36,7 +36,7 @@ export class RequerimientoComponent implements OnInit {
   emailUser: string;
   constructor(
     private s_proveedor: proveedorService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private s_requerimiento: requirementsService,
     private route: ActivatedRoute,
     private toastr: ToastrService,
@@ -190,7 +190,7 @@ export class RequerimientoComponent implements OnInit {
       items: this.formBuilder.array([this.createRowText()]),
     });
 
-    this.items = this.myForm.get('items') as FormArray;
+    this.items = this.myForm.get('items') as UntypedFormArray;
     console.log('aqui', this.nameUser);
     
     this.myForm.valueChanges.subscribe(() => {
@@ -223,8 +223,8 @@ export class RequerimientoComponent implements OnInit {
   //   // });
   // }
 
-  getRowText(index: number, rowArray): FormGroup {
-    return rowArray.at(index) as FormGroup;
+  getRowText(index: number, rowArray): UntypedFormGroup {
+    return rowArray.at(index) as UntypedFormGroup;
   }
 
   addRowText(rowArray) {
@@ -233,10 +233,10 @@ export class RequerimientoComponent implements OnInit {
   }
 
   deleteRowText(index: number, form, control) {
-    (form.get(control) as FormArray).removeAt(index);
+    (form.get(control) as UntypedFormArray).removeAt(index);
   }
 
-  createRowText(): FormGroup {
+  createRowText(): UntypedFormGroup {
     return this.formBuilder.group({
       id: '',
       approved: [false, Validators.required],
@@ -296,7 +296,7 @@ export class RequerimientoComponent implements OnInit {
     let sum = 0;
 
     this.items.controls.forEach((control) => {
-      const row = control as FormGroup;
+      const row = control as UntypedFormGroup;
       const pTotal = row.get('total_price').value;
   
       // Asegúrate de que pTotal sea un número antes de sumarlo

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CalendarEvent } from 'angular-calendar';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, UntypedFormControl, Validators } from '@angular/forms';
 import { CalendarAppEvent } from 'src/app/shared/models/calendar-event.model';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Utils } from 'src/app/shared/utils';
@@ -19,11 +19,11 @@ export class CalendarFormDialogComponent implements OnInit {
   data: DialogData;
   event: CalendarEvent;
   dialogTitle: string;
-  eventForm: FormGroup;
+  eventForm: UntypedFormGroup;
   action: string;
   constructor(
     public activeModal: NgbActiveModal,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) { }
 
   ngOnInit() {
@@ -41,19 +41,19 @@ export class CalendarFormDialogComponent implements OnInit {
 
   }
   buildEventForm(event: CalendarAppEvent = {start: null, title: null, color: {primary: '', secondary: ''}, meta: {location: '', notes: ''}}) {
-    return new FormGroup({
-      _id: new FormControl(event._id),
-      title: new FormControl(event.title, Validators.required),
-      start: new FormControl(Utils.dateToNgbDate(event.start), Validators.required),
-      end: new FormControl(Utils.dateToNgbDate(event.end)),
-      allDay: new FormControl(event.allDay),
+    return new UntypedFormGroup({
+      _id: new UntypedFormControl(event._id),
+      title: new UntypedFormControl(event.title, Validators.required),
+      start: new UntypedFormControl(Utils.dateToNgbDate(event.start), Validators.required),
+      end: new UntypedFormControl(Utils.dateToNgbDate(event.end)),
+      allDay: new UntypedFormControl(event.allDay),
       color: this.formBuilder.group({
-        primary: new FormControl(event.color.primary),
-        secondary: new FormControl(event.color.secondary)
+        primary: new UntypedFormControl(event.color.primary),
+        secondary: new UntypedFormControl(event.color.secondary)
       }),
       meta: this.formBuilder.group({
-        location: new FormControl(event.meta.location),
-        notes: new FormControl(event.meta.notes)
+        location: new UntypedFormControl(event.meta.location),
+        notes: new UntypedFormControl(event.meta.notes)
       })
     });
   }

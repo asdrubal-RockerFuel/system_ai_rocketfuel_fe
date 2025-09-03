@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { DataLayerService } from 'src/app/shared/services/data-layer.service';
 import { map } from 'rxjs/operators';
 
@@ -11,8 +11,8 @@ import { map } from 'rxjs/operators';
 export class TagInputsComponent implements OnInit {
   items = ['Javascript', 'Typescript'];
   autocompletes$;
-  tagsCtrl1 = new FormControl(this.items);
-  tagsCtrl2 = new FormControl([{display: 'Bangladesh', value: 'BD'}]);
+  tagsCtrl1 = new UntypedFormControl(this.items);
+  tagsCtrl2 = new UntypedFormControl([{display: 'Bangladesh', value: 'BD'}]);
 
 
   constructor(

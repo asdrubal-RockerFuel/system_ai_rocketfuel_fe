@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { SharedAnimations } from "src/app/shared/animations/shared-animations";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from "@angular/forms";
 import { AuthService } from "../../../shared/services/auth.service";
 import {
   Router,
@@ -24,9 +24,9 @@ import { forkJoin } from "rxjs";
 export class SigninComponent implements OnInit {
   loading: boolean;
   loadingText: string = "Iniciar Sesión";
-  signinForm: FormGroup;
+  signinForm: UntypedFormGroup;
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private toastr: ToastrService,
     private auth: AuthService,
     private navigationService: NavigationService,

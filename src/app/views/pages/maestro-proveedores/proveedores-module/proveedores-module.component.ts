@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
@@ -17,7 +17,7 @@ export class ProveedoresModuleComponent implements OnInit {
   fp_file: any;
 
   proveedorId: number;
-  myForm: FormGroup;
+  myForm: UntypedFormGroup;
 
   tableInfo = [
     {description: '¿El representante legal, socios o accionistas cuentan con antecedentes penales / judiciales?',
@@ -31,7 +31,7 @@ export class ProveedoresModuleComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private s_proveedor: proveedorService,
     private toastr: ToastrService,
     private modalService: NgbModal,

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataLayerService } from '../../services/data-layer.service';
 import { Observable, combineLatest } from 'rxjs';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { startWith, debounceTime, switchMap, map } from 'rxjs/operators';
 import { SharedAnimations } from '../../animations/shared-animations';
 import { SearchService } from '../../services/search.service';
@@ -17,7 +17,7 @@ export class SearchComponent implements OnInit {
   pageSize = 6;
 
   results$: Observable<any[]>;
-  searchCtrl: FormControl = new FormControl('');
+  searchCtrl: UntypedFormControl = new UntypedFormControl('');
 
   constructor(
     private dl: DataLayerService,
