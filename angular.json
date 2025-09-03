@@ -10,12 +10,14 @@
       "prefix": "app",
       "targets": {
         "build": {
-          "executor": "@angular-devkit/build-angular:browser",
+          "executor": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/gull",
             "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "browser": "src/main.ts",
+            "polyfills": [
+              "src/polyfills.ts"
+            ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
@@ -28,45 +30,53 @@
           },
           "configurations": {
             "production": {
-              "fileReplacements": [
+              "budgets": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
                 }
               ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
+              "outputHashing": "all"
             },
             "development": {
               "optimization": false,
-              "sourceMap": true,
-              "vendorChunk": true,
               "extractLicenses": false,
-              "buildOptimizer": false
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "executor": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "gull:build:production"
+            },
+            "development": {
+              "buildTarget": "gull:build:development"
             }
           },
           "defaultConfiguration": "development"
         },
-        "serve": {
-          "executor": "@angular-devkit/build-angular:dev-server",
+        "extract-i18n": {
+          "executor": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "gull:build"
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "gull:build:production"
-            }
+            "buildTarget": "gull:build"
           }
         },
         "test": {
           "executor": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": [
+              "src/polyfills.ts"
+            ],
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": [
@@ -86,12 +96,6 @@
               "src/**/*.ts",
               "src/**/*.html"
             ]
-          }
-        },
-        "extract-i18n": {
-          "executor": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "gull:build"
           }
         }
       }
