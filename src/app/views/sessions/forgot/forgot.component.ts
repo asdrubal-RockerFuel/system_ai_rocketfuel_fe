@@ -1,19 +1,24 @@
 import { Component, OnInit } from "@angular/core";
-import { SharedAnimations } from "src/app/shared/animations/shared-animations";
-import { environment } from "src/environments/environment";
+// import { SharedAnimations } from "src/app/shared/animations/shared-animations";
+// import { environment } from "src/environments/environment";
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-import { AuthService } from "src/app/shared/services/auth.service";
+import { AuthService } from "../../../shared/services/auth.service";
+import { SharedAnimations } from "../../../shared/animations/shared-animations";
+import { environment } from "../../../../environments/environment";
+
 @Component({
   selector: "app-forgot",
   templateUrl: "./forgot.component.html",
   styleUrls: ["./forgot.component.scss"],
   animations: [SharedAnimations],
+  standalone: true,
+  imports: [AuthService]
 })
 export class ForgotComponent implements OnInit {
-  signinForm: UntypedFormGroup;
-  passForm: UntypedFormGroup;
+  signinForm: UntypedFormGroup | undefined;
+  passForm: UntypedFormGroup | undefined;
   constructor(
     private fb: UntypedFormBuilder,
     private auth: AuthService,
@@ -21,7 +26,7 @@ export class ForgotComponent implements OnInit {
 
     private router: Router,
     private _loginService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.signinForm = this.fb.group({
@@ -32,16 +37,16 @@ export class ForgotComponent implements OnInit {
     });
   }
   Exp = false;
-  ExpC;
-  Exps;
-  disableBtn
+  ExpC: any;
+  Exps: any;
+  disableBtn: any;
   submitLoginForm() {
     this.disableBtn = true;
     this._loginService
-      .forgotPassword(this.signinForm.get("email").value)
+      .forgotPassword(this.signinForm?.get("email")?.value)
       .subscribe(
         (response: any) => {
-          const encodedData = btoa(this.signinForm.get("email").value); // encode a string
+          const encodedData = btoa(this.signinForm?.get("email")?.value); // encode a string
 
           localStorage.setItem("email", encodedData);
 
@@ -56,7 +61,7 @@ export class ForgotComponent implements OnInit {
         },
         (error) => {
           if (error.error.errors != undefined) {
-            let simple = error.error.errors.map((res) => {
+            let simple = error.error.errors.map((res: any) => {
               console.log(res, "ss");
               return res.msg;
             });
@@ -85,8 +90,8 @@ export class ForgotComponent implements OnInit {
   onCodeCompleted(code: string) {
     this.codigo = code;
   }
-  onCodeChanged(code: string) {}
-  codigo;
+  onCodeChanged(code: string) { }
+  codigo: string = '';
 
   entraForm() {
     if (!this.codigo) {
@@ -100,7 +105,7 @@ export class ForgotComponent implements OnInit {
         }
       );
     }
-    const decodedData = atob(localStorage.getItem("email"));
+    const decodedData = atob(localStorage.getItem("email") ?? "");
     let data = {
       email: decodedData,
       verificationCode: this.codigo,
@@ -138,13 +143,13 @@ export class ForgotComponent implements OnInit {
   }
 
   submitPass() {
-    const decodedData = atob(localStorage.getItem("email"));
-    const decodedData2 = atob(localStorage.getItem("code"));
+    const decodedData = atob(localStorage.getItem("email") ?? "");
+    const decodedData2 = atob(localStorage.getItem("code") ?? "");
     this._loginService
       .updatePass(
         decodedData,
         decodedData2,
-        this.passForm.get("password").value
+        this.passForm?.get("password")?.value
       )
       .subscribe((response: any) => {
         localStorage.removeItem("email");

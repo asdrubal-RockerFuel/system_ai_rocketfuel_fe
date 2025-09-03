@@ -4,17 +4,19 @@ import { ExcerptPipe } from './excerpt.pipe';
 import { GetValueByKeyPipe } from './get-value-by-key.pipe';
 import { RelativeTimePipe } from './relative-time.pipe';
 
-const pipes = [
-  ExcerptPipe,
-  GetValueByKeyPipe,
-  RelativeTimePipe
-];
-
 @NgModule({
   imports: [
     CommonModule
   ],
-  declarations: pipes,
-  exports: pipes
+  declarations: [
+    ExcerptPipe,
+    GetValueByKeyPipe,
+    RelativeTimePipe
+  ],
+  exports: [
+    ExcerptPipe,
+    GetValueByKeyPipe,
+    RelativeTimePipe
+  ]
 })
 export class SharedPipesModule { }

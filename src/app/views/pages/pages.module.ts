@@ -5,11 +5,7 @@ import { UserProfileComponent } from "./user-profile/user-profile.component";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MaestroUsuarioComponent } from "./maestro-usuario/maestro-usuario.component";
 import { MaestroServiciosAdicionalesComponent } from "./maestro-servicios-adicionales/maestro-servicios-adicionales.component";
-import { MaestroProductosComponent } from "./maestro-productos/maestro-productos.component";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { FormWizardModule } from "src/app/shared/components/form-wizard/form-wizard.module";
-import { NgxDatatableModule } from "@swimlane/ngx-datatable";
-import { SharedComponentsModule } from "src/app/shared/components/shared-components.module";
 import { NgxPaginationModule } from "ngx-pagination";
 import { MiPerfilComponent } from "./mi-perfil/mi-perfil.component";
 import { NgbAccordionModule } from "@ng-bootstrap/ng-bootstrap";
@@ -25,7 +21,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
-import { SharedPipesModule } from "src/app/shared/pipes/shared-pipes.module";
+// import { SharedPipesModule } from "src/app/shared/pipes/shared-pipes.module";
 import { MaestroOficinaComponent } from "./maestro-oficinas/maestro-oficina.component";
 import { MaestroProgramComponent } from "./maestro-programa/maestro-programa.component";
 import { MaestroAreaComponent } from "./maestro-area/maestro-area.component";
@@ -39,6 +35,9 @@ import { RequerimientoComponent } from './maestro-requerimientos/requerimiento/r
 import { ProveedoresModuleComponent } from './maestro-proveedores/proveedores-module/proveedores-module.component';
 import { MaestroBandejaComponent } from './maestro-bandeja/maestro-bandeja.component';
 import { CustomMultiSelectComponent } from './maestro-usuario/custom-multi-select/custom-multi-select.component';
+import { SharedPipesModule } from "../../shared/pipes/shared-pipes.module";
+import { SharedComponentsModule } from "../../shared/components/shared-components.module";
+import { FormWizardModule } from "../../shared/components/form-wizard/form-wizard.module";
 
 @NgModule({
   imports: [
@@ -59,31 +58,10 @@ import { CustomMultiSelectComponent } from './maestro-usuario/custom-multi-selec
     PagesRoutingModule,
     SharedComponentsModule,
     FormWizardModule,
-    NgxDatatableModule,
     MatTabsModule,
     MatSelectModule,
     MatFormFieldModule
   ],
-  declarations: [
-    UserProfileComponent,
-    MaestroUsuarioComponent,
-    MaestroServiciosAdicionalesComponent,
-    MaestroProductosComponent,
-    MaestroRolComponent,
-    MaestroProgramComponent,
-    PermisesModulesComponent,
-    MaestroAreaComponent,
-    MiPerfilComponent,
-
-    MaestroModuloComponent,
-    MaestroOficinaComponent,
-    PermisesModulesComponent,
-    MaestroProveedoresComponent,
-    MaestroRequerimientosComponent,
-    RequerimientoComponent,
-    ProveedoresModuleComponent,
-    MaestroBandejaComponent,
-    CustomMultiSelectComponent,
-  ],
+  declarations: [],
 })
-export class PagesModule {}
+export class PagesModule { }

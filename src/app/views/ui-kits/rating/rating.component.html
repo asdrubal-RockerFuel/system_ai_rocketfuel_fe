@@ -35,8 +35,10 @@
 
                 <hr>
                 <pre>Rate: <b>{{heartRating}}</b></pre>
-                <button class="btn btn-rounded btn-sm btn-outline-primary mr-2" (click)="heartRating = 1.35">1.35</button>
-                <button class="btn btn-rounded btn-sm btn-outline-primary mr-2" (click)="heartRating = 4.72">4.72</button>
+                <button class="btn btn-rounded btn-sm btn-outline-primary mr-2"
+                    (click)="heartRating = 1.35">1.35</button>
+                <button class="btn btn-rounded btn-sm btn-outline-primary mr-2"
+                    (click)="heartRating = 4.72">4.72</button>
             </div>
         </div>
     </div>
@@ -46,13 +48,13 @@
             <div class="card-body">
                 <div class="card-title">Colors & Sizes</div>
                 <p class="m-0">All the rating components are connected to a same variable</p>
-                <ngb-rating [(rate)]="demoRating" max="5" class="rating-primary mr-3 mb-3"></ngb-rating>
-                <ngb-rating [(rate)]="demoRating" max="5" class="rating-secondary text-20 m-3"></ngb-rating>
-                <ngb-rating [(rate)]="demoRating" max="5" class="rating-warning text-22 m-3"></ngb-rating>
-                <ngb-rating [(rate)]="demoRating" max="5" class="rating-success text-24 m-3"></ngb-rating>
-                <ngb-rating [(rate)]="demoRating" max="5" class="rating-info text-26 m-3"></ngb-rating>
-                <ngb-rating [(rate)]="demoRating" max="5" class="rating-danger text-28 m-3"></ngb-rating>
-                <ngb-rating [(rate)]="demoRating" max="5" class="rating-dark text-30 m-3"></ngb-rating>
+                <ngb-rating [(rate)]="demoRating" [max]="5" class="rating-primary mr-3 mb-3"></ngb-rating>
+                <ngb-rating [(rate)]="demoRating" [max]="5" class="rating-secondary text-20 m-3"></ngb-rating>
+                <ngb-rating [(rate)]="demoRating" [max]="5" class="rating-warning text-22 m-3"></ngb-rating>
+                <ngb-rating [(rate)]="demoRating" [max]="5" class="rating-success text-24 m-3"></ngb-rating>
+                <ngb-rating [(rate)]="demoRating" [max]="5" class="rating-info text-26 m-3"></ngb-rating>
+                <ngb-rating [(rate)]="demoRating" [max]="5" class="rating-danger text-28 m-3"></ngb-rating>
+                <ngb-rating [(rate)]="demoRating" [max]="5" class="rating-dark text-30 m-3"></ngb-rating>
             </div>
         </div>
     </div>

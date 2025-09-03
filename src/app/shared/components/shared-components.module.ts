@@ -7,13 +7,7 @@ import { RouterModule } from '@angular/router';
 import { SharedPipesModule } from '../pipes/shared-pipes.module';
 import { SearchModule } from './search/search.module';
 import { SharedDirectivesModule } from '../directives/shared-directives.module';
-import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { LayoutsModule } from './layouts/layouts.module';
-
-const components = [
-  BtnLoadingComponent,
-  FeatherIconComponent,
-];
 
 @NgModule({
   imports: [
@@ -23,10 +17,15 @@ const components = [
     SharedPipesModule,
     SharedDirectivesModule,
     SearchModule,
-    PerfectScrollbarModule,
-    NgbModule
+    NgbModule,
+    BtnLoadingComponent,    // Import de standalone
+    FeatherIconComponent
   ],
-  declarations: components,
-  exports: components
+  exports: [
+    BtnLoadingComponent,    // Export de standalone
+    FeatherIconComponent,
+    SharedDirectivesModule,
+    SearchModule
+  ]
 })
 export class SharedComponentsModule { }

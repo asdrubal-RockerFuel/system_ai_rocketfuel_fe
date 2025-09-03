@@ -8,24 +8,21 @@ import { SidebarDirective, SidebarContainerDirective, SidebarContentDirective, S
 import { HighlightjsDirective } from './highlightjs.directive';
 import { FullScreenWindowDirective } from './full-screen.directive';
 
-const directives = [
-  DropdownAnchorDirective,
-  DropdownLinkDirective,
-  AppDropdownDirective,
-  ScrollToDirective,
-  SidebarDirective,
-  SidebarContainerDirective,
-  SidebarContentDirective,
-  SidebarTogglerDirective,
-  HighlightjsDirective,
-  FullScreenWindowDirective
-];
-
 @NgModule({
   imports: [
     CommonModule
   ],
-  declarations: directives,
-  exports: directives
+  exports: [
+    DropdownAnchorDirective,
+    DropdownLinkDirective,
+    AppDropdownDirective,
+    ScrollToDirective,
+    SidebarDirective,
+    SidebarContainerDirective,
+    SidebarContentDirective,
+    SidebarTogglerDirective,
+    HighlightjsDirective,
+    FullScreenWindowDirective
+  ]
 })
 export class SharedDirectivesModule { }

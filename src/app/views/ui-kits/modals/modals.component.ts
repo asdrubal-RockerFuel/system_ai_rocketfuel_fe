@@ -8,7 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ModalsComponent implements OnInit {
 
-  confirmResut;
+  confirmResut: any;
 
   constructor(
     private modalService: NgbModal
@@ -18,30 +18,30 @@ export class ModalsComponent implements OnInit {
   }
 
 
-  open(content) {
+  open(content: any) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' })
-    .result.then((result) => {
-      console.log(result);
-    }, (reason) => {
-      console.log('Err!', reason);
-    });
+      .result.then((result) => {
+        console.log(result);
+      }, (reason) => {
+        console.log('Err!', reason);
+      });
   }
-  openSmall(content) {
+  openSmall(content: any) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'sm' })
-    .result.then((result) => {
-      console.log(result);
-    }, (reason) => {
-      console.log('Err!', reason);
-    });
+      .result.then((result) => {
+        console.log(result);
+      }, (reason) => {
+        console.log('Err!', reason);
+      });
   }
 
-  confirm(content) {
+  confirm(content: any) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true })
-    .result.then((result) => {
-      this.confirmResut = `Closed with: ${result}`;
-    }, (reason) => {
-      this.confirmResut = `Dismissed with: ${reason}`;
-    });
+      .result.then((result) => {
+        this.confirmResut = `Closed with: ${result}`;
+      }, (reason) => {
+        this.confirmResut = `Dismissed with: ${reason}`;
+      });
   }
 
 }

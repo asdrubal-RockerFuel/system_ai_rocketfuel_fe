@@ -7,50 +7,50 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ButtonsLoadingComponent implements OnInit {
 
-    loadingButtons = [
-        {
-          name: 'primary',
-          loading: false,
-        },
-        {
-          name: 'secondary',
-          loading: false,
-        },
-        {
-          name: 'success',
-          loading: false,
-        },
-        {
-          name: 'warning',
-          loading: false,
-        },
-        {
-          name: 'info',
-          loading: false,
-        },
-        {
-          name: 'danger',
-          loading: false,
-        },
-        {
-          name: 'light',
-          loading: false,
-        },
-        {
-          name: 'dark',
-          loading: false,
-        }
-      ];
-      
-      constructor() {
-      }
-      ngOnInit() {}
+  loadingButtons = [
+    {
+      name: 'primary',
+      loading: false,
+    },
+    {
+      name: 'secondary',
+      loading: false,
+    },
+    {
+      name: 'success',
+      loading: false,
+    },
+    {
+      name: 'warning',
+      loading: false,
+    },
+    {
+      name: 'info',
+      loading: false,
+    },
+    {
+      name: 'danger',
+      loading: false,
+    },
+    {
+      name: 'light',
+      loading: false,
+    },
+    {
+      name: 'dark',
+      loading: false,
+    }
+  ];
 
-      showLoading(btn) {
-        btn.loading = true;
-        setTimeout(() => {
-          btn.loading = false;
-        }, 3000);
-      }
+  constructor() {
+  }
+  ngOnInit() { }
+
+  showLoading(btn: any) {
+    btn.loading = true;
+    setTimeout(() => {
+      btn.loading = false;
+    }, 3000);
+  }
 
 }

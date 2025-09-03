@@ -3,16 +3,18 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { PaginationService } from "ngx-pagination";
 import { ToastrService } from "ngx-toastr";
-import { areaService } from "src/app/shared/services/areas.service";
-import { AuthService } from "src/app/shared/services/auth.service";
-import { officeService } from "src/app/shared/services/oficina.service";
-import { genericGet } from "src/app/shared/utils/genericGet.model";
-import { environment } from "src/environments/environment";
+import { AuthService } from "../../../shared/services/auth.service";
+import { areaService } from "../../../shared/services/areas.service";
+import { officeService } from "../../../shared/services/oficina.service";
+import { genericGet } from "../../../shared/utils/genericGet.model";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: "app-maestro-area",
   templateUrl: "./maestro-area.component.html",
   styleUrls: ["./maestro-area.component.scss"],
+  standalone: true,
+  imports: [areaService, AuthService, officeService]
 })
 export class MaestroAreaComponent implements OnInit {
   constructor(
@@ -24,31 +26,31 @@ export class MaestroAreaComponent implements OnInit {
     private _sArea: areaService,
     private _sOficina: officeService
   ) {
-    this.rol = atob(localStorage.getItem("rol"));
+    this.rol = atob(localStorage?.getItem("rol") ?? "");
   }
   rol;
-  myForm: UntypedFormGroup;
+  myForm: UntypedFormGroup | undefined;
   ngOnInit(): void {
     this.buildForm();
     this.obtenerOficinas();
     this.obtenerAdmin(1);
   }
-  loadData;
+  loadData: boolean = false;
   data: genericGet = {
     count: 0,
     page: 0,
     rows: [],
   };
-  allUser;
+  allUser: string | any[] | undefined;
 
-  total$;
+  total$: any;
 
-  count;
-  qtyPage= 5;
+  count: any;
+  qtyPage = 5;
   pageSize = 1;
   collectionSize = 0;
 
-  cambiaPage($event) {
+  cambiaPage($event: number) {
     console.log($event, "pagina");
     this.page = $event;
     this.obtenerAdmin($event);
@@ -62,14 +64,14 @@ export class MaestroAreaComponent implements OnInit {
     });
   }
 
-  obtenerAdmin(page) {
+  obtenerAdmin(page: number) {
     this.loadData = true;
     this._sArea.getarea(page, this.qtyPage).subscribe(
       (data: any) => {
         this.loadData = false;
         this.data = data.data;
         this.allUser = data.data.rows;
-        this.total$ = this.allUser.length;
+        this.total$ = this.allUser?.length ?? 0;
         let count: any = data.data.count;
         console.log(
           { totalEncontrado: this.total$, TotalOriginal: count },
@@ -102,8 +104,8 @@ export class MaestroAreaComponent implements OnInit {
     });
   }
 
-  eve;
-  deleteInvoice(id, modal) {
+  eve: boolean = false;
+  deleteInvoice(id: { status: boolean; id: any; }, modal: any) {
     console.log(id);
 
     if (id.status == false) {
@@ -146,12 +148,13 @@ export class MaestroAreaComponent implements OnInit {
           );
         },
 
-        (reason) => {}
+        (reason) => { }
       );
   }
 
-  openCategoriasAdd(content) {
-    this.myForm.reset();
+  openCategoriasAdd(content: any) {
+    this.myForm?.reset();
+
     this.modalService
       .open(content, { ariaLabelledBy: "modal-basic-title", size: "500px" })
       .result.then(
@@ -163,7 +166,7 @@ export class MaestroAreaComponent implements OnInit {
         }
       );
   }
-  openEditModal(row, content) {
+  openEditModal(row: any, content: any) {
     this.modalService
       .open(content, { ariaLabelledBy: "modal-basic-title", size: "500px" })
       .result.then(
@@ -179,9 +182,9 @@ export class MaestroAreaComponent implements OnInit {
 
   validarContratacion() {
     if (
-      this.myForm.get("office_id").value == "" ||
-      this.myForm.get("office_id").value == null ||
-      this.myForm.get("office_id").value == undefined
+      this.myForm?.get("office_id")?.value == "" ||
+      this.myForm?.get("office_id")?.value == null ||
+      this.myForm?.get("office_id")?.value == undefined
     ) {
       this.toastr.error(
         "¡Necesita seleccionar una oficina!",
@@ -196,9 +199,9 @@ export class MaestroAreaComponent implements OnInit {
     }
 
     if (
-      this.myForm.get("name").value == "" ||
-      this.myForm.get("name").value == null ||
-      this.myForm.get("name").value == undefined
+      this.myForm.get("name")?.value == "" ||
+      this.myForm.get("name")?.value == null ||
+      this.myForm.get("name")?.value == undefined
     ) {
       this.toastr.error("¡Necesita ingresar un Área!", "Cambio no realizado", {
         timeOut: environment.timeOutmessage,
@@ -211,13 +214,13 @@ export class MaestroAreaComponent implements OnInit {
     }
   }
 
-  agregar() {
+  agregar(): boolean | void {
     var validar = this.validarContratacion();
 
     if (validar) {
       this.workback = true;
       const data = {
-        ...this.myForm.value, // Copia todas las propiedades existentes en myForm
+        ...this.myForm?.value, // Copia todas las propiedades existentes en myForm
       };
 
       this._sArea.createarea(this.rol, data).subscribe(
@@ -235,7 +238,7 @@ export class MaestroAreaComponent implements OnInit {
           );
           this.workback = false;
 
-          this.myForm.reset();
+          this.myForm?.reset();
           this.obtenerAdmin(this.page);
         },
         (error) => {
@@ -250,11 +253,11 @@ export class MaestroAreaComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  DatosUpdate;
-  DatosArea;
-  confirmResut;
+  DatosUpdate: string | undefined;
+  DatosArea: { id: null; office_id: null; name: null; path: any; key: any; } | undefined;
+  confirmResut: string | undefined;
 
-  workback;
+  workback: boolean = false;
   editarArticuloAdmin() {
     let de = {
       id: null,
@@ -263,9 +266,9 @@ export class MaestroAreaComponent implements OnInit {
     };
 
     if (this.DatosUpdate !== JSON.stringify(this.DatosArea)) {
-      (de.id = this.DatosArea.id),
-        (de.office_id = this.DatosArea.office_id),
-        (de.name = this.DatosArea.name),
+      (de.id = this.DatosArea?.id || null),
+        (de.office_id = this.DatosArea?.office_id || null),
+        (de.name = this.DatosArea?.name || null),
         (this.workback = true);
       console.log("de", de);
       // console.log(this.DatosTips);
@@ -278,7 +281,7 @@ export class MaestroAreaComponent implements OnInit {
             closeButton: true,
             progressBar: true,
           });
-          this.myForm.reset();
+          this.myForm?.reset();
           this.obtenerAdmin(this.page);
         },
         (error) => {
@@ -307,7 +310,7 @@ export class MaestroAreaComponent implements OnInit {
     }
   }
 
-  confirm(index, row, content) {
+  confirm(index: any, row: any, content: any) {
     this.editMode = true;
 
     this.DatosUpdate = JSON.stringify(row);
@@ -325,9 +328,9 @@ export class MaestroAreaComponent implements OnInit {
       );
   }
 
-  ombreImg;
-  nombreImg;
-  image;
+  ombreImg: any;
+  nombreImg: any;
+  image: string | ArrayBuffer | null | undefined;
   cambioImagen1 = false;
   editMode = false;
   incluirImagen = false;
@@ -335,11 +338,11 @@ export class MaestroAreaComponent implements OnInit {
   cancelarCambioImg() {
     this.cambioImagen1 = false;
     // this.image = null;
-    this.image = this.DatosArea.path;
-    this.nombreImg = this.DatosArea.key;
+    this.image = this.DatosArea?.path;
+    this.nombreImg = this.DatosArea?.key;
   }
 
-  changeListener($event): void {
+  changeListener($event: { target: any; }): void {
     this.readThis($event.target);
   }
 
