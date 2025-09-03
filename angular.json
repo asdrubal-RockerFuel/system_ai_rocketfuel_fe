@@ -1,8 +1,10 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
-    "analytics": "b2110b11-1ec9-4b3d-a886-a3133b8ce7b3"
-    
+    "analytics": "b2110b11-1ec9-4b3d-a886-a3133b8ce7b3",
+    "schematicCollections": [
+      "@schematics/angular"
+    ]
   },
   "version": 1,
   "newProjectRoot": "projects",
@@ -26,9 +28,9 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [
-                "echarts",
-                "highlight.js",
-                "angular2-text-mask"
+              "echarts",
+              "highlight.js",
+              "angular2-text-mask"
             ],
             "outputPath": "dist",
             "index": "src/index.html",
@@ -105,30 +107,11 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": [
-            ],
+            "scripts": [],
             "assets": [
               "src/favicon.ico",
               "src/assets"
             ]
-          }
-        }
-      }
-    },
-    "gull-e2e": {
-      "root": "e2e/",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "gull:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "gull:serve:production"
-            }
           }
         }
       }
