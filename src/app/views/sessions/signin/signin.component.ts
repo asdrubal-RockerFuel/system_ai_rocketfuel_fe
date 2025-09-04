@@ -3,6 +3,7 @@ import {
   UntypedFormGroup,
   UntypedFormBuilder,
   Validators,
+  ReactiveFormsModule,
 } from "@angular/forms";
 import { AuthService } from "../../../shared/services/auth.service";
 import {
@@ -17,12 +18,14 @@ import { forkJoin } from "rxjs";
 import { NavigationService } from "../../../shared/services/navigation.service";
 import { RolService } from "../../../shared/services/rol.service";
 import { environment } from "../../../../environments/environment";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "app-signin",
   templateUrl: "./signin.component.html",
   styleUrls: ["./signin.component.scss"],
-  animations: [],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
 })
 export class SigninComponent implements OnInit {
   loading: boolean = false;

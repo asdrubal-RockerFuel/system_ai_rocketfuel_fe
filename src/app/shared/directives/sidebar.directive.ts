@@ -1,62 +1,71 @@
-import { Directive, ElementRef, HostListener, Input, OnInit, Inject } from '@angular/core';
-import { SidebarHelperService } from '../services/sidebar-helper.service';
-import { Utils } from '../utils';
+import {
+  Directive,
+  ElementRef,
+  HostListener,
+  Input,
+  OnInit,
+  Inject,
+} from "@angular/core";
+import { SidebarHelperService } from "../services/sidebar-helper.service";
+import { Utils } from "../utils";
 
 @Directive({
-  selector: '[appSidebarContainer]'
+  selector: "[appSidebarContainer]",
+  standalone: true,
 })
 export class SidebarContainerDirective implements OnInit {
-  @Input('appSidebarContainer') id: string;
+  @Input("appSidebarContainer")
+  id!: string;
   nativeEl;
-  content: SidebarContentDirective;
+  content!: SidebarContentDirective;
 
   constructor(
     public el: ElementRef,
     private _sidenavHelperService: SidebarHelperService
   ) {
     this.nativeEl = this.el.nativeElement;
-    this.nativeEl.className += ' sidebar-container';
+    this.nativeEl.className += " sidebar-container";
   }
 
-  ngOnInit() {
-
-  }
-
+  ngOnInit() {}
 }
 
 @Directive({
-  selector: '[appSidebarContent]'
+  selector: "[appSidebarContent]",
+  standalone: true,
 })
 export class SidebarContentDirective {
-  @Input('appSidebarContent') id: string;
+  @Input("appSidebarContent")
+  id!: string;
   nativeEl;
 
   constructor(
     public el: ElementRef,
     private _sidenavHelperService: SidebarHelperService,
-    @Inject(SidebarContainerDirective) public container: SidebarContainerDirective
+    @Inject(SidebarContainerDirective)
+    public container: SidebarContainerDirective
   ) {
     this.nativeEl = this.el.nativeElement;
     this.container.content = this;
-    this.nativeEl.className += ' sidebar-content';
+    this.nativeEl.className += " sidebar-content";
   }
 
-  createBackdrop() {
-
-  }
+  createBackdrop() {}
 }
 
 @Directive({
-  selector: '[appSidebar]'
+  selector: "[appSidebar]",
+  standalone: true,
 })
 export class SidebarDirective implements OnInit {
+  @Input("align") public align: "left" | "right" = "left";
+  @Input("mode") public mode: "over" | "side" = "side";
+  @Input("appSidebar")
+  id!: string;
+  @Input("closed")
+  closed!: boolean;
 
-  @Input('align') public align: 'left' | 'right' = 'left';
-  @Input('mode') public mode: 'over' | 'side' = 'side';
-  @Input('appSidebar') id: string;
-  @Input('closed') closed: boolean;
-
-  public width;
+  public width: string = "";
   public nativeEl: any;
   public containerNativeEl: any;
   public contentNativeEl: any;
@@ -64,22 +73,23 @@ export class SidebarDirective implements OnInit {
   constructor(
     private el: ElementRef,
     private _sidenavHelperService: SidebarHelperService,
-    @Inject(SidebarContainerDirective) public container: SidebarContainerDirective
+    @Inject(SidebarContainerDirective)
+    public container: SidebarContainerDirective
   ) {
     this.nativeEl = this.el.nativeElement;
     this.containerNativeEl = this.container.el.nativeElement;
     this.contentNativeEl = this.container.content.el.nativeElement;
-    this.nativeEl.className += ' sidebar';
+    this.nativeEl.className += " sidebar";
   }
 
   ngOnInit() {
-    this.width = this.el.nativeElement.offsetWidth + 'px';
+    this.width = this.el.nativeElement.offsetWidth + "px";
     this._sidenavHelperService.setSidenav(this.id, this);
     this.initSidebar();
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  @HostListener("window:resize", ["$event"])
+  onResize(event: any) {
     this.initSidebar();
   }
 
@@ -93,12 +103,12 @@ export class SidebarDirective implements OnInit {
   }
 
   open() {
-    if (this.align === 'left') {
+    if (this.align === "left") {
       this.nativeEl.style.left = 0;
       if (!Utils.isMobile()) {
         this.contentNativeEl.style.marginLeft = this.width;
       }
-    } else if (this.align === 'right') {
+    } else if (this.align === "right") {
       this.nativeEl.style.right = 0;
       if (!Utils.isMobile()) {
         this.contentNativeEl.style.marginRight = this.width;
@@ -108,11 +118,11 @@ export class SidebarDirective implements OnInit {
   }
 
   close() {
-    if (this.align === 'left') {
-      this.nativeEl.style.left = '-' + this.width;
+    if (this.align === "left") {
+      this.nativeEl.style.left = "-" + this.width;
       this.contentNativeEl.style.marginLeft = 0;
-    } else if (this.align === 'right') {
-      this.nativeEl.style.right = '-' + this.width;
+    } else if (this.align === "right") {
+      this.nativeEl.style.right = "-" + this.width;
       this.contentNativeEl.style.marginRight = 0;
     }
     this.closed = true;
@@ -125,22 +135,18 @@ export class SidebarDirective implements OnInit {
       this.close();
     }
   }
-
 }
 
-
 @Directive({
-  selector: '[appSidebarToggler]'
+  selector: "[appSidebarToggler]",
+  standalone: true,
 })
 export class SidebarTogglerDirective {
-  @Input('appSidebarToggler') id;
+  @Input("appSidebarToggler") id: any;
 
-  constructor(
-    private _sidenavHelperService: SidebarHelperService
-  ) {
-  }
+  constructor(private _sidenavHelperService: SidebarHelperService) {}
 
-  @HostListener('click')
+  @HostListener("click")
   onClick() {
     this._sidenavHelperService.getSidenav(this.id).toggle();
   }

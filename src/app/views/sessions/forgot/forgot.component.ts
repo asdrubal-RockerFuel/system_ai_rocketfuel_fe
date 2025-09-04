@@ -1,23 +1,30 @@
 import { Component, OnInit } from "@angular/core";
 // import { SharedAnimations } from "src/app/shared/animations/shared-animations";
 // import { environment } from "src/environments/environment";
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
+import {
+  ReactiveFormsModule,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from "@angular/forms";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "../../../shared/services/auth.service";
 import { SharedAnimations } from "../../../shared/animations/shared-animations";
 import { environment } from "../../../../environments/environment";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "app-forgot",
   templateUrl: "./forgot.component.html",
   styleUrls: ["./forgot.component.scss"],
   animations: [SharedAnimations],
-  standalone: true
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
 })
 export class ForgotComponent implements OnInit {
-  signinForm: UntypedFormGroup | undefined;
-  passForm: UntypedFormGroup | undefined;
+  signinForm!: UntypedFormGroup;
+  passForm!: UntypedFormGroup;
   constructor(
     private fb: UntypedFormBuilder,
     private auth: AuthService,
@@ -25,7 +32,7 @@ export class ForgotComponent implements OnInit {
 
     private router: Router,
     private _loginService: AuthService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.signinForm = this.fb.group({
@@ -89,8 +96,8 @@ export class ForgotComponent implements OnInit {
   onCodeCompleted(code: string) {
     this.codigo = code;
   }
-  onCodeChanged(code: string) { }
-  codigo: string = '';
+  onCodeChanged(code: string) {}
+  codigo: string = "";
 
   entraForm() {
     if (!this.codigo) {

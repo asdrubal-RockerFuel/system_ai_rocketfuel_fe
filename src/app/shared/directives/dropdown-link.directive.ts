@@ -11,6 +11,7 @@ import { AppDropdownDirective } from "./dropdown.directive";
 
 @Directive({
   selector: "[appDropdownLink]",
+  standalone: true,
 })
 export class DropdownLinkDirective {
   @Input() public group: any;

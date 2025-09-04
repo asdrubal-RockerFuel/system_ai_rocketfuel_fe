@@ -6,6 +6,7 @@ import { filter } from "rxjs/operators";
 
 @Directive({
   selector: "[appDropdown]",
+  standalone: true,
 })
 export class AppDropdownDirective {
   protected navlinks: Array<DropdownLinkDirective> = [];

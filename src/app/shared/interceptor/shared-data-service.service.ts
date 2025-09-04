@@ -1,23 +1,29 @@
 import { Injectable } from "@angular/core";
-import { AuthService } from "../services/auth.service";
+import { Module } from "../interfaces/Module.interface";
 
 @Injectable({
-  providedIn: "root", // Esto asegura que el servicio sea un singleton
+  providedIn: "root",
 })
 export class SharedDataService {
-  public modules: any[]; // Define una propiedad para almacenar los módulos obtenidos
+  public modules: any[] = [];
 
   constructor() {
-    this.modules = [];
-    console.log("modules", this.modules); // Inicializa la propiedad en un arreglo vacío
-  }
-  ngOnInit() {
-    // Intenta recuperar los datos de sessionStorage
+    // Recuperar datos de sessionStorage al crear el servicio
     const modulesData = sessionStorage.getItem("modulesData");
     if (modulesData) {
       this.modules = JSON.parse(modulesData);
-      console.log("modules", this.modules);
-    } else {
     }
+    console.log("modules", this.modules);
+  }
+
+  /** Guardar módulos en sessionStorage */
+  setModules(modules: any[]): void {
+    this.modules = modules;
+    sessionStorage.setItem("modulesData", JSON.stringify(modules));
+  }
+
+  /** Obtener módulos desde el servicio */
+  getModules(): Module[] {
+    return this.modules;
   }
 }

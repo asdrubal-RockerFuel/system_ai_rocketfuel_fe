@@ -1,67 +1,81 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <main class="main-content">
-        <div class="info-column">
-            <h1>Upload your <span class="highlight">CSV File</span></h1>
-            <div class="features-section">
-                <p class="features-description">
-                    A simple, fast, and secure tool to process your CSV files. No limits on file size, no watermarks,
-                    and
-                    completely free to use.
-                </p>
-                <ul class="features-list">
-                    <li><span class="checkmark">✔</span> Instant processing and quick analysis</li>
-                    <li><span class="checkmark">✔</span> No software to install: works directly in your browser</li>
-                    <li><span class="checkmark">✔</span> Your data is secure and private; files are not stored</li>
-                </ul>
-            </div>
+  <main class="main-content">
+    <div class="info-column">
+      <h1>Upload your <span class="highlight">CSV File</span></h1>
+      <div class="features-section">
+        <p class="features-description">
+          A simple, fast, and secure tool to process your CSV files. No limits
+          on file size, no watermarks, and completely free to use.
+        </p>
+        <ul class="features-list">
+          <li>
+            <span class="checkmark">✔</span> Instant processing and quick
+            analysis
+          </li>
+          <li>
+            <span class="checkmark">✔</span> No software to install: works
+            directly in your browser
+          </li>
+          <li>
+            <span class="checkmark">✔</span> Your data is secure and private;
+            files are not stored
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="upload-column">
+      <div class="upload-container">
+        <!-- 🔹 Nuevo ngx-file-drop -->
+        <ngx-file-drop
+          dropZoneLabel="Arrastra tu archivo CSV aquí o haz clic para seleccionar"
+          (onFileDrop)="onSelectFile($event)"
+          (onFileOver)="fileOver($event)"
+          (onFileLeave)="fileLeave($event)"
+        >
+        </ngx-file-drop>
+
+        <div *ngIf="selectedFile" class="selected-file-preview">
+          <p class="selected-file-name">{{ selectedFile.name }}</p>
+          <span class="change-file-text"
+            >Arrastra otro archivo o haz clic para cambiar</span
+          >
         </div>
 
-        <div class="upload-column">
-            <div class="upload-container">
-
-                <ngx-dropzone class="drop-zone" (change)="onSelectFile($event)" [multiple]="false" accept=".csv">
-
-                    <ngx-dropzone-label>
-                        <div *ngIf="selectedFile; else defaultDropText">
-                            <p class="selected-file-name">{{ selectedFile.name }}</p>
-                            <span class="change-file-text">Arrastra otro archivo o haz clic para cambiar</span>
-                        </div>
-
-                        <ng-template #defaultDropText>
-                            <div class="drop-zone-icon">
-                                <img src="assets/icons/upload-icon-white.png" alt="Upload CSV Icon" />
-                            </div>
-                            <button type="button" class="file-select-btn" ngxDropzoneSelect>Choose CSV File</button>
-                            <p>or drop CSV file here</p>
-                        </ng-template>
-                    </ngx-dropzone-label>
-                </ngx-dropzone>
-
-                <div class="options-container">
-                    <label for="process-options">Choose a processing option:</label>
-                    <select id="process-options" class="custom-select" formControlName="option">
-                        <option [ngValue]="null" disabled>Select an option...</option>
-                        <option value="v0">Prompt V0</option>
-                        <option value="v1">Prompt V1</option>
-                        <option value="v2">Prompt V2</option>
-                        <option value="v3">Prompt V3</option>
-                    </select>
-                </div>
-
-                <div class="action-buttons">
-                    <!-- 1. Botón para PROCESAR (envía el formulario) -->
-                    <button type="submit" class="process-btn" [disabled]="form.invalid || !selectedFile || isLoading">
-                        {{ isLoading ? 'Processing...' : 'Process File' }}
-                    </button>
-
-                    <!-- 2. Botón para DESCARGAR (aparece después de procesar) -->
-                    <!-- Se muestra solo si 'downloadUrl' tiene un valor -->
-                    <button *ngIf="downloadUrl" type="button" class="download-btn" (click)="downloadFile()">
-                        Download File
-                    </button>
-                </div>
-
-            </div>
+        <div class="options-container">
+          <label for="process-options">Choose a processing option:</label>
+          <select
+            id="process-options"
+            class="custom-select"
+            formControlName="option"
+          >
+            <option [ngValue]="null" disabled>Select an option...</option>
+            <option value="v0">Prompt V0</option>
+            <option value="v1">Prompt V1</option>
+            <option value="v2">Prompt V2</option>
+            <option value="v3">Prompt V3</option>
+          </select>
         </div>
-    </main>
+
+        <div class="action-buttons">
+          <button
+            type="submit"
+            class="process-btn"
+            [disabled]="form.invalid || !selectedFile || isLoading"
+          >
+            {{ isLoading ? "Processing..." : "Process File" }}
+          </button>
+
+          <button
+            *ngIf="downloadUrl"
+            type="button"
+            class="download-btn"
+            (click)="downloadFile()"
+          >
+            Download File
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
 </form>

@@ -1,170 +1,115 @@
 import { Injectable } from "@angular/core";
-import { LocalStoreService } from "./local-store.service";
 import { Router } from "@angular/router";
 import { Observable, of } from "rxjs";
 import { delay } from "rxjs/operators";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { environment } from "src/environments/environment";
+import { HttpClient } from "@angular/common/http";
+import { LocalStoreService } from "./local-store.service";
 import { SharedDataService } from "../interceptor/shared-data-service.service";
-import { NavigationService } from "./navigation.service";
+import { environment } from "../../../environments/environment";
+import { User } from "../interfaces/User.interface";
+import { ApiResponse } from "../interfaces/ApiResponse.interface";
+import { Module } from "../interfaces/Module.interface";
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthService {
-  //Only for demo purpose
+  private readonly URL_BACKEND = environment.BACKEND_URL;
   authenticated = true;
-  URL_BACKEND = environment.BACKEND_URL;
+
   constructor(
     private store: LocalStoreService,
-    public _http: HttpClient,
+    private http: HttpClient,
     private router: Router,
-    private sharedDataService: SharedDataService // Inyecta el servicio compartido
+    private sharedDataService: SharedDataService
   ) {
     this.checkAuth();
   }
 
-  checkAuth() {
+  checkAuth(): void {
     // this.authenticated = this.store.getItem("demo_login_status");
   }
 
   getToken(): string | null {
-    return localStorage.getItem("pucoToken");
+    return this.store.getItem("pucoToken");
   }
 
-  getuser() {
-    return of({});
+  getUserMock(): Observable<User> {
+    return of({} as User);
   }
 
-  normalLogin(formulario): Observable<any> {
-    // console.log(token)
-
-    return this._http.post(this.URL_BACKEND + "/api/signin", formulario);
+  normalLogin(credentials: {
+    email: string;
+    password: string;
+  }): Observable<ApiResponse<{ token: string }>> {
+    return this.http.post<ApiResponse<{ token: string }>>(
+      `${this.URL_BACKEND}/api/signin`,
+      credentials
+    );
   }
 
-  signin(credentials) {
+  signin(credentials: { email: string; password: string }): Observable<any> {
     this.authenticated = true;
     this.store.setItem("demo_login_status", true);
     return of({}).pipe(delay(1500));
   }
-  signout() {
-    let headers = new HttpHeaders();
-    headers = headers.set("Content-type", "application/json");
-    headers = headers.set(
-      "Authorization",
-      "Bearer " + localStorage.getItem("pucoToken")
-    );
-    this._http
-      .post(environment.BACKEND_URL + "/api/signout", null, {
-        headers: headers,
-      })
-      .subscribe((resp) => {
+
+  signout(): void {
+    this.http
+      .post<ApiResponse<null>>(`${this.URL_BACKEND}/api/signout`, null)
+      .subscribe(() => {
         localStorage.clear();
         this.router.navigate(["/sessions/signin"]);
       });
   }
 
-  obtenerDatosAdmin(): Observable<any> {
-    let headers = new HttpHeaders();
-    headers = headers.set("Content-type", "application/json");
-    headers = headers.set(
-      "Authorization",
-      "Bearer " + localStorage.getItem("pucoToken")
+  obtenerDatosAdmin(): Observable<ApiResponse<User>> {
+    return this.http.get<ApiResponse<User>>(
+      `${this.URL_BACKEND}/api/user/user-account`
     );
-
-    return this._http.get<any>(this.URL_BACKEND + "/api/user/user-account", {
-      headers: headers,
-    });
   }
 
-  obtieneModulos() {
-    let headers = new HttpHeaders();
-    headers = headers.set("Content-type", "application/json");
-    headers = headers.set(
-      "Authorization",
-      "Bearer " + localStorage.getItem("pucoToken")
-    );
-
-    // Realiza la solicitud HTTP
-    this._http
-      .get<any>(this.URL_BACKEND + `/api/role_module/list/my-modules`, {
-        headers: headers,
-      })
-      .subscribe((data) => {
-        console.log("data", data);
-        // this.navigationService.defaultMenu = [];
-        // data.data.forEach(item => {
-        //   item.functionalities.forEach(element => {
-        //     this.navigationService.defaultMenu.push({
-        //       name: element.name,
-        //       type: "link",
-        //       icon: element.icon,
-        //       state: `/pages/${element.path}`,
-        //     })
-        //   });
-        // });
-        // Almacena los datos en SharedDataService
-        /*   this.sharedDataService.modules = data; */
-        sessionStorage.setItem("modulesData", JSON.stringify(data.data));
+  obtieneModulos(): void {
+    this.http
+      .get<ApiResponse<Module[]>>(
+        `${this.URL_BACKEND}/api/role_module/list/my-modules`
+      )
+      .subscribe((resp) => {
+        sessionStorage.setItem("modulesData", JSON.stringify(resp.data));
       });
   }
 
-  obtieneModulos2() {
-    let headers = new HttpHeaders();
-    headers = headers.set("Content-type", "application/json");
-    headers = headers.set(
-      "Authorization",
-      "Bearer " + localStorage.getItem("pucoToken")
-    );
-
-    // Realiza la solicitud HTTP
-    return this._http.get<any>(
-      this.URL_BACKEND + `/api/role_module/list/my-modules`,
-      {
-        headers: headers,
-      }
+  obtieneModulos2(): Observable<ApiResponse<Module[]>> {
+    return this.http.get<ApiResponse<Module[]>>(
+      `${this.URL_BACKEND}/api/role_module/list/my-modules`
     );
   }
 
-  forgotPassword(email): Observable<any> {
-    let headers = new HttpHeaders();
-    headers = headers.set("Content-type", "application/json");
-    headers = headers.set(
-      "Authorization",
-      "Basic " + localStorage.getItem("pucoToken")
+  forgotPassword(email: string): Observable<ApiResponse<null>> {
+    return this.http.post<ApiResponse<null>>(
+      `${this.URL_BACKEND}/api/recovery/send-code`,
+      { email }
     );
-
-    return this._http.post(this.URL_BACKEND + "/api/recovery/send-code", {
-      email,
-    });
   }
 
-  updatePass(email, verificationCode, password): Observable<any> {
-    let headers = new HttpHeaders();
-    headers = headers.set("Content-type", "application/json");
-    headers = headers.set(
-      "Authorization",
-      "Basic " + localStorage.getItem("pucoToken")
+  updatePass(
+    email: string,
+    verificationCode: string,
+    password: string
+  ): Observable<ApiResponse<null>> {
+    return this.http.post<ApiResponse<null>>(
+      `${this.URL_BACKEND}/api/recovery/user-account`,
+      { email, verificationCode, password }
     );
-
-    return this._http.post(this.URL_BACKEND + "/api/recovery/user-account", {
-      email,
-      verificationCode,
-      password,
-    });
   }
 
-  verifyCode(email, verificationCode): Observable<any> {
-    let headers = new HttpHeaders();
-    headers = headers.set("Content-type", "application/json");
-    headers = headers.set(
-      "Authorization",
-      "Basic " + localStorage.getItem("pucoToken")
+  verifyCode(
+    email: string,
+    verificationCode: string
+  ): Observable<ApiResponse<null>> {
+    return this.http.post<ApiResponse<null>>(
+      `${this.URL_BACKEND}/api/recovery/verify-code`,
+      { email, verificationCode }
     );
-
-    return this._http.post(this.URL_BACKEND + "/api/recovery/verify-code", {
-      email,
-      verificationCode,
-    });
   }
 }

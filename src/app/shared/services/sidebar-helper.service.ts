@@ -1,34 +1,32 @@
-import { Injectable } from '@angular/core';
-import { SidebarDirective } from '../directives/sidebar.directive';
+import { Injectable } from "@angular/core";
+import { SidebarDirective } from "../directives/sidebar.directive";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class SidebarHelperService {
+  // Usamos un Record para mapear ids a instancias
+  private sidenavInstances: Record<string, SidebarDirective> = {};
 
-  sidenavInstances: SidebarDirective[];
-
-  constructor() {
-      this.sidenavInstances = [];
-  }
+  constructor() {}
 
   /**
    * Set sidenav
    *
-   * @param id
-   * @param instance
+   * @param id - identificador único del sidebar
+   * @param instance - instancia del SidebarDirective
    */
-  setSidenav(id, instance): void {
-      this.sidenavInstances[id] = instance;
+  setSidenav(id: string, instance: SidebarDirective): void {
+    this.sidenavInstances[id] = instance;
   }
 
   /**
    * Get sidenav
    *
-   * @param id
-   * @returns {any}
+   * @param id - identificador único del sidebar
+   * @returns instancia del SidebarDirective o undefined si no existe
    */
-  getSidenav(id): SidebarDirective {   console.log(this.sidenavInstances);
-      return this.sidenavInstances[id];
+  getSidenav(id: string): SidebarDirective | undefined {
+    return this.sidenavInstances[id];
   }
 }
