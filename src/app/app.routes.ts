@@ -1,44 +1,13 @@
 import { Routes } from "@angular/router";
-import { AuthLayoutComponent } from "./shared/components/layouts/auth-layout/auth-layout.component";
+import { MasterCSVFileComponent } from "./views/sessions/master-csvfile/master-csvfile.component";
 
 export const routes: Routes = [
   {
     path: "",
-    redirectTo: "sessions/csv-file",
-    pathMatch: "full",
+    component: MasterCSVFileComponent,
   },
-  {
-    path: "",
-    component: AuthLayoutComponent,
-    children: [
-      {
-        path: "sessions",
-        loadChildren: () =>
-          import("./views/sessions/sessions.module").then(
-            (m) => m.SessionsModule
-          ),
-      },
-    ],
-  },
-  // {
-  //   path: "",
-  //   component: BlankLayoutComponent,
-  //   children: [
-  //     {
-  //       path: "others",
-  //       loadChildren: () =>
-  //         import("./views/others/others.module").then((m) => m.OthersModule),
-  //     },
-  //   ],
-  // },
-  // {
-  //   path: '',
-  //   component: AdminLayoutSidebarLargeComponent,
-  //   canActivate: [AuthGaurd],
-  //   children: adminRoutes
-  // },
   {
     path: "**",
-    redirectTo: "others/404",
+    redirectTo: "",
   },
 ];

@@ -41,8 +41,8 @@ export class AuthService {
   normalLogin(credentials: {
     email: string;
     password: string;
-  }): Observable<ApiResponse<{ token: string }>> {
-    return this.http.post<ApiResponse<{ token: string }>>(
+  }): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(
       `${this.URL_BACKEND}/api/signin`,
       credentials
     );
@@ -56,22 +56,22 @@ export class AuthService {
 
   signout(): void {
     this.http
-      .post<ApiResponse<null>>(`${this.URL_BACKEND}/api/signout`, null)
+      .post<ApiResponse>(`${this.URL_BACKEND}/api/signout`, null)
       .subscribe(() => {
         localStorage.clear();
         this.router.navigate(["/sessions/signin"]);
       });
   }
 
-  obtenerDatosAdmin(): Observable<ApiResponse<User>> {
-    return this.http.get<ApiResponse<User>>(
+  obtenerDatosAdmin(): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(
       `${this.URL_BACKEND}/api/user/user-account`
     );
   }
 
   obtieneModulos(): void {
     this.http
-      .get<ApiResponse<Module[]>>(
+      .get<ApiResponse>(
         `${this.URL_BACKEND}/api/role_module/list/my-modules`
       )
       .subscribe((resp) => {
@@ -79,14 +79,14 @@ export class AuthService {
       });
   }
 
-  obtieneModulos2(): Observable<ApiResponse<Module[]>> {
-    return this.http.get<ApiResponse<Module[]>>(
+  obtieneModulos2(): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(
       `${this.URL_BACKEND}/api/role_module/list/my-modules`
     );
   }
 
-  forgotPassword(email: string): Observable<ApiResponse<null>> {
-    return this.http.post<ApiResponse<null>>(
+  forgotPassword(email: string): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(
       `${this.URL_BACKEND}/api/recovery/send-code`,
       { email }
     );
@@ -96,8 +96,8 @@ export class AuthService {
     email: string,
     verificationCode: string,
     password: string
-  ): Observable<ApiResponse<null>> {
-    return this.http.post<ApiResponse<null>>(
+  ): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(
       `${this.URL_BACKEND}/api/recovery/user-account`,
       { email, verificationCode, password }
     );
@@ -106,8 +106,8 @@ export class AuthService {
   verifyCode(
     email: string,
     verificationCode: string
-  ): Observable<ApiResponse<null>> {
-    return this.http.post<ApiResponse<null>>(
+  ): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(
       `${this.URL_BACKEND}/api/recovery/verify-code`,
       { email, verificationCode }
     );

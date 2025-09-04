@@ -1,6 +1,4 @@
-import { Component, OnInit } from "@angular/core";
-// import { SharedAnimations } from "src/app/shared/animations/shared-animations";
-// import { environment } from "src/environments/environment";
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from "@angular/core";
 import {
   ReactiveFormsModule,
   UntypedFormBuilder,
@@ -13,6 +11,7 @@ import { AuthService } from "../../../shared/services/auth.service";
 import { SharedAnimations } from "../../../shared/animations/shared-animations";
 import { environment } from "../../../../environments/environment";
 import { CommonModule } from "@angular/common";
+import { CodeInputComponent } from "angular-code-input";
 
 @Component({
   selector: "app-forgot",
@@ -21,10 +20,13 @@ import { CommonModule } from "@angular/common";
   animations: [SharedAnimations],
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ForgotComponent implements OnInit {
   signinForm!: UntypedFormGroup;
   passForm!: UntypedFormGroup;
+  codigo: string = "";
+
   constructor(
     private fb: UntypedFormBuilder,
     private auth: AuthService,
@@ -93,12 +95,13 @@ export class ForgotComponent implements OnInit {
       );
   }
 
-  onCodeCompleted(code: string) {
-    this.codigo = code;
+  onCodeCompleted(code: any) {
+    this.codigo = String(code); // asegura que sea string
   }
-  onCodeChanged(code: string) {}
-  codigo: string = "";
 
+  onCodeChanged(code: any) {
+    // opcional: puedes actualizar un valor en tiempo real si quieres
+  }
   entraForm() {
     if (!this.codigo) {
       this.toastr.success(

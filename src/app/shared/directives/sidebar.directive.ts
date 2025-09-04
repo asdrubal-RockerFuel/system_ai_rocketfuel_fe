@@ -148,6 +148,6 @@ export class SidebarTogglerDirective {
 
   @HostListener("click")
   onClick() {
-    this._sidenavHelperService.getSidenav(this.id).toggle();
+    this._sidenavHelperService?.getSidenav(this.id)?.toggle();
   }
 }
