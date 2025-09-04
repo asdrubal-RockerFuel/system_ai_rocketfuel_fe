@@ -1,6 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-import { SharedAnimations } from "src/app/shared/animations/shared-animations";
-import { UntypedFormGroup, UntypedFormBuilder, Validators } from "@angular/forms";
+import {
+  UntypedFormGroup,
+  UntypedFormBuilder,
+  Validators,
+} from "@angular/forms";
 import { AuthService } from "../../../shared/services/auth.service";
 import {
   Router,
@@ -10,21 +13,21 @@ import {
   ResolveEnd,
 } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-import { environment } from "src/environments/environment";
-import { NavigationService } from "src/app/shared/services/navigation.service";
-import { RolService } from "src/app/shared/services/rol.service";
 import { forkJoin } from "rxjs";
+import { NavigationService } from "../../../shared/services/navigation.service";
+import { RolService } from "../../../shared/services/rol.service";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: "app-signin",
   templateUrl: "./signin.component.html",
   styleUrls: ["./signin.component.scss"],
-  animations: [SharedAnimations],
+  animations: [],
 })
 export class SigninComponent implements OnInit {
-  loading: boolean;
+  loading: boolean = false;
   loadingText: string = "Iniciar Sesión";
-  signinForm: UntypedFormGroup;
+  signinForm!: UntypedFormGroup;
   constructor(
     private fb: UntypedFormBuilder,
     private toastr: ToastrService,
@@ -32,7 +35,7 @@ export class SigninComponent implements OnInit {
     private navigationService: NavigationService,
     private router: Router,
     private _sRol: RolService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.router.events.subscribe((event) => {
@@ -57,7 +60,7 @@ export class SigninComponent implements OnInit {
   text = "Iniciar Sesión";
   valor = false;
 
-  asignarDataUser(id: number, rol: number, userData) {
+  asignarDataUser(id: number, rol: number, userData: any) {
     this._sRol.setId(id);
     this._sRol.setR(rol);
     this._sRol.setData(userData);
@@ -132,20 +135,19 @@ export class SigninComponent implements OnInit {
         /* Uso de forkJoin para emitir un valor cuando ambos se hayan cargadp */
         forkJoin([
           this.auth.obtieneModulos2(), // 0
-          this.auth.obtenerDatosAdmin() // 1
-        ])
-          .subscribe(
-            (response: any) => {
-              const modulos = response[0].data;
-              const userResponse = response[1];
+          this.auth.obtenerDatosAdmin(), // 1
+        ]).subscribe(
+          (response: any) => {
+            const modulos = response[0].data;
+            const userResponse = response[1];
 
-              sessionStorage.setItem("modulesData", JSON.stringify(modulos));
+            sessionStorage.setItem("modulesData", JSON.stringify(modulos));
 
-              console.log(userResponse);
-              let dataUser = userResponse.data;
-              localStorage.setItem(
-                "nombreCompleto",
-                (dataUser.name !== null ? dataUser.name : "") +
+            console.log(userResponse);
+            let dataUser = userResponse.data;
+            localStorage.setItem(
+              "nombreCompleto",
+              (dataUser.name !== null ? dataUser.name : "") +
                 " " +
                 (dataUser.paternal_lastname !== null
                   ? dataUser.paternal_lastname
@@ -154,28 +156,28 @@ export class SigninComponent implements OnInit {
                 (dataUser.maternal_lastname !== null
                   ? dataUser.maternal_lastname
                   : "")
-              );
+            );
 
-              localStorage.setItem("email", btoa(dataUser.email));
+            localStorage.setItem("email", btoa(dataUser.email));
 
-              localStorage.setItem(
-                "idUser",
-                dataUser.id !== null ? dataUser.id : ""
-              );
-              this.router.navigate(["/pages/csv-file"]);
-              /*  const encodedData = btoa(userResponse.type_user); // encode a string
+            localStorage.setItem(
+              "idUser",
+              dataUser.id !== null ? dataUser.id : ""
+            );
+            this.router.navigate(["/pages/csv-file"]);
+            /*  const encodedData = btoa(userResponse.type_user); // encode a string
 
               localStorage.setItem("rol", encodedData); */
 
-              /*  this.asignarDataUser(
+            /*  this.asignarDataUser(
                 +dataUser.id,
                 +userResponse.type_user,
                 dataUser
               );
               this.navigationService.chooseMenuItems(userResponse.type_user); */
-              this.valor = false;
+            this.valor = false;
 
-              /*    if (userResponse.type_user == "admin") {
+            /*    if (userResponse.type_user == "admin") {
                 this.router.navigate(["/pages/maestro-cotizaciones"]);
               } else if (userResponse.type_user == "client") {
                 this.router.navigate(["/pages/profile"]);
@@ -184,25 +186,25 @@ export class SigninComponent implements OnInit {
               } else if (userResponse.type_user == "super_admin") {
                 this.router.navigate(["/pages/maestro-cotizaciones"]);
               } */
-            },
-            (error) => {
-              this.toastr.error(
-                error?.error?.message,
-                "El proceso no pude realizarse ",
-                {
-                  timeOut: environment.timeOutmessage,
-                  closeButton: true,
-                  progressBar: true,
-                }
-              );
-            }
-          );
+          },
+          (error) => {
+            this.toastr.error(
+              error?.error?.message,
+              "El proceso no pude realizarse ",
+              {
+                timeOut: environment.timeOutmessage,
+                closeButton: true,
+                progressBar: true,
+              }
+            );
+          }
+        );
       },
       (error) => {
         this.text = "Iniciar Sesión";
         this.valor = false;
         if (error.error.errors != undefined) {
-          let simple = error.error.errors.map((res) => {
+          let simple = error.error.errors.map((res: { msg: any }) => {
             console.log(res, "ss");
             return res.msg;
           });

@@ -19,7 +19,7 @@ export class AuthService {
     private store: LocalStoreService,
     public _http: HttpClient,
     private router: Router,
-    private sharedDataService: SharedDataService, // Inyecta el servicio compartido
+    private sharedDataService: SharedDataService // Inyecta el servicio compartido
   ) {
     this.checkAuth();
   }
@@ -109,8 +109,7 @@ export class AuthService {
       });
   }
 
-  obtieneModulos2()
-  {
+  obtieneModulos2() {
     let headers = new HttpHeaders();
     headers = headers.set("Content-type", "application/json");
     headers = headers.set(
@@ -119,10 +118,12 @@ export class AuthService {
     );
 
     // Realiza la solicitud HTTP
-    return this._http
-      .get<any>(this.URL_BACKEND + `/api/role_module/list/my-modules`, {
+    return this._http.get<any>(
+      this.URL_BACKEND + `/api/role_module/list/my-modules`,
+      {
         headers: headers,
-      });
+      }
+    );
   }
 
   forgotPassword(email): Observable<any> {

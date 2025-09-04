@@ -44,7 +44,7 @@ export class NavigationService {
     sidenavOpen: true,
     childnavOpen: false,
   };
-  selectedItem: IMenuItem;
+  selectedItem!: IMenuItem;
 
   defaultMenu = [
     // {
@@ -134,51 +134,45 @@ export class NavigationService {
     //   ],
     //   type: "dropDown",
     // }
-];
+  ];
 
   constructor() {
-  //   /* Ocasiones donde se instancia, pero la data aún no llega */
-  //   /* Se uso forkjoin para esperar también la data (Solución) */
-  //   const modulesDataString = sessionStorage.getItem("modulesData");
-  //   if (!modulesDataString) return;
-      
-  //   console.log("modulesData", modulesDataString);
-  //   const modulesData = JSON.parse(modulesDataString);
-  //   console.log(modulesData);
-  //   // modulesData.forEach(item => {
-  //   //   item.functionalities.forEach(element => {
-  //   //     this.defaultMenu.push({
-  //   //       name: element.name,
-  //   //       type: "link",
-  //   //       icon: element.icon,
-  //   //       state: `/pages/${element.path}`,
-  //   //     })
-  //   //   });
-  //   // });
-
-  //   modulesData.forEach(item => {
-  //   let row = {
-  //     name: item.name,
-  //     type:'dropDown',
-  //     description: '',
-  //     icon: item.icon,
-  //     sub: []
-  //   }
-    
-  //   item.functionalities.forEach(element => {
-  //     row.sub.push({
-  //       name: element.name,
-  //       type: "link",
-  //       icon: element.icon,
-  //       state: `/pages/${element.path}`,
-  //     })
-  //   })
-
-  //   this.defaultMenu.push(row)
-  // });
-    
-  //   console.log('arma rows', this.defaultMenu);
-    
+    //   /* Ocasiones donde se instancia, pero la data aún no llega */
+    //   /* Se uso forkjoin para esperar también la data (Solución) */
+    //   const modulesDataString = sessionStorage.getItem("modulesData");
+    //   if (!modulesDataString) return;
+    //   console.log("modulesData", modulesDataString);
+    //   const modulesData = JSON.parse(modulesDataString);
+    //   console.log(modulesData);
+    //   // modulesData.forEach(item => {
+    //   //   item.functionalities.forEach(element => {
+    //   //     this.defaultMenu.push({
+    //   //       name: element.name,
+    //   //       type: "link",
+    //   //       icon: element.icon,
+    //   //       state: `/pages/${element.path}`,
+    //   //     })
+    //   //   });
+    //   // });
+    //   modulesData.forEach(item => {
+    //   let row = {
+    //     name: item.name,
+    //     type:'dropDown',
+    //     description: '',
+    //     icon: item.icon,
+    //     sub: []
+    //   }
+    //   item.functionalities.forEach(element => {
+    //     row.sub.push({
+    //       name: element.name,
+    //       type: "link",
+    //       icon: element.icon,
+    //       state: `/pages/${element.path}`,
+    //     })
+    //   })
+    //   this.defaultMenu.push(row)
+    // });
+    //   console.log('arma rows', this.defaultMenu);
   }
 
   // modulesData.forEach(item => {
@@ -189,7 +183,7 @@ export class NavigationService {
   //     icon: "i-Add-User",
   //     sub: []
   //   }
-    
+
   //   item.functionalities.forEach(element => {
   //     row.sub.push({
   //       name: element.name,
@@ -203,37 +197,37 @@ export class NavigationService {
   // });
 
   // defaultMenu: IMenuItem[] = [
-    // {
-    //   name: "Programa e Iniciativa",
-    //   type: "link",
-    //   icon: "i-Windows-2",
-    //   state: "/pages/maestro-programa",
-    // },
-    // {
-    //   name: "Oficinas",
-    //   type: "link",
-    //   icon: "i-Consulting",
-    //   state: "/pages/maestro-oficina",
-    // },
-    // {
-    //   name: "Áreas",
-    //   type: "link",
-    //   icon: "i-Suitcase",
-    //   state: "/pages/maestro-area",
-    // },
-    // {
-    //   name: "Rol",
-    //   type: "link",
-    //   icon: "i-Engineering",
-    //   state: "/pages/maestro-rol",
-    // },
-    // {
-    //   name: "Usuarios",
-    //   type: "link",
-    //   icon: "i-Add-User",
-    //   state: "/pages/maestro-usuarios",
-    // },
-    /*   {   
+  // {
+  //   name: "Programa e Iniciativa",
+  //   type: "link",
+  //   icon: "i-Windows-2",
+  //   state: "/pages/maestro-programa",
+  // },
+  // {
+  //   name: "Oficinas",
+  //   type: "link",
+  //   icon: "i-Consulting",
+  //   state: "/pages/maestro-oficina",
+  // },
+  // {
+  //   name: "Áreas",
+  //   type: "link",
+  //   icon: "i-Suitcase",
+  //   state: "/pages/maestro-area",
+  // },
+  // {
+  //   name: "Rol",
+  //   type: "link",
+  //   icon: "i-Engineering",
+  //   state: "/pages/maestro-rol",
+  // },
+  // {
+  //   name: "Usuarios",
+  //   type: "link",
+  //   icon: "i-Add-User",
+  //   state: "/pages/maestro-usuarios",
+  // },
+  /*   {
             name: 'Dashboard',
             description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
             type: 'dropDown',
@@ -356,7 +350,7 @@ export class NavigationService {
             state: 'http://demos.ui-lib.com/gull-doc'
         } */
   // ];
-  chooseMenuItems(rol) {
+  chooseMenuItems(rol: string) {
     if (rol == "admin") {
       this.menuItems.next(this.defaultMenu);
     } else {

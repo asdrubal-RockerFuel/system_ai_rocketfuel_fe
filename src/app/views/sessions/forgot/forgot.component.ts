@@ -13,8 +13,7 @@ import { environment } from "../../../../environments/environment";
   templateUrl: "./forgot.component.html",
   styleUrls: ["./forgot.component.scss"],
   animations: [SharedAnimations],
-  standalone: true,
-  imports: [AuthService]
+  standalone: true
 })
 export class ForgotComponent implements OnInit {
   signinForm: UntypedFormGroup | undefined;

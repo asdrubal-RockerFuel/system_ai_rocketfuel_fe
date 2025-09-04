@@ -8,7 +8,7 @@ import hljs from 'highlight.js';
   selector: '[highlight]'
 })
 export class HighlightjsDirective {
-  @Input('highlight') highlight;
+  @Input('highlight') highlight: any;
   nativeEl;
   constructor(
     public el: ElementRef
