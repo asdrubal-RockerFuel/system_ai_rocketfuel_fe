@@ -13,9 +13,8 @@ import {
 import { InMemoryWebApiModule } from "angular-in-memory-web-api";
 import { InMemoryDataService } from "./shared/inmemory-db/inmemory-db.service";
 import { routes } from "./app.routes";
-import { HeaderInterceptor } from "./shared/interceptors/header-interceptor";
-import { TokenInterceptor } from "./shared/interceptors/token-interceptor";
 import { HttpErrorInterceptor } from "./shared/interceptors/validator-interceptor";
+import { AuthHeaderInterceptor } from "./shared/interceptors/authheader-interceptor";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -28,12 +27,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptorsFromDi()),
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: HeaderInterceptor,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
+      useClass: AuthHeaderInterceptor,
       multi: true,
     },
     {

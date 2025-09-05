@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
 import {
+  HttpInterceptor,
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor,
   HttpErrorResponse,
 } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
@@ -14,7 +14,7 @@ import { AuthService } from "../services/auth.service";
 import { environment } from "../../../environments/environment";
 
 @Injectable()
-export class TokenInterceptor implements HttpInterceptor {
+export class AuthHeaderInterceptor implements HttpInterceptor {
   private has401Error = false;
 
   constructor(
@@ -24,20 +24,21 @@ export class TokenInterceptor implements HttpInterceptor {
   ) {}
 
   intercept(
-    request: HttpRequest<unknown>,
+    request: HttpRequest<any>,
     next: HttpHandler
-  ): Observable<HttpEvent<unknown>> {
+  ): Observable<HttpEvent<any>> {
     const token = this.authService.getToken();
 
-    // Clonar request y agregar headers
-    let modifiedRequest = request.clone({
-      setHeaders: {
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        "Content-Type": request.headers.has("Content-Type")
-          ? request.headers.get("Content-Type")!
-          : "application/json",
-      },
-    });
+    // Determinar si Content-Type debe agregarse
+    const isFormData = request.body instanceof FormData;
+
+    const headersConfig: any = {};
+    if (token) headersConfig["Authorization"] = `Bearer ${token}`;
+    if (!isFormData && !request.headers.has("Content-Type")) {
+      headersConfig["Content-Type"] = "application/json";
+    }
+
+    const modifiedRequest = request.clone({ setHeaders: headersConfig });
 
     return next
       .handle(modifiedRequest)
@@ -52,7 +53,6 @@ export class TokenInterceptor implements HttpInterceptor {
     } else if (error.status !== 401 && error.status !== 0) {
       this.showToast(error.message || "An error occurred on the server");
     }
-
     return throwError(() => error);
   }
 

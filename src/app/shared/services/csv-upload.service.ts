@@ -23,13 +23,11 @@ export class CsvUploadService {
 
   constructor(private http: HttpClient) {}
 
-  // MODIFICADO: El método ahora devuelve un Observable<ApiResponse>
   uploadFile(formData: FormData): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(
       `${this.apiUrl}/api/csv/process-csv`,
       formData,
       {
-        // 👇 Esto le dice a Angular que no trate de transformar el body
         reportProgress: true,
         observe: "body",
       }

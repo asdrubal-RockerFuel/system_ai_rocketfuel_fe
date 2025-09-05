@@ -9,7 +9,7 @@ import { CommonModule } from "@angular/common";
 import {
   CsvUploadService,
   ApiResponse,
-} from "../../../shared/guards/csv-upload";
+} from "../../../shared/services/csv-upload.service";
 
 import {
   FontAwesomeModule,
