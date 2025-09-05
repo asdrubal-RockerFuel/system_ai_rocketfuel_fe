@@ -13,9 +13,9 @@ import {
 import { InMemoryWebApiModule } from "angular-in-memory-web-api";
 import { InMemoryDataService } from "./shared/inmemory-db/inmemory-db.service";
 import { routes } from "./app.routes";
-import { HeaderInterceptor } from "./shared/interceptor/header-interceptor";
-import { TokenInterceptor } from "./shared/interceptor/token-interceptor";
-import { HttpErrorInterceptor } from "./shared/interceptor/validator-interceptor";
+import { HeaderInterceptor } from "./shared/interceptors/header-interceptor";
+import { TokenInterceptor } from "./shared/interceptors/token-interceptor";
+import { HttpErrorInterceptor } from "./shared/interceptors/validator-interceptor";
 
 export const appConfig: ApplicationConfig = {
   providers: [

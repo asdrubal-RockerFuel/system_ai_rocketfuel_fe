@@ -1,5 +1,5 @@
 import { Routes } from "@angular/router";
-import { MasterCSVFileComponent } from "./views/sessions/master-csvfile/master-csvfile.component";
+import { MasterCSVFileComponent } from "./views/pages/master-csvfile/master-csvfile";
 
 export const routes: Routes = [
   {

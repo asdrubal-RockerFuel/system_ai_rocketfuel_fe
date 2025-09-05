@@ -4,7 +4,7 @@ import { Observable, of } from "rxjs";
 import { delay } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
 import { LocalStoreService } from "./local-store.service";
-import { SharedDataService } from "../interceptor/shared-data-service.service";
+import { SharedDataService } from "../interceptors/shared-data-service.service";
 import { environment } from "../../../environments/environment";
 import { User } from "../interfaces/User.interface";
 import { ApiResponse } from "../interfaces/ApiResponse.interface";
@@ -71,9 +71,7 @@ export class AuthService {
 
   obtieneModulos(): void {
     this.http
-      .get<ApiResponse>(
-        `${this.URL_BACKEND}/api/role_module/list/my-modules`
-      )
+      .get<ApiResponse>(`${this.URL_BACKEND}/api/role_module/list/my-modules`)
       .subscribe((resp) => {
         sessionStorage.setItem("modulesData", JSON.stringify(resp.data));
       });
@@ -103,10 +101,7 @@ export class AuthService {
     );
   }
 
-  verifyCode(
-    email: string,
-    verificationCode: string
-  ): Observable<ApiResponse> {
+  verifyCode(email: string, verificationCode: string): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(
       `${this.URL_BACKEND}/api/recovery/verify-code`,
       { email, verificationCode }

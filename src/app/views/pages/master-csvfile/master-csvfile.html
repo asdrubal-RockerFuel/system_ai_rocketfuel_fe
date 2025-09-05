@@ -1,0 +1,179 @@
+<div class="container py-2">
+  <!-- Sección 1: Título -->
+  <div class="row mb-4">
+    <div class="col text-center">
+      <h1>Generate Emails CSV</h1>
+    </div>
+  </div>
+
+  <!-- Sección 2: Formulario dividido en dos columnas -->
+  <div class="row mb-4">
+    <!-- Columna izquierda: Información -->
+    <div class="col-md-6">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <!-- 🔹 Dropzone para CSV -->
+        <div class="mb-3 file-drop-container">
+          <div
+            class="dropzone d-flex flex-column align-items-center justify-content-center p-4 border border-dashed text-center"
+            [ngClass]="{ 'is-dragging': isDragging }"
+            (dragover)="onDragOver($event)"
+            (dragleave)="onDragLeave($event)"
+            (drop)="onDrop($event)"
+            (click)="triggerFileSelector()"
+          >
+            <!-- Ícono por defecto (si no hay archivo) -->
+            <fa-icon
+              *ngIf="!selectedFile"
+              [icon]="['fas', 'cloud-upload-alt']"
+              size="4x"
+              class="text-secondary mb-3"
+            ></fa-icon>
+
+            <!-- Icono del archivo seleccionado -->
+            @if (selectedFile) {
+            <div
+              class="d-flex align-items-center bg-light border rounded px-3 py-2 w-75 mb-2 my-5"
+            >
+              <fa-icon
+                [icon]="getFileIcon(selectedFile)"
+                class="me-2"
+              ></fa-icon>
+              <span class="text-truncate">{{ selectedFile.name }}</span>
+              <button
+                type="button"
+                class="btn-close btn-close-sm ms-auto"
+                aria-label="Remove file"
+                (click)="removeFile(); $event.stopPropagation()"
+              ></button>
+            </div>
+
+            } @if (!selectedFile) {
+            <p class="mb-2">Drop your file here or</p>
+            <button type="button" class="btn btn-primary btn-sm">
+              Browse files
+            </button>
+            }
+          </div>
+
+          <label for="fileInput" class="d-none">Select a file</label>
+          <input
+            #fileInput
+            id="fileInput"
+            type="file"
+            class="d-none"
+            (change)="onFileSelected($event)"
+          />
+        </div>
+
+        <!-- 🔹 Select de opciones -->
+        <div class="mb-3">
+          <label for="process-options" class="form-label"
+            >Choose a processing option:</label
+          >
+          <select
+            id="process-options"
+            class="form-select"
+            formControlName="option"
+          >
+            <option value="v3" disabled selected>The Definitive Prompt</option>
+          </select>
+        </div>
+
+        <!-- 🔹 Campos de información con placeholder -->
+        <div class="mb-3">
+          <label class="form-label">
+            <span class="label-bar bg-primary me-2"></span>
+            Company Name
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="companyName"
+            placeholder="Enter company name"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">
+            <span class="label-bar bg-success me-2"></span>
+            Website
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="website"
+            placeholder="https://example.com"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">
+            <span class="label-bar bg-warning me-2"></span>
+            Product or Service Offered
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="productService"
+            placeholder="Describe your product or service"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">
+            <span class="label-bar bg-danger me-2"></span>
+            Value Proposition
+          </label>
+          <textarea
+            class="form-control"
+            formControlName="valueProp"
+            rows="3"
+            placeholder="Explain your value proposition"
+          ></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">
+            <span class="label-bar bg-info me-2"></span>
+            Goal
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="goal"
+            placeholder="Send Info, Book Meeting, Free Trial"
+          />
+        </div>
+
+        <!-- 🔹 Botones -->
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+            {{ isLoading ? 'Processing...' : 'Process File' }}
+          </button>
+          <button
+            type="button"
+            class="btn btn-success"
+            (click)="downloadFile()"
+            [disabled]="!downloadUrl"
+          >
+            Download File
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Columna derecha: Upload y opciones -->
+    <div class="col-md-6">
+      <h2>Upload your <span class="text-primary">CSV File</span></h2>
+      <p>
+        A simple, fast, and secure tool to process your CSV files. No limits on
+        file size, no watermarks, and completely free to use.
+      </p>
+      <ul>
+        <li>✔ Instant processing and quick analysis</li>
+        <li>✔ No software to install: works directly in your browser</li>
+        <li>✔ Your data is secure and private; files are not stored</li>
+      </ul>
+    </div>
+  </div>
+</div>
