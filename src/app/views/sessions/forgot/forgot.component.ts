@@ -9,7 +9,7 @@ import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "../../../shared/services/auth.service";
 import { SharedAnimations } from "../../../shared/animations/shared-animations";
-import { environment } from "../../../../environments/environment";
+import { environment } from "src/environments/environment";
 import { CommonModule } from "@angular/common";
 import { CodeInputComponent } from "angular-code-input";
 

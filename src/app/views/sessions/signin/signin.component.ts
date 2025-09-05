@@ -19,7 +19,7 @@ import { CommonModule } from "@angular/common";
 
 import { AuthService } from "../../../shared/services/auth.service";
 import { NavigationService } from "../../../shared/services/navigation.service";
-import { environment } from "../../../../environments/environment";
+import { environment } from "src/environments/environment";
 import { RolService } from "../../../shared/services/rol.service";
 
 @Component({

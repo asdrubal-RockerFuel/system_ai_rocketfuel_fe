@@ -5,7 +5,7 @@ import { delay } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
 import { LocalStoreService } from "./local-store.service";
 import { SharedDataService } from "../interceptors/shared-data-service.service";
-import { environment } from "../../../environments/environment";
+import { environment } from "src/environments/environment";
 import { User } from "../interfaces/User.interface";
 import { ApiResponse } from "../interfaces/ApiResponse.interface";
 import { Module } from "../interfaces/Module.interface";

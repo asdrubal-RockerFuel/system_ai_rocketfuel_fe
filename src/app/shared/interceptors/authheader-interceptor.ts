@@ -11,7 +11,7 @@ import { catchError } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "../services/auth.service";
-import { environment } from "../../../environments/environment";
+import { environment } from "src/environments/environment";
 
 @Injectable()
 export class AuthHeaderInterceptor implements HttpInterceptor {
