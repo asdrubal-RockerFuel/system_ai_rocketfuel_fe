@@ -9,8 +9,105 @@
   <!-- Sección 2: Formulario dividido en dos columnas -->
   <div class="row mb-4">
     <!-- Columna izquierda: Información -->
-    <div class="col-md-6">
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="row">
+      <div class="col-md-6">
+        <!-- 🔹 Select de opciones -->
+        <div class="mb-3">
+          <label for="process-options" class="form-label"
+            >Choose a processing option:</label
+          >
+          <select
+            id="process-options"
+            class="form-select"
+            formControlName="option"
+          >
+            <option value="v3" disabled selected>The Definitive Prompt</option>
+          </select>
+        </div>
+
+        <!-- 🔹 Campos de información con placeholder -->
+        <div class="mb-3">
+          <label class="form-label">
+            <span class="label-bar bg-primary me-2"></span>
+            Company Name
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="companyName"
+            placeholder="Enter company name"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">
+            <span class="label-bar bg-success me-2"></span>
+            Website
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="website"
+            placeholder="https://example.com"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">
+            <span class="label-bar bg-danger me-2"></span>
+            Value Proposition
+          </label>
+          <textarea
+            class="form-control"
+            formControlName="valueProp"
+            rows="3"
+            placeholder="Explain your value proposition"
+          ></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">
+            <span class="label-bar bg-info me-2"></span>
+            Goal
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="goal"
+            placeholder="Send Info, Book Meeting, Free Trial"
+          />
+        </div>
+
+        <!-- 🔹 Botones -->
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+            {{ isLoading ? 'Processing...' : 'Process File' }}
+          </button>
+          <button
+            type="button"
+            class="btn btn-success"
+            (click)="downloadFile()"
+            [disabled]="!downloadUrl"
+          >
+            Download File
+          </button>
+        </div>
+      </div>
+
+      <!-- Columna derecha: Upload y opciones -->
+      <div class="col-md-6">
+        <h2>Upload your <span class="text-primary">CSV File</span></h2>
+        <p>
+          A simple, fast, and secure tool to process your CSV files. No limits
+          on file size, no watermarks, and completely free to use.
+        </p>
+        <!-- Mostrar el último prompt aquí -->
+        <p *ngIf="systemPrompt; else noPrompt" [innerHTML]="systemPrompt"></p>
+
+        <ng-template #noPrompt>
+          <p>No last prompt available.</p>
+        </ng-template>
+
         <!-- 🔹 Dropzone para CSV -->
         <div class="mb-3 file-drop-container">
           <div
@@ -64,116 +161,7 @@
             (change)="onFileSelected($event)"
           />
         </div>
-
-        <!-- 🔹 Select de opciones -->
-        <div class="mb-3">
-          <label for="process-options" class="form-label"
-            >Choose a processing option:</label
-          >
-          <select
-            id="process-options"
-            class="form-select"
-            formControlName="option"
-          >
-            <option value="v3" disabled selected>The Definitive Prompt</option>
-          </select>
-        </div>
-
-        <!-- 🔹 Campos de información con placeholder -->
-        <div class="mb-3">
-          <label class="form-label">
-            <span class="label-bar bg-primary me-2"></span>
-            Company Name
-          </label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="companyName"
-            placeholder="Enter company name"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label">
-            <span class="label-bar bg-success me-2"></span>
-            Website
-          </label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="website"
-            placeholder="https://example.com"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label">
-            <span class="label-bar bg-warning me-2"></span>
-            Product or Service Offered
-          </label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="productService"
-            placeholder="Describe your product or service"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label">
-            <span class="label-bar bg-danger me-2"></span>
-            Value Proposition
-          </label>
-          <textarea
-            class="form-control"
-            formControlName="valueProp"
-            rows="3"
-            placeholder="Explain your value proposition"
-          ></textarea>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label">
-            <span class="label-bar bg-info me-2"></span>
-            Goal
-          </label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="goal"
-            placeholder="Send Info, Book Meeting, Free Trial"
-          />
-        </div>
-
-        <!-- 🔹 Botones -->
-        <div class="d-flex gap-2">
-          <button type="submit" class="btn btn-primary" [disabled]="isLoading">
-            {{ isLoading ? 'Processing...' : 'Process File' }}
-          </button>
-          <button
-            type="button"
-            class="btn btn-success"
-            (click)="downloadFile()"
-            [disabled]="!downloadUrl"
-          >
-            Download File
-          </button>
-        </div>
-      </form>
-    </div>
-
-    <!-- Columna derecha: Upload y opciones -->
-    <div class="col-md-6">
-      <h2>Upload your <span class="text-primary">CSV File</span></h2>
-      <p>
-        A simple, fast, and secure tool to process your CSV files. No limits on
-        file size, no watermarks, and completely free to use.
-      </p>
-      <ul>
-        <li>✔ Instant processing and quick analysis</li>
-        <li>✔ No software to install: works directly in your browser</li>
-        <li>✔ Your data is secure and private; files are not stored</li>
-      </ul>
-    </div>
+      </div>
+    </form>
   </div>
 </div>

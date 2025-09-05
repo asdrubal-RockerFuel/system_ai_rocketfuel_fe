@@ -2,18 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { environment } from "../../../environments/environment";
-
-// NUEVO: Interfaz para definir la estructura de la respuesta de la API
-export interface ApiResponse {
-  status: boolean;
-  message: string;
-  code: number;
-  data: {
-    base64: string;
-    csvFilePath: string;
-    propmt_file_path: string;
-  };
-}
+import { ApiResponse } from "../interfaces/ApiResponse.interface";
 
 @Injectable({
   providedIn: "root",
@@ -32,5 +21,9 @@ export class CsvUploadService {
         observe: "body",
       }
     );
+  }
+
+  getLastPrompt(): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(`${this.apiUrl}/api/csv/last-prompt`);
   }
 }
