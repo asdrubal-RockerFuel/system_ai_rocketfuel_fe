@@ -186,12 +186,19 @@ export class MasterCSVFileComponent implements OnInit, OnDestroy {
         const base64String = response.data?.base64;
         if (!base64String) return;
 
-        const fileBlob = this.base64ToBlob(base64String, "text/csv");
+        const fileBlob = this.base64ToBlob(
+          base64String,
+          "text/csv;charset=utf-8"
+        );
         this.downloadUrl = window.URL.createObjectURL(fileBlob);
-        this.processedFileName = `resultado-${
-          this.selectedFile?.name || "procesado.csv"
-        }`;
+        const originalName = this.selectedFile?.name || "processed";
+        const baseName = originalName.replace(/\.[^/.]+$/, "");
+        this.processedFileName = `result-${baseName}.csv`;
         this.isLoading = false;
+
+        // 🔹 Descarga automática
+        this.downloadFile();
+        this.removeFile();
       },
       error: (err) => {
         console.error("Error al subir archivo:", err);
