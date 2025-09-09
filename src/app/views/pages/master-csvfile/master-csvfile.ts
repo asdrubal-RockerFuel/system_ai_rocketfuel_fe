@@ -67,6 +67,7 @@ export class MasterCSVFileComponent implements OnInit, OnDestroy {
 
     this.form = this.fb.group({
       option: [{ value: "v3", disabled: true }, Validators.required],
+      chatgptVersion: [{ value: "gpt-4o-mini", disabled: false }, Validators.required],
       companyName: ["", Validators.required],
       website: [""],
       // productService: [""],
@@ -171,6 +172,7 @@ export class MasterCSVFileComponent implements OnInit, OnDestroy {
     const formData = new FormData();
     formData.append("file", this.selectedFile);
     formData.append("option", "v3");
+    formData.append("chatgptVersion", this.form.value.chatgptVersion);
     formData.append("companyName", this.form.value.companyName);
     formData.append("website", this.form.value.website || "");
     formData.append("valueProp", this.form.value.valueProp || "");
@@ -183,12 +185,12 @@ export class MasterCSVFileComponent implements OnInit, OnDestroy {
 
         const fileBlob = this.base64ToBlob(
           base64String,
-          "text/csv;charset=utf-8"
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         );
         this.downloadUrl = window.URL.createObjectURL(fileBlob);
         const originalName = this.selectedFile?.name || "processed";
         const baseName = originalName.replace(/\.[^/.]+$/, "");
-        this.processedFileName = `result-${baseName}.csv`;
+        this.processedFileName = `result-${baseName}.xlsx`;
         this.isLoading = false;
 
         // 🔹 Descarga automática

@@ -12,17 +12,35 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="row">
       <div class="col-md-6">
         <!-- 🔹 Select de opciones -->
-        <div class="mb-3">
-          <label for="process-options" class="form-label"
-            >Choose a processing option:</label
-          >
-          <select
-            id="process-options"
-            class="form-select"
-            formControlName="option"
-          >
-            <option value="v3" disabled selected>The Definitive Prompt</option>
-          </select>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="process-options" class="form-label">
+              Choose a processing option:
+            </label>
+            <select
+              id="process-options"
+              class="form-select"
+              formControlName="option"
+            >
+              <option value="v3" disabled selected>
+                The Definitive Prompt
+              </option>
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label for="chatgpt-options" class="form-label">
+              Choose Chat GPT Version:
+            </label>
+            <select
+              id="chatgpt-options"
+              class="form-select"
+              formControlName="chatgptVersion"
+            >
+              <option value="gpt-4o-mini">GPT-4 Mini</option>
+              <option value="gpt-5-mini">GPT-5 Mini</option>
+            </select>
+          </div>
         </div>
 
         <!-- 🔹 Campos de información con placeholder -->
