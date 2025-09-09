@@ -106,32 +106,27 @@ export class MasterCSVFileComponent implements OnInit, OnDestroy {
     this.systemPrompt = this.originalPrompt
       .replace(
         "{{{Company Name}}}",
-        `<span class="highlight bg-primary bg-opacity-25 text-dark">${
-          formValues.companyName || "Company Name"
+        `<span class="highlight bg-primary bg-opacity-25 text-dark">${formValues.companyName || "Company Name"
         }</span>`
       )
       .replace(
         "{{{Website}}}",
-        `<span class="highlight bg-success bg-opacity-25 text-dark">${
-          formValues.website || "Website"
+        `<span class="highlight bg-success bg-opacity-25 text-dark">${formValues.website || "Website"
         }</span>`
       )
       .replace(
         "{{{Product or Service Offered}}}",
-        `<span class="highlight bg-warning bg-opacity-25 text-dark">${
-          formValues.productService || "Product/Service"
+        `<span class="highlight bg-warning bg-opacity-25 text-dark">${formValues.productService || "Product/Service"
         }</span>`
       )
       .replace(
         "{{{Value Proposition}}}",
-        `<span class="highlight bg-danger bg-opacity-25 text-dark">${
-          formValues.valueProp || "Value Proposition"
+        `<span class="highlight bg-danger bg-opacity-25 text-dark">${formValues.valueProp || "Value Proposition"
         }</span>`
       )
       .replace(
         "{{{Goal}}}",
-        `<span class="highlight bg-info bg-opacity-25 text-dark">${
-          formValues.goal || "Goal"
+        `<span class="highlight bg-info bg-opacity-25 text-dark">${formValues.goal || "Goal"
         }</span>`
       );
   }
@@ -209,11 +204,31 @@ export class MasterCSVFileComponent implements OnInit, OnDestroy {
 
   /** 🔹 Utilidades */
   private setSelectedFile(file: File | null) {
+    if (!file) {
+      this.selectedFile = null;
+      this.revokeDownloadUrl();
+      if (this.fileInput?.nativeElement) this.fileInput.nativeElement.value = "";
+      return;
+    }
+
+    // Tipos permitidos: CSV y Excel
+    const allowedTypes = [
+      'text/csv',
+      'application/vnd.ms-excel',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+      if (this.fileInput?.nativeElement) this.fileInput.nativeElement.value = "";
+      this.selectedFile = null;
+      return;
+    }
+
+    // Si es válido
     this.selectedFile = file;
     this.revokeDownloadUrl();
-    if (!file && this.fileInput?.nativeElement)
-      this.fileInput.nativeElement.value = "";
   }
+
 
   private revokeDownloadUrl(): void {
     if (this.downloadUrl) {
