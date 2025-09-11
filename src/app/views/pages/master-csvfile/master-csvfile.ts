@@ -185,12 +185,13 @@ export class MasterCSVFileComponent implements OnInit, OnDestroy {
 
         const fileBlob = this.base64ToBlob(
           base64String,
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          "text/csv;charset=utf-8;" // MIME type para CSV
         );
+
         this.downloadUrl = window.URL.createObjectURL(fileBlob);
         const originalName = this.selectedFile?.name || "processed";
         const baseName = originalName.replace(/\.[^/.]+$/, "");
-        this.processedFileName = `result-${baseName}.xlsx`;
+        this.processedFileName = `result-${baseName}.csv`;
         this.isLoading = false;
 
         // 🔹 Descarga automática
