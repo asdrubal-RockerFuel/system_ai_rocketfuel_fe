@@ -1,186 +1,313 @@
-<div class="container py-2">
-  <!-- Sección 1: Título -->
-  <div class="row mb-4">
-    <div class="col text-center">
-      <h1>Generate Emails CSV</h1>
+<div class="csv-generator-wrapper">
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" *ngIf="isLoading">
+    <div class="loading-content">
+      <div
+        class="spinner-border text-primary"
+        role="status"
+        style="width: 3rem; height: 3rem"
+      >
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <h4 class="mt-3 text-dark fw-semibold">
+        {{ loadingMessage || 'Processing...' }}
+      </h4>
+      <p class="text-muted small">Please wait while we process your file</p>
     </div>
   </div>
 
-  <!-- Sección 2: Formulario dividido en dos columnas -->
-  <div class="row mb-4">
-    <!-- Columna izquierda: Información -->
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="row">
-      <div class="col-md-6">
-        <!-- 🔹 Select de opciones -->
-        <div class="row mb-3">
-          <div class="col-md-6">
-            <label for="process-options" class="form-label">
-              Choose a processing option:
-            </label>
-            <select
-              id="process-options"
-              class="form-select"
-              formControlName="option"
-            >
-              <option value="v3" disabled selected>
-                The Definitive Prompt
-              </option>
-            </select>
-          </div>
-
-          <div class="col-md-6">
-            <label for="chatgpt-options" class="form-label">
-              Choose Chat GPT Version:
-            </label>
-            <select
-              id="chatgpt-options"
-              class="form-select"
-              formControlName="chatgptVersion"
-            >
-              <option value="gpt-4o-mini">GPT-4 Mini</option>
-              <option value="gpt-5-mini">GPT-5 Mini</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- 🔹 Campos de información con placeholder -->
-        <div class="mb-3">
-          <label class="form-label">
-            <span class="label-bar bg-primary me-2"></span>
-            Company Name
-          </label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="companyName"
-            placeholder="Enter company name"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label">
-            <span class="label-bar bg-success me-2"></span>
-            Website
-          </label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="website"
-            placeholder="https://example.com"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label">
-            <span class="label-bar bg-danger me-2"></span>
-            Value Proposition
-          </label>
-          <textarea
-            class="form-control"
-            formControlName="valueProp"
-            rows="3"
-            placeholder="Explain your value proposition"
-          ></textarea>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label">
-            <span class="label-bar bg-info me-2"></span>
-            Goal
-          </label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="goal"
-            placeholder="Send Info, Book Meeting, Free Trial"
-          />
-        </div>
-
-        <!-- 🔹 Botones -->
-        <div class="d-flex gap-2">
-          <button type="submit" class="btn btn-primary" [disabled]="isLoading">
-            {{ isLoading ? 'Processing...' : 'Process File' }}
-          </button>
-          <!-- <button
-            type="button"
-            class="btn btn-success"
-            (click)="downloadFile()"
-            [disabled]="!downloadUrl"
-          >
-            Download File
-          </button> -->
-        </div>
+  <div class="container py-5">
+    <!-- Header Section -->
+    <div class="header-section text-center mb-5">
+      <div class="icon-badge mb-3">
+        <img
+          src="https://rocketfuel.marketing/wp-content/uploads/2023/03/favicon.png"
+          alt="RocketFuel Logo"
+          class="header-logo"
+        />
       </div>
+      <h1 class="display-6 fw-bold mb-2 text-dark">Personalized Cold Email</h1>
+      <p class="text-muted">Generate AI-powered email campaigns from your CSV data</p>
+    </div>
 
-      <!-- Columna derecha: Upload y opciones -->
-      <div class="col-md-6">
-        <h2>Upload your <span class="text-primary">CSV File</span></h2>
-        <p>
-          A simple, fast, and secure tool to process your CSV files. No limits
-          on file size, no watermarks, and completely free to use.
-        </p>
-        <!-- Mostrar el último prompt aquí -->
-        <p *ngIf="systemPrompt; else noPrompt" [innerHTML]="systemPrompt"></p>
+      <!-- Main Content -->
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row g-4">
+          <!-- Left Column: Configuration -->
+          <div class="col-lg-6">
+            <div class="card shadow-sm border-0 h-100">
+              <div class="card-body p-4">
+                <h3 class="card-title mb-4 d-flex align-items-center">
+                  <span
+                    class="icon-wrapper bg-primary bg-opacity-10 text-primary me-2"
+                  >
+                    <fa-icon [icon]="['fas', 'file-csv']"></fa-icon>
+                  </span>
+                  Configuration
+                </h3>
 
-        <ng-template #noPrompt>
-          <p>No last prompt available.</p>
-        </ng-template>
+                <!-- AI Model Selection -->
+                <div class="row g-3 mb-4">
+                  <div class="col-md-6">
+                    <label for="process-options" class="form-label fw-semibold">
+                      <fa-icon
+                        [icon]="['fas', 'file-csv']"
+                        class="text-primary me-1"
+                        size="sm"
+                      ></fa-icon>
+                      Processing Option
+                    </label>
+                    <select
+                      id="process-options"
+                      class="form-select form-select-lg"
+                      formControlName="option"
+                    >
+                      <option value="v3" disabled selected>
+                        The Definitive Prompt
+                      </option>
+                    </select>
+                  </div>
 
-        <!-- 🔹 Dropzone para CSV -->
-        <div class="mb-3 file-drop-container">
-          <div
-            class="dropzone d-flex flex-column align-items-center justify-content-center p-4 border border-dashed text-center"
-            [ngClass]="{ 'is-dragging': isDragging }"
-            (dragover)="onDragOver($event)"
-            (dragleave)="onDragLeave($event)"
-            (drop)="onDrop($event)"
-            (click)="triggerFileSelector()"
-          >
-            <!-- Ícono por defecto (si no hay archivo) -->
-            <fa-icon
-              *ngIf="!selectedFile"
-              [icon]="['fas', 'cloud-upload-alt']"
-              size="4x"
-              class="text-secondary mb-3"
-            ></fa-icon>
+                  <div class="col-md-6">
+                    <label for="chatgpt-options" class="form-label fw-semibold">
+                      <fa-icon
+                        [icon]="['fas', 'file-csv']"
+                        class="text-success me-1"
+                        size="sm"
+                      ></fa-icon>
+                      AI Model
+                    </label>
+                    <select
+                      id="chatgpt-options"
+                      class="form-select form-select-lg"
+                      formControlName="chatgptVersion"
+                    >
+                      <option value="gpt-4o-mini">GPT-4 Mini</option>
+                      <option value="gpt-5-mini">GPT-5 Mini</option>
+                      <option value="claude-sonnet-4-20250514">
+                        Claude Sonnet
+                      </option>
+                    </select>
+                  </div>
+                </div>
 
-            <!-- Icono del archivo seleccionado -->
-            @if (selectedFile) {
-            <div
-              class="d-flex align-items-center bg-light border rounded px-3 py-2 w-75 mb-2 my-5"
-            >
-              <fa-icon
-                [icon]="getFileIcon(selectedFile)"
-                class="me-2"
-              ></fa-icon>
-              <span class="text-truncate">{{ selectedFile.name }}</span>
-              <button
-                type="button"
-                class="btn-close btn-close-sm ms-auto"
-                aria-label="Remove file"
-                (click)="removeFile(); $event.stopPropagation()"
-              ></button>
+                <hr class="my-4" />
+
+                <!-- Company Details -->
+                <h5 class="mb-3 fw-semibold">Company Details</h5>
+
+                <div class="mb-3">
+                  <label class="form-label fw-semibold">
+                    <span class="label-bar bg-primary me-2"></span>
+                    Company Name <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control form-control-lg"
+                    formControlName="companyName"
+                    placeholder="e.g., Acme Corporation"
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label fw-semibold">
+                    <span class="label-bar bg-success me-2"></span>
+                    Website
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control form-control-lg"
+                    formControlName="website"
+                    placeholder="https://www.example.com"
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label fw-semibold">
+                    <span class="label-bar bg-danger me-2"></span>
+                    Value Proposition
+                  </label>
+                  <textarea
+                    class="form-control form-control-lg"
+                    formControlName="valueProp"
+                    rows="4"
+                    placeholder="Describe what makes your company unique and valuable to customers"
+                  ></textarea>
+                </div>
+
+                <div class="mb-4">
+                  <label class="form-label fw-semibold">
+                    <span class="label-bar bg-info me-2"></span>
+                    Campaign Goal <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control form-control-lg"
+                    formControlName="goal"
+                    placeholder="e.g., Schedule a demo, Request information, Free trial"
+                  />
+                </div>
+
+                <!-- Action Button -->
+                <div class="d-grid">
+                  <button
+                    type="submit"
+                    class="btn btn-primary btn-lg shadow-sm"
+                    [disabled]="isLoading || !selectedFile || !form.valid"
+                  >
+                    <span
+                      *ngIf="isLoading"
+                      class="spinner-border spinner-border-sm me-2"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                    <fa-icon
+                      *ngIf="!isLoading"
+                      [icon]="['fas', 'file-csv']"
+                      class="me-2"
+                    ></fa-icon>
+                    {{ isLoading ? 'Processing Your File...' : 'Generate Email
+                    Campaign' }}
+                  </button>
+                </div>
+              </div>
             </div>
-
-            } @if (!selectedFile) {
-            <p class="mb-2">Drop your file here or</p>
-            <button type="button" class="btn btn-primary btn-sm">
-              Browse files
-            </button>
-            }
           </div>
 
-          <label for="fileInput" class="d-none">Select a file</label>
-          <input
-            #fileInput
-            id="fileInput"
-            type="file"
-            class="d-none"
-            accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            (change)="onFileSelected($event)"
-          />
+          <!-- Right Column: File Upload & Preview -->
+          <div class="col-lg-6">
+            <div class="card shadow-sm border-0 h-100">
+              <div class="card-body p-4">
+                <h3 class="card-title mb-4 d-flex align-items-center">
+                  <span
+                    class="icon-wrapper bg-success bg-opacity-10 text-success me-2"
+                  >
+                    <fa-icon [icon]="['fas', 'cloud-upload-alt']"></fa-icon>
+                  </span>
+                  Upload File
+                </h3>
+
+                <!-- File Upload Zone -->
+                <div class="file-drop-container mb-4">
+                  <div
+                    class="dropzone d-flex flex-column align-items-center justify-content-center p-5 text-center"
+                    [ngClass]="{ 'is-dragging': isDragging, 'has-file': selectedFile }"
+                    (dragover)="onDragOver($event)"
+                    (dragleave)="onDragLeave($event)"
+                    (drop)="onDrop($event)"
+                    (click)="triggerFileSelector()"
+                  >
+                    <!-- Default Icon -->
+                    <div *ngIf="!selectedFile" class="upload-icon-container">
+                      <fa-icon
+                        [icon]="['fas', 'cloud-upload-alt']"
+                        size="4x"
+                        class="text-primary mb-3 upload-icon"
+                      ></fa-icon>
+                      <h5 class="fw-bold mb-2">Drop your CSV file here</h5>
+                      <p class="text-muted mb-3">
+                        or click to browse from your computer
+                      </p>
+                      <button
+                        type="button"
+                        class="btn btn-outline-primary btn-lg"
+                      >
+                        <fa-icon
+                          [icon]="['fas', 'file-csv']"
+                          class="me-2"
+                        ></fa-icon>
+                        Select File
+                      </button>
+                      <p class="text-muted small mt-3 mb-0">
+                        Supported formats: CSV, XLS, XLSX
+                      </p>
+                    </div>
+
+                    <!-- Selected File -->
+                    @if (selectedFile) {
+                    <div class="selected-file-preview">
+                      <div class="file-icon-large mb-3">
+                        <fa-icon
+                          [icon]="getFileIcon(selectedFile)"
+                          size="4x"
+                          class="text-success"
+                        ></fa-icon>
+                      </div>
+                      <h5 class="fw-bold mb-2">{{ selectedFile.name }}</h5>
+                      <p class="text-muted mb-3">
+                        {{ (selectedFile.size / 1024).toFixed(2) }} KB
+                      </p>
+                      <button
+                        type="button"
+                        class="btn btn-outline-danger"
+                        (click)="removeFile(); $event.stopPropagation()"
+                      >
+                        <fa-icon
+                          [icon]="['fas', 'file-csv']"
+                          class="me-2"
+                        ></fa-icon>
+                        Remove File
+                      </button>
+                    </div>
+                    }
+                  </div>
+
+                  <input
+                    #fileInput
+                    id="fileInput"
+                    type="file"
+                    class="d-none"
+                    accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                    (change)="onFileSelected($event)"
+                  />
+                </div>
+
+                <!-- Prompt Preview -->
+                <div class="prompt-preview-section">
+                  <h5 class="mb-3 fw-semibold d-flex align-items-center">
+                    <fa-icon
+                      [icon]="['fas', 'file-csv']"
+                      class="text-info me-2"
+                    ></fa-icon>
+                    AI Prompt Preview
+                  </h5>
+                  <div class="prompt-preview-box p-3">
+                    <div
+                      *ngIf="systemPrompt; else noPrompt"
+                      [innerHTML]="systemPrompt"
+                      class="prompt-content"
+                    ></div>
+                    <ng-template #noPrompt>
+                      <p class="text-muted mb-0 text-center">
+                        <fa-icon
+                          [icon]="['fas', 'file-csv']"
+                          class="me-2"
+                        ></fa-icon>
+                        Fill in the form to see the AI prompt preview
+                      </p>
+                    </ng-template>
+                  </div>
+                </div>
+
+                <!-- Info Box -->
+                <div
+                  class="alert alert-info d-flex align-items-start mt-4"
+                  role="alert"
+                >
+                  <fa-icon
+                    [icon]="['fas', 'file-csv']"
+                    class="me-2 mt-1"
+                  ></fa-icon>
+                  <div>
+                    <strong>How it works:</strong> Upload your CSV file with
+                    contact information, configure your campaign details, and
+                    let AI generate personalized emails for each contact.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </form>
-  </div>
+      </form>
+    </div>
 </div>

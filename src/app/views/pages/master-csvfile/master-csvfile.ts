@@ -28,6 +28,7 @@ import {
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import { ApiResponse } from "../../../shared/interfaces/ApiResponse.interface";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-master-csvfile",
@@ -48,11 +49,13 @@ export class MasterCSVFileComponent implements OnInit, OnDestroy {
 
   systemPrompt: string = ""; // Último prompt
   originalPrompt: string = ""; // Prompt tal como viene del backend
+  loadingMessage: string = "";
 
   constructor(
     private fb: UntypedFormBuilder,
     private csvUploadService: CsvUploadService,
-    private library: FaIconLibrary
+    private library: FaIconLibrary,
+    private toastr: ToastrService
   ) {
     // Agregar íconos
     library.addIcons(
@@ -95,6 +98,7 @@ export class MasterCSVFileComponent implements OnInit, OnDestroy {
         console.error("Error loading last prompt:", err);
         this.originalPrompt = "Failed to load the last prompt.";
         this.updatePromptPreview();
+        this.toastr.warning("Could not load the last prompt template", "Warning");
       },
     });
   }
@@ -163,10 +167,18 @@ export class MasterCSVFileComponent implements OnInit, OnDestroy {
 
   /** 🔹 Upload y descarga */
   onSubmit(): void {
-    if (!this.form.valid || !this.selectedFile) return;
-    // if (!this.selectedFile) return;
+    if (!this.form.valid) {
+      this.toastr.error("Please fill in all required fields", "Validation Error");
+      return;
+    }
+    
+    if (!this.selectedFile) {
+      this.toastr.error("Please select a CSV file to process", "File Required");
+      return;
+    }
 
     this.isLoading = true;
+    this.loadingMessage = "Uploading file...";
     this.revokeDownloadUrl();
 
     const formData = new FormData();
@@ -178,10 +190,28 @@ export class MasterCSVFileComponent implements OnInit, OnDestroy {
     formData.append("valueProp", this.form.value.valueProp || "");
     formData.append("goal", this.form.value.goal || "");
 
+    this.toastr.info("Processing your CSV file. This may take a few moments...", "Processing", {
+      timeOut: 0,
+      extendedTimeOut: 0,
+      tapToDismiss: false,
+      closeButton: false,
+    });
+
+    setTimeout(() => {
+      if (this.isLoading) {
+        this.loadingMessage = "Generating personalized emails...";
+      }
+    }, 2000);
+
     this.csvUploadService.uploadFile(formData).subscribe({
       next: (response: ApiResponse) => {
+        this.toastr.clear();
         const base64String = response.data?.base64;
-        if (!base64String) return;
+        if (!base64String) {
+          this.toastr.error("No data received from server", "Error");
+          this.isLoading = false;
+          return;
+        }
 
         const fileBlob = this.base64ToBlob(
           base64String,
@@ -193,14 +223,23 @@ export class MasterCSVFileComponent implements OnInit, OnDestroy {
         const baseName = originalName.replace(/\.[^/.]+$/, "");
         this.processedFileName = `result-${baseName}.csv`;
         this.isLoading = false;
+        this.loadingMessage = "";
 
         // 🔹 Descarga automática
         this.downloadFile();
+        this.toastr.success("File processed successfully and downloaded!", "Success");
         this.removeFile();
       },
       error: (err) => {
-        console.error("Error al subir archivo:", err);
+        console.error("Error uploading file:", err);
+        this.toastr.clear();
         this.isLoading = false;
+        this.loadingMessage = "";
+        
+        const errorMessage = err?.error?.message || "An error occurred while processing the file";
+        this.toastr.error(errorMessage, "Processing Error", {
+          timeOut: 5000,
+        });
       },
     });
   }
@@ -224,12 +263,14 @@ export class MasterCSVFileComponent implements OnInit, OnDestroy {
     if (!allowedTypes.includes(file.type)) {
       if (this.fileInput?.nativeElement) this.fileInput.nativeElement.value = "";
       this.selectedFile = null;
+      this.toastr.error("Please select a valid CSV or Excel file", "Invalid File Type");
       return;
     }
 
     // Si es válido
     this.selectedFile = file;
     this.revokeDownloadUrl();
+    this.toastr.success(`File "${file.name}" selected successfully`, "File Selected");
   }
 
 
