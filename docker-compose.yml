@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  app-emails:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: gull-web:latest
+    container_name: app-emails
+    restart: always
+    ports:
+      - "4210:80"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - app-emails
+
+networks:
+  app-emails:
+    driver: bridge
